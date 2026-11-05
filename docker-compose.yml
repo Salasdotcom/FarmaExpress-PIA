@@ -1,0 +1,26 @@
+services:
+  db:
+    image: postgres:16-alpine
+    env_file: .env
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 5s
+      retries: 10
+    volumes: [pgdata:/var/lib/postgresql/data]
+  app:
+    build: .
+    env_file: .env
+    depends_on:
+      db: {condition: service_healthy}
+    ports: ["8000:8000"]
+  tests:
+    build: .
+    profiles: ["test"]
+    env_file: .env
+    environment:
+      DATABASE_URL: sqlite+pysqlite:///:memory:
+    command: >
+      sh -c "ruff check src tests &&
+             pytest --cov=src --cov-report=term-missing --cov-fail-under=80"
+volumes:
+  pgdata:
