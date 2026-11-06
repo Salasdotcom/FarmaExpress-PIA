@@ -11,7 +11,7 @@ from src.domain.errors import (
     ValidacionDeVentaFallida,
 )
 from src.domain.value_objects import EstadoVenta, ResultadoRevision, Rol
-from src.domain.venta import Receta
+from src.domain.venta import Receta, Venta
 
 RF = Rol.RESPONSABLE_FARMACIA
 
@@ -98,7 +98,7 @@ def test_crear_venta_validaciones(ctx):
         ctx.ventas.crear_venta("S1", "C1", [ItemVenta("P3", 1)])      # deshabilitado
     with pytest.raises(ReglaDeNegocioViolada):
         ctx.ventas.crear_venta("S1", "C1", [ItemVenta("P1", 0, "L1")])  # cantidad 0
-    assert ctx.store.ventas == {}  # rollback: no quedó venta a medias
+    assert len(ctx.store.ventas) == 0  # rollback: no quedó venta a medias
 
 
 def test_agregar_linea_y_obtener(ctx):
@@ -109,17 +109,17 @@ def test_agregar_linea_y_obtener(ctx):
         ctx.ventas.obtener_venta("NOPE")
 
 
-def test_rollback_si_falla_a_mitad(ctx):
+def test_rollback_si_falla_a_mitad(ctx, monkeypatch):
     """Una excepción inesperada después de modificar la existencia deja todo intacto."""
     ctx.ventas.crear_venta("S1", "C1", [ItemVenta("P1", 3, "L1")], "V1")
-    original = ctx.store.ventas["V1"].completar
 
-    def falla():
+    def falla(self):
         raise RuntimeError("fallo simulado")
 
-    ctx.store.ventas["V1"].completar = falla
+    monkeypatch.setattr(Venta, "completar", falla)
     with pytest.raises(RuntimeError):
         ctx.ventas.completar_venta("V1", "C1")
-    ctx.store.ventas["V1"].completar = original
+    monkeypatch.undo()
     assert ctx.store.existencias[("P1", "L1", "S1")].cantidad == 10
     assert ctx.store.ventas["V1"].estado is EstadoVenta.EN_PROCESO
+    assert [h.accion for h in ctx.store.historial] == ["CREAR_VENTA"]

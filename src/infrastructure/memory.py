@@ -1,19 +1,9 @@
 """Adaptadores en memoria: repositorios, Unit of Work con rollback y bus de eventos."""
 import copy
-from dataclasses import dataclass
 from datetime import datetime, timezone
 from typing import Any, Optional
 
-
-@dataclass(frozen=True)
-class RegistroAuditoria:
-    usuario: str
-    accion: str
-    entidad: str
-    entidad_id: str
-    antes: str
-    despues: str
-    fecha: datetime
+from src.domain.auditoria import RegistroAuditoria
 
 
 class InMemoryStore:
@@ -63,6 +53,9 @@ class _Auditoria:
     def registrar(self, usuario, accion, entidad, entidad_id, antes, despues) -> None:
         self._store.historial.append(RegistroAuditoria(
             usuario, accion, entidad, entidad_id, antes, despues, datetime.now(timezone.utc)))
+
+    def listar(self) -> list:
+        return list(self._store.historial)
 
 
 class InMemoryUnitOfWork:

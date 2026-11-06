@@ -22,6 +22,7 @@ class IExistenciaRepository(Protocol):
 class IAuditoria(Protocol):
     def registrar(self, usuario: str, accion: str, entidad: str, entidad_id: str,
                   antes: str, despues: str) -> None: ...
+    def listar(self) -> list: ...
 
 
 class IEventBus(Protocol):

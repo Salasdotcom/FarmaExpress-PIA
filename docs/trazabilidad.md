@@ -17,6 +17,7 @@
 | US05 | RN-03, RF-06 | `InventarioApplicationService.consultar_existencias` (informativa, sin reserva) | `test_app_inventario_reposicion.py::test_consulta_*` |
 | US02/US09 (caso de uso) | RN-01, RN-05 | `VentaApplicationService.completar_venta` (DS-01, rollback DS-02) | `test_app_venta.py` |
 | RF-16 (auditoría) | RF-16 | `IAuditoria`, `RegistroAuditoria`, `_auditar` | `test_app_venta.py::test_ds01_*` |
+| Persistencia | ADR-07, RF-16 | `models.py`, `repositories.py`, `SqlAlchemyUnitOfWork`, tabla `historial` | `test_sql_persistencia.py`; `test_app_*.py` corren contra memoria y SQL |
 | Pendiente | US10-US12, US18 | — | — |
 
 ## Adaptación de fixtures de la maestra
