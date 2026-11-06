@@ -67,3 +67,7 @@ docker compose --profile test run --rm tests
 Todos los POST reciben **formularios** (un recuadro por campo; los opcionales pueden dejarse en
 blanco) y el rol se elige de una lista. Cada respuesta 200/201 incluye un campo `mensaje` que
 explica qué ocurrió; las 422 de venta incluyen `violaciones` y `explicacion` legible.
+
+## Paquete de pruebas del docente (Fase 4)
+`python scripts/ejecutar_fixtures.py` ejecuta los 120 casos y 20 transiciones y deja la evidencia en
+`docs/evidencia/`. Mapeo y diferencias: [docs/fixtures_mapeo.md](docs/fixtures_mapeo.md).

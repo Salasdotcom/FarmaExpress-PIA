@@ -28,3 +28,11 @@
 
 ## Adaptación de fixtures de la maestra
 Los CSV (actores/catálogo/operaciones) usan un modelo genérico de pedidos. Mapeo: `catalogo` → Producto+Existencia; `operaciones` → Venta (CREADO→EN_PROCESO); `detalle_operaciones` → LineaDeVenta. Faltan lote/caducidad/sucursal/receta: se genera seed propio. (Completar en Fase 4.)
+
+## Fase 4 — paquete de pruebas del docente
+| Requisito del PIA | Regla | Componente | Prueba |
+|---|---|---|---|
+| ≥3 Specifications con AND/OR/NOT | `puede_procesarse`, `beneficio_referencia` | `src/domain/elegibilidad.py` | `test_fixtures_docente.py::test_composicion_and_or_not`, 120 casos parametrizados |
+| Total con Decimal | total = Σ precio × cantidad | `fixtures_csv.total_de`, `Dinero` | `test_total_exacto_con_decimal` |
+| Transiciones válidas/ inválidas con evento o excepción | State Machine de `Venta` | `venta.py`, `venta_service.py` | `test_completar_cancelar_y_eventos`, `test_repetir_aprobacion_y_saltar_estado_son_invalidas` |
+| Evidencia por caso | — | `scripts/ejecutar_fixtures.py` | `docs/evidencia/*.csv`, `test_script_genera_evidencia_sin_pendientes` |
