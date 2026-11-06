@@ -14,7 +14,10 @@
 | US15 | RN-08, RF-11 | `DiferenciaDeInventario.registrar` | `test_diferencia_ajuste.py` |
 | US16 | RN-08, RF-12 | `DiferenciaDeInventario.registrar_investigacion` | `test_diferencia_ajuste.py` |
 | US17 | RN-09, RF-13 | `AjusteDeInventario` (autorizar ≠ ejecutor, aplicar sólo si AUTORIZADO) | `test_diferencia_ajuste.py` |
-| Pendiente | US05, US10-US12, US18 | — | — |
+| US05 | RN-03, RF-06 | `InventarioApplicationService.consultar_existencias` (informativa, sin reserva) | `test_app_inventario_reposicion.py::test_consulta_*` |
+| US02/US09 (caso de uso) | RN-01, RN-05 | `VentaApplicationService.completar_venta` (DS-01, rollback DS-02) | `test_app_venta.py` |
+| RF-16 (auditoría) | RF-16 | `IAuditoria`, `RegistroAuditoria`, `_auditar` | `test_app_venta.py::test_ds01_*` |
+| Pendiente | US10-US12, US18 | — | — |
 
 ## Adaptación de fixtures de la maestra
 Los CSV (actores/catálogo/operaciones) usan un modelo genérico de pedidos. Mapeo: `catalogo` → Producto+Existencia; `operaciones` → Venta (CREADO→EN_PROCESO); `detalle_operaciones` → LineaDeVenta. Faltan lote/caducidad/sucursal/receta: se genera seed propio. (Completar en Fase 4.)

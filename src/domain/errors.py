@@ -15,3 +15,15 @@ class ReglaDeNegocioViolada(DomainError):
 
 class PermisoDenegado(DomainError):
     """El rol o usuario no puede ejecutar la acción (-> HTTP 403)."""
+
+
+class NoEncontrado(DomainError):
+    """Recurso inexistente (-> HTTP 404)."""
+
+
+class ValidacionDeVentaFallida(ReglaDeNegocioViolada):
+    """La venta incumple una o más reglas (-> HTTP 422); lista los códigos."""
+
+    def __init__(self, violaciones):
+        self.violaciones = tuple(violaciones)
+        super().__init__("Venta no completable: " + ", ".join(self.violaciones))
