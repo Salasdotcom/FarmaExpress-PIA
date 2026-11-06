@@ -24,10 +24,14 @@
 | US03/US04 (HTTP) | RN-02 | `POST /lotes/{id}/retiro`, `/retiros/{id}/*` | `test_api.py::test_retiro_*`, `test_lote_retirado_*` |
 | US17 (HTTP) | RN-09, ADR-02 | `POST /ajustes/{id}/autorizar` → 403 si autoriza el ejecutor | `test_api.py::test_ajuste_flujo_*` |
 | RF-16 (HTTP) | RF-16, RNF-01 | `GET /auditoria` (sólo responsable) | `test_api.py::test_auditoria_*` |
-| Pendiente | US10-US12, US18 | — | — |
+| US10 | RF-16, RF-18, RNF-01 | `SustitucionDeVenta.autorizar/rechazar`, `Venta.sustituir_linea`, `VentaApplicationService.autorizar_sustitucion` (sólo responsable; rollback si falla) | `test_us10_us12_us18.py::test_us10_*` |
+| US11 | RF-09, RF-16, RNF-04 | `Venta.registrar_revision_receta` (paciente, médico, cédula, resultado, responsable) + `RegistroEspecialService` | `test_us10_us12_us18.py::test_us11_us12_*`, `test_venta.py` |
+| US12 | RF-10, RNF-01, RNF-04, RNF-06 | `RegistroEspecialService.listar/obtener` (responsable: completo y auditado; cajero: sin datos personales; Almacén/Compras: 403) | `test_us10_us12_us18.py::test_us12_*`, `test_api.py::test_us11_us12_*` |
+| US18 | RF-15, RNF-01, RNF-08 | `ReporteService` (caducidad, retiros, diferencias, ajustes, solicitudes; filtros sucursal/producto/lote/estado/periodo) | `test_us10_us12_us18.py::test_us18_*`, `test_api.py::test_us18_*` |
+| US10-US18 (HTTP) | — | `POST /ventas/{id}/sustituciones[/rechazo]`, `GET /registros-especiales[/{venta_id}]`, `GET /reportes/{tipo}` | `tests/integration/test_api.py` |
 
-## Adaptación de fixtures de la maestra
-Los CSV (actores/catálogo/operaciones) usan un modelo genérico de pedidos. Mapeo: `catalogo` → Producto+Existencia; `operaciones` → Venta (CREADO→EN_PROCESO); `detalle_operaciones` → LineaDeVenta. Faltan lote/caducidad/sucursal/receta: se genera seed propio. (Completar en Fase 4.)
+## Adaptación de fixtures del docente
+Los CSV (actores/catálogo/operaciones) usan un modelo genérico de pedidos. Mapeo: `catalogo` → Producto+Existencia; `operaciones` → Venta (CREADO→EN_PROCESO); `detalle_operaciones` → LineaDeVenta. Faltan lote/caducidad/sucursal/receta: se genera seed propio. Detalle y diferencias: ver `docs/fixtures_mapeo.md` (Fase 4 completada).
 
 ## Fase 4 — paquete de pruebas del docente
 | Requisito del PIA | Regla | Componente | Prueba |

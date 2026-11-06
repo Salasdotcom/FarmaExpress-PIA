@@ -88,3 +88,11 @@ docker compose up --build       # PostgreSQL 16 + API en http://localhost:8000/d
 docker compose --profile test run --rm tests   # ruff + pytest con cobertura >= 80 %
 docker compose down -v          # apagar y borrar el volumen
 ```
+
+
+## Historias añadidas (US10, US11, US12, US18)
+| Endpoint | Historia | Rol |
+|---|---|---|
+| `POST /ventas/{id}/sustituciones` · `/sustituciones/rechazo` | US10 | Responsable de farmacia |
+| `GET /registros-especiales` · `/{venta_id}` | US11, US12 | Responsable (completo); Cajero (sin datos personales); Almacén/Compras 403 |
+| `GET /reportes/{tipo}` (caducidad, retiros, diferencias, ajustes, solicitudes) | US18 | Responsable, Almacén, Compras |

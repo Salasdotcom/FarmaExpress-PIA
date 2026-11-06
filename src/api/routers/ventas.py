@@ -2,6 +2,7 @@ from typing import Annotated
 
 from fastapi import APIRouter, Form
 
+from src.api import schemas as sc
 from src.api.deps import Cont, EnVentas, SoloRF
 from src.api.schemas import CancelarIn, ItemIn, RecetaIn, VentaIn, VentaOut, venta_out
 from src.application.venta_service import ItemVenta
@@ -66,3 +67,26 @@ def cancelar_venta(venta_id: str, c: Cont, u: EnVentas, datos: Annotated[Cancela
     v = venta_out(c.ventas.cancelar_venta(venta_id, u.id, datos.motivo))
     v.mensaje = f"Venta {v.id} cancelada; no se modificó el inventario."
     return v
+
+
+@router.post("/{venta_id}/sustituciones", response_model=sc.SustitucionOut, status_code=201,
+             summary="Autorizar sustitución de medicamento y registrar su motivo (US10)")
+def autorizar_sustitucion(venta_id: str, datos: Annotated[sc.SustitucionIn, Form()],
+                          c: Cont, u: SoloRF):
+    x = sc.sustitucion_out(c.ventas.autorizar_sustitucion(
+        venta_id, datos.producto_solicitado, datos.alternativa_id, datos.motivo, u.id, u.rol,
+        datos.lote_id or None))
+    x.mensaje = (f"Sustitución autorizada: {x.producto_solicitado} → {x.alternativa}. "
+                 "La línea de la venta se reemplazó y quedó registrado el responsable.")
+    return x
+
+
+@router.post("/{venta_id}/sustituciones/rechazo", response_model=sc.SustitucionOut,
+             status_code=201, summary="Registrar que no se acepta ninguna alternativa (US10)")
+def rechazar_sustitucion(venta_id: str, datos: Annotated[sc.RechazoSustitucionIn, Form()],
+                         c: Cont, u: SoloRF):
+    x = sc.sustitucion_out(c.ventas.rechazar_sustitucion(
+        venta_id, datos.producto_solicitado, datos.motivo, u.id, u.rol))
+    x.mensaje = ("Ninguna alternativa fue aceptada: la sustitución no se realizó y la venta "
+                 "no cambió.")
+    return x

@@ -103,6 +103,18 @@ class VentaRow(Base):
         cascade="all, delete-orphan", order_by="LineaVentaRow.orden", lazy="selectin")
 
 
+class SustitucionRow(Base):
+    __tablename__ = "sustituciones"
+    id: Mapped[str] = mapped_column(String(64), primary_key=True)
+    venta_id: Mapped[str] = mapped_column(String(64), index=True)
+    producto_solicitado: Mapped[str] = mapped_column(String(64))
+    alternativa: Mapped[Optional[str]] = mapped_column(String(64), nullable=True)
+    motivo: Mapped[str] = mapped_column(Text)
+    responsable_id: Mapped[str] = mapped_column(String(64))
+    estado: Mapped[str] = mapped_column(String(20))
+    fecha: Mapped[datetime] = mapped_column(UTCDateTime)
+
+
 class LineaVentaRow(Base):
     __tablename__ = "lineas_venta"
     id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)

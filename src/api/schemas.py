@@ -6,11 +6,14 @@ from typing import Optional
 from pydantic import BaseModel, Field
 
 from src.application.inventario_service import CaducidadConsultada, ExistenciaConsultada
+from src.application.registro_especial_service import RegistroEspecial
+from src.application.reporte_service import Reporte
 from src.domain.ajuste import AjusteDeInventario
 from src.domain.auditoria import RegistroAuditoria
 from src.domain.diferencia import DiferenciaDeInventario
 from src.domain.retiro import RetiroDeLote
 from src.domain.solicitud_compra import MotivoNecesidad, SolicitudDeCompra
+from src.domain.sustitucion import SustitucionDeVenta
 from src.domain.value_objects import ResultadoRevision
 from src.domain.venta import Venta
 
@@ -82,6 +85,18 @@ class NecesidadIn(BaseModel):
     producto_id: str = Field(examples=["MED-001"])
     cantidad: int = Field(examples=[20])
     motivo: MotivoNecesidad = Field(description="Motivo de la necesidad")
+
+
+class SustitucionIn(BaseModel):
+    producto_solicitado: str = Field(description="Producto que se pidió", examples=["MED-001"])
+    alternativa_id: str = Field(description="Producto alternativo autorizado", examples=["MED-002"])
+    motivo: str = Field(description="Motivo de la sustitución", examples=["Sin existencia"])
+    lote_id: Optional[str] = Field(None, description="Lote de la alternativa (opcional)")
+
+
+class RechazoSustitucionIn(BaseModel):
+    producto_solicitado: str = Field(examples=["MED-001"])
+    motivo: str = Field(description="Por qué no se acepta ninguna alternativa")
 
 
 class ConfirmarIn(BaseModel):
@@ -212,6 +227,38 @@ class SolicitudOut(ConMensaje):
     lineas_a_comprar: list[dict]
 
 
+class SustitucionOut(ConMensaje):
+    id: str
+    venta_id: str
+    estado: str
+    producto_solicitado: str
+    alternativa: Optional[str]
+    motivo: str
+    responsable_id: str
+    fecha: datetime
+
+
+class RegistroEspecialOut(ConMensaje):
+    venta_id: str
+    sucursal_id: str
+    estado_venta: str
+    folio_receta: Optional[str]
+    resultado_revision: Optional[str]
+    revisada_por: Optional[str]
+    fecha_emision: Optional[date]
+    datos_personales_visibles: bool
+    nombre_paciente: Optional[str]
+    nombre_medico: Optional[str]
+    cedula_medico: Optional[str]
+    sustituciones: list[SustitucionOut]
+
+
+class ReporteOut(ConMensaje):
+    tipo: str
+    total: int
+    filas: list[dict]
+
+
 class AuditoriaOut(BaseModel):
     usuario: str
     accion: str
@@ -290,3 +337,23 @@ def solicitud_out(s: SolicitudDeCompra) -> SolicitudOut:
 def auditoria_out(r: RegistroAuditoria) -> AuditoriaOut:
     return AuditoriaOut(usuario=r.usuario, accion=r.accion, entidad=r.entidad,
                         entidad_id=r.entidad_id, antes=r.antes, despues=r.despues, fecha=r.fecha)
+
+
+def sustitucion_out(x: SustitucionDeVenta) -> SustitucionOut:
+    return SustitucionOut(id=x.id, venta_id=x.venta_id, estado=x.estado.value,
+                          producto_solicitado=x.producto_solicitado, alternativa=x.alternativa,
+                          motivo=x.motivo, responsable_id=x.responsable_id, fecha=x.fecha)
+
+
+def registro_out(r: RegistroEspecial) -> RegistroEspecialOut:
+    return RegistroEspecialOut(
+        venta_id=r.venta_id, sucursal_id=r.sucursal_id, estado_venta=r.estado_venta,
+        folio_receta=r.folio_receta, resultado_revision=r.resultado_revision,
+        revisada_por=r.revisada_por, fecha_emision=r.fecha_emision,
+        datos_personales_visibles=r.datos_personales_visibles, nombre_paciente=r.nombre_paciente,
+        nombre_medico=r.nombre_medico, cedula_medico=r.cedula_medico,
+        sustituciones=[sustitucion_out(x) for x in r.sustituciones])
+
+
+def reporte_out(r: Reporte) -> ReporteOut:
+    return ReporteOut(tipo=r.tipo, total=r.total, filas=r.filas)

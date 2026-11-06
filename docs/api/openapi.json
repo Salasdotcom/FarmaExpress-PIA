@@ -559,6 +559,401 @@
         }
       }
     },
+    "/ventas/{venta_id}/sustituciones": {
+      "post": {
+        "tags": [
+          "Ventas (US02, US09, US13)"
+        ],
+        "summary": "Autorizar sustitución de medicamento y registrar su motivo (US10)",
+        "operationId": "autorizar_sustitucion_ventas__venta_id__sustituciones_post",
+        "parameters": [
+          {
+            "name": "venta_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Venta Id"
+            }
+          },
+          {
+            "name": "x-user-id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Tu identificador de usuario (ej. C1, RF1, A1)",
+              "examples": [
+                "C1"
+              ],
+              "title": "X-User-Id"
+            },
+            "description": "Tu identificador de usuario (ej. C1, RF1, A1)"
+          },
+          {
+            "name": "x-user-role",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Tu rol: elige de la lista",
+              "enum": [
+                "CAJERO",
+                "RESPONSABLE_FARMACIA",
+                "ALMACEN",
+                "COMPRAS"
+              ],
+              "title": "X-User-Role"
+            },
+            "description": "Tu rol: elige de la lista"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/SustitucionIn"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SustitucionOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/ventas/{venta_id}/sustituciones/rechazo": {
+      "post": {
+        "tags": [
+          "Ventas (US02, US09, US13)"
+        ],
+        "summary": "Registrar que no se acepta ninguna alternativa (US10)",
+        "operationId": "rechazar_sustitucion_ventas__venta_id__sustituciones_rechazo_post",
+        "parameters": [
+          {
+            "name": "venta_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Venta Id"
+            }
+          },
+          {
+            "name": "x-user-id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Tu identificador de usuario (ej. C1, RF1, A1)",
+              "examples": [
+                "C1"
+              ],
+              "title": "X-User-Id"
+            },
+            "description": "Tu identificador de usuario (ej. C1, RF1, A1)"
+          },
+          {
+            "name": "x-user-role",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Tu rol: elige de la lista",
+              "enum": [
+                "CAJERO",
+                "RESPONSABLE_FARMACIA",
+                "ALMACEN",
+                "COMPRAS"
+              ],
+              "title": "X-User-Role"
+            },
+            "description": "Tu rol: elige de la lista"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/RechazoSustitucionIn"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SustitucionOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/registros-especiales": {
+      "get": {
+        "tags": [
+          "Ventas especiales (US11, US12)"
+        ],
+        "summary": "Consultar registros de venta especial según permisos (US12)",
+        "operationId": "listar_registros_especiales_get",
+        "parameters": [
+          {
+            "name": "sucursal_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Sucursal Id"
+            }
+          },
+          {
+            "name": "resultado",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Resultado"
+            }
+          },
+          {
+            "name": "x-user-id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Tu identificador de usuario (ej. C1, RF1, A1)",
+              "examples": [
+                "C1"
+              ],
+              "title": "X-User-Id"
+            },
+            "description": "Tu identificador de usuario (ej. C1, RF1, A1)"
+          },
+          {
+            "name": "x-user-role",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Tu rol: elige de la lista",
+              "enum": [
+                "CAJERO",
+                "RESPONSABLE_FARMACIA",
+                "ALMACEN",
+                "COMPRAS"
+              ],
+              "title": "X-User-Role"
+            },
+            "description": "Tu rol: elige de la lista"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/RegistroEspecialOut"
+                  },
+                  "title": "Response Listar Registros Especiales Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/registros-especiales/{venta_id}": {
+      "get": {
+        "tags": [
+          "Ventas especiales (US11, US12)"
+        ],
+        "summary": "Consultar un registro de venta especial (queda auditado)",
+        "operationId": "obtener_registros_especiales__venta_id__get",
+        "parameters": [
+          {
+            "name": "venta_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Venta Id"
+            }
+          },
+          {
+            "name": "x-user-id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Tu identificador de usuario (ej. C1, RF1, A1)",
+              "examples": [
+                "C1"
+              ],
+              "title": "X-User-Id"
+            },
+            "description": "Tu identificador de usuario (ej. C1, RF1, A1)"
+          },
+          {
+            "name": "x-user-role",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Tu rol: elige de la lista",
+              "enum": [
+                "CAJERO",
+                "RESPONSABLE_FARMACIA",
+                "ALMACEN",
+                "COMPRAS"
+              ],
+              "title": "X-User-Role"
+            },
+            "description": "Tu rol: elige de la lista"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RegistroEspecialOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/lotes/{lote_id}/caducidad": {
       "get": {
         "tags": [
@@ -2370,6 +2765,190 @@
         }
       }
     },
+    "/reportes/{tipo}": {
+      "get": {
+        "tags": [
+          "Reportes (US18)"
+        ],
+        "summary": "Reporte operativo con filtros por sucursal, producto, lote, estado y periodo",
+        "operationId": "reporte_reportes__tipo__get",
+        "parameters": [
+          {
+            "name": "tipo",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/TipoReporte"
+            }
+          },
+          {
+            "name": "sucursal_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Sucursal Id"
+            }
+          },
+          {
+            "name": "producto_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Producto Id"
+            }
+          },
+          {
+            "name": "lote_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Lote Id"
+            }
+          },
+          {
+            "name": "estado",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Estado"
+            }
+          },
+          {
+            "name": "desde",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "date"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Desde"
+            }
+          },
+          {
+            "name": "hasta",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "date"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Hasta"
+            }
+          },
+          {
+            "name": "x-user-id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Tu identificador de usuario (ej. C1, RF1, A1)",
+              "examples": [
+                "C1"
+              ],
+              "title": "X-User-Id"
+            },
+            "description": "Tu identificador de usuario (ej. C1, RF1, A1)"
+          },
+          {
+            "name": "x-user-role",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Tu rol: elige de la lista",
+              "enum": [
+                "CAJERO",
+                "RESPONSABLE_FARMACIA",
+                "ALMACEN",
+                "COMPRAS"
+              ],
+              "title": "X-User-Role"
+            },
+            "description": "Tu rol: elige de la lista"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReporteOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/auditoria": {
       "get": {
         "tags": [
@@ -3302,6 +3881,188 @@
         ],
         "title": "RecetaOut"
       },
+      "RechazoSustitucionIn": {
+        "properties": {
+          "producto_solicitado": {
+            "type": "string",
+            "title": "Producto Solicitado",
+            "examples": [
+              "MED-001"
+            ]
+          },
+          "motivo": {
+            "type": "string",
+            "title": "Motivo",
+            "description": "Por qué no se acepta ninguna alternativa"
+          }
+        },
+        "type": "object",
+        "required": [
+          "producto_solicitado",
+          "motivo"
+        ],
+        "title": "RechazoSustitucionIn"
+      },
+      "RegistroEspecialOut": {
+        "properties": {
+          "mensaje": {
+            "type": "string",
+            "title": "Mensaje",
+            "description": "Explicación de lo ocurrido en la operación",
+            "default": ""
+          },
+          "venta_id": {
+            "type": "string",
+            "title": "Venta Id"
+          },
+          "sucursal_id": {
+            "type": "string",
+            "title": "Sucursal Id"
+          },
+          "estado_venta": {
+            "type": "string",
+            "title": "Estado Venta"
+          },
+          "folio_receta": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Folio Receta"
+          },
+          "resultado_revision": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Resultado Revision"
+          },
+          "revisada_por": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Revisada Por"
+          },
+          "fecha_emision": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Fecha Emision"
+          },
+          "datos_personales_visibles": {
+            "type": "boolean",
+            "title": "Datos Personales Visibles"
+          },
+          "nombre_paciente": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Nombre Paciente"
+          },
+          "nombre_medico": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Nombre Medico"
+          },
+          "cedula_medico": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Cedula Medico"
+          },
+          "sustituciones": {
+            "items": {
+              "$ref": "#/components/schemas/SustitucionOut"
+            },
+            "type": "array",
+            "title": "Sustituciones"
+          }
+        },
+        "type": "object",
+        "required": [
+          "venta_id",
+          "sucursal_id",
+          "estado_venta",
+          "folio_receta",
+          "resultado_revision",
+          "revisada_por",
+          "fecha_emision",
+          "datos_personales_visibles",
+          "nombre_paciente",
+          "nombre_medico",
+          "cedula_medico",
+          "sustituciones"
+        ],
+        "title": "RegistroEspecialOut"
+      },
+      "ReporteOut": {
+        "properties": {
+          "mensaje": {
+            "type": "string",
+            "title": "Mensaje",
+            "description": "Explicación de lo ocurrido en la operación",
+            "default": ""
+          },
+          "tipo": {
+            "type": "string",
+            "title": "Tipo"
+          },
+          "total": {
+            "type": "integer",
+            "title": "Total"
+          },
+          "filas": {
+            "items": {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            "type": "array",
+            "title": "Filas"
+          }
+        },
+        "type": "object",
+        "required": [
+          "tipo",
+          "total",
+          "filas"
+        ],
+        "title": "ReporteOut"
+      },
       "ResultadoRevision": {
         "type": "string",
         "enum": [
@@ -3464,6 +4225,126 @@
           "lineas_a_comprar"
         ],
         "title": "SolicitudOut"
+      },
+      "SustitucionIn": {
+        "properties": {
+          "producto_solicitado": {
+            "type": "string",
+            "title": "Producto Solicitado",
+            "description": "Producto que se pidió",
+            "examples": [
+              "MED-001"
+            ]
+          },
+          "alternativa_id": {
+            "type": "string",
+            "title": "Alternativa Id",
+            "description": "Producto alternativo autorizado",
+            "examples": [
+              "MED-002"
+            ]
+          },
+          "motivo": {
+            "type": "string",
+            "title": "Motivo",
+            "description": "Motivo de la sustitución",
+            "examples": [
+              "Sin existencia"
+            ]
+          },
+          "lote_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Lote Id",
+            "description": "Lote de la alternativa (opcional)"
+          }
+        },
+        "type": "object",
+        "required": [
+          "producto_solicitado",
+          "alternativa_id",
+          "motivo"
+        ],
+        "title": "SustitucionIn"
+      },
+      "SustitucionOut": {
+        "properties": {
+          "mensaje": {
+            "type": "string",
+            "title": "Mensaje",
+            "description": "Explicación de lo ocurrido en la operación",
+            "default": ""
+          },
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "venta_id": {
+            "type": "string",
+            "title": "Venta Id"
+          },
+          "estado": {
+            "type": "string",
+            "title": "Estado"
+          },
+          "producto_solicitado": {
+            "type": "string",
+            "title": "Producto Solicitado"
+          },
+          "alternativa": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Alternativa"
+          },
+          "motivo": {
+            "type": "string",
+            "title": "Motivo"
+          },
+          "responsable_id": {
+            "type": "string",
+            "title": "Responsable Id"
+          },
+          "fecha": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Fecha"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "venta_id",
+          "estado",
+          "producto_solicitado",
+          "alternativa",
+          "motivo",
+          "responsable_id",
+          "fecha"
+        ],
+        "title": "SustitucionOut"
+      },
+      "TipoReporte": {
+        "type": "string",
+        "enum": [
+          "caducidad",
+          "retiros",
+          "diferencias",
+          "ajustes",
+          "solicitudes"
+        ],
+        "title": "TipoReporte"
       },
       "ValidationError": {
         "properties": {

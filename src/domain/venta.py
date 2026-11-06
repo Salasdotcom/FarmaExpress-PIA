@@ -87,6 +87,16 @@ class Venta:
         self._exigir_en_proceso()
         del self.lineas[indice]
 
+    def sustituir_linea(self, producto_solicitado: str, nueva: LineaDeVenta) -> None:
+        """US10: reemplaza la línea del producto solicitado por la alternativa autorizada."""
+        self._exigir_en_proceso()
+        for i, linea in enumerate(self.lineas):
+            if linea.producto_id == producto_solicitado:
+                self.lineas[i] = nueva
+                return
+        raise ReglaDeNegocioViolada(
+            f"La venta no contiene el producto solicitado '{producto_solicitado}'")
+
     def registrar_revision_receta(
         self, receta: Receta, resultado: ResultadoRevision, responsable_id: str
     ) -> None:

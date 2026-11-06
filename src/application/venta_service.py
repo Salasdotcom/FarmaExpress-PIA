@@ -12,6 +12,7 @@ from src.domain.errors import (
 from src.domain.permisos import exigir_rol
 from src.domain.services import ServicioDeValidacionDeVenta
 from src.domain.specifications import ContextoDeValidacion
+from src.domain.sustitucion import SustitucionDeVenta
 from src.domain.value_objects import EstadoVenta, ResultadoRevision, Rol
 from src.domain.venta import LineaDeVenta, Receta, Venta
 
@@ -122,3 +123,44 @@ class VentaApplicationService(ServicioBase):
             uow.commit()
         self._publicar(venta)
         return venta
+
+    # --- US10: sustituciones (sólo responsable de farmacia) ---
+    def autorizar_sustitucion(self, venta_id: str, producto_solicitado: str, alternativa_id: str,
+                              motivo: str, responsable_id: str, rol: Rol,
+                              lote_id: Optional[str] = None) -> SustitucionDeVenta:
+        exigir_rol(rol, Rol.RESPONSABLE_FARMACIA)
+        with self._uow() as uow:
+            venta = self._obtener(uow.ventas, venta_id, "Venta")
+            sust = SustitucionDeVenta.autorizar(
+                nuevo_id(), venta.id, producto_solicitado, alternativa_id, motivo,
+                responsable_id, rol, self._clock.ahora())
+            original = next((li for li in venta.lineas if li.producto_id == producto_solicitado),
+                            None)
+            if original is None:
+                raise ReglaDeNegocioViolada(
+                    f"La venta no contiene el producto solicitado '{producto_solicitado}'")
+            nueva = self._linea(uow, ItemVenta(alternativa_id, original.cantidad, lote_id))
+            venta.sustituir_linea(producto_solicitado, nueva)
+            uow.ventas.guardar(venta)
+            uow.sustituciones.guardar(sust)
+            self._auditar(uow, responsable_id, "AUTORIZAR_SUSTITUCION", "Venta", venta.id,
+                          producto_solicitado, alternativa_id)
+            uow.commit()
+        self._publicar(sust)
+        return sust
+
+    def rechazar_sustitucion(self, venta_id: str, producto_solicitado: str, motivo: str,
+                             responsable_id: str, rol: Rol) -> SustitucionDeVenta:
+        """Sin alternativa aceptada: se registra la decisión y la venta no cambia."""
+        exigir_rol(rol, Rol.RESPONSABLE_FARMACIA)
+        with self._uow() as uow:
+            venta = self._obtener(uow.ventas, venta_id, "Venta")
+            sust = SustitucionDeVenta.rechazar(
+                nuevo_id(), venta.id, producto_solicitado, motivo, responsable_id, rol,
+                self._clock.ahora())
+            uow.sustituciones.guardar(sust)
+            self._auditar(uow, responsable_id, "RECHAZAR_SUSTITUCION", "Venta", venta.id,
+                          producto_solicitado, "")
+            uow.commit()
+        self._publicar(sust)
+        return sust

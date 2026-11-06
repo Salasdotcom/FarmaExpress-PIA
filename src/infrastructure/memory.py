@@ -8,7 +8,7 @@ from src.domain.auditoria import RegistroAuditoria
 
 class InMemoryStore:
     COLECCIONES = ("productos", "ventas", "lotes", "existencias", "retiros", "diferencias",
-                   "ajustes", "solicitudes", "historial")
+                   "ajustes", "solicitudes", "sustituciones", "historial")
 
     def __init__(self):
         for nombre in self.COLECCIONES:
@@ -33,6 +33,9 @@ class _Repo:
 
     def guardar(self, entidad: Any) -> None:
         self._datos()[entidad.id] = entidad
+
+    def listar(self) -> list:
+        return list(self._datos().values())
 
 
 class _ExistenciaRepo(_Repo):
@@ -78,6 +81,7 @@ class InMemoryUnitOfWork:
         self.diferencias = _Repo(s, "diferencias")
         self.ajustes = _Repo(s, "ajustes")
         self.solicitudes = _Repo(s, "solicitudes")
+        self.sustituciones = _Repo(s, "sustituciones")
         self.historial = _Auditoria(s)
         return self
 

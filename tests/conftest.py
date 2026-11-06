@@ -7,6 +7,8 @@ import pytest
 from sqlalchemy import func, select
 
 from src.application.inventario_service import InventarioApplicationService
+from src.application.registro_especial_service import RegistroEspecialService
+from src.application.reporte_service import ReporteService
 from src.application.reposicion_service import ReposicionApplicationService
 from src.application.venta_service import VentaApplicationService
 from src.domain.existencia import Existencia
@@ -55,7 +57,7 @@ class VistaSql:
             "productos": m.ProductoRow, "ventas": m.VentaRow, "lotes": m.LoteRow,
             "existencias": m.ExistenciaRow, "retiros": m.RetiroRow,
             "diferencias": m.DiferenciaRow, "ajustes": m.AjusteRow,
-            "solicitudes": m.SolicitudRow,
+            "solicitudes": m.SolicitudRow, "sustituciones": m.SustitucionRow,
         }.items():
             setattr(self, nombre, _Coleccion(engine, factory, nombre, modelo))
 
@@ -83,6 +85,8 @@ class Ctx:
         self.ventas = VentaApplicationService(factory, self.bus, clock)
         self.inventario = InventarioApplicationService(factory, self.bus, clock)
         self.reposicion = ReposicionApplicationService(factory, self.bus, clock)
+        self.registros = RegistroEspecialService(factory, self.bus, clock)
+        self.reportes = ReporteService(factory, self.bus, clock)
         self._seed()
 
     def _seed(self):

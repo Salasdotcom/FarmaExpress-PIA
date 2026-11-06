@@ -6,7 +6,14 @@ from fastapi import FastAPI
 
 from src.api.container import Container, build_container
 from src.api.errors import registrar_errores
-from src.api.routers import auditoria, inventario, reposicion, ventas
+from src.api.routers import (
+    auditoria,
+    inventario,
+    registros_especiales,
+    reportes,
+    reposicion,
+    ventas,
+)
 from src.infrastructure.db import init_db
 from src.infrastructure.seed import cargar_demo
 
@@ -40,7 +47,8 @@ def create_app(container: Optional[Container] = None, seed: Optional[bool] = Non
                   lifespan=lifespan)
     app.state.container = contenedor
     registrar_errores(app)
-    for r in (ventas.router, inventario.router, reposicion.router, auditoria.router):
+    for r in (ventas.router, registros_especiales.router, inventario.router, reposicion.router,
+              reportes.router, auditoria.router):
         app.include_router(r)
 
     @app.get("/health", tags=["infra"])

@@ -19,6 +19,7 @@ from src.domain.solicitud_compra import (
     NecesidadReposicion,
     SolicitudDeCompra,
 )
+from src.domain.sustitucion import EstadoSustitucion, SustitucionDeVenta
 from src.domain.value_objects import CategoriaProducto, Dinero, EstadoVenta, ResultadoRevision
 from src.domain.venta import LineaDeVenta, Receta, Venta
 from src.infrastructure import models as m
@@ -36,6 +37,9 @@ class _SqlRepo:
 
     def guardar(self, entidad: Any) -> None:
         self._s.merge(self._a_fila(entidad))
+
+    def listar(self) -> list:
+        return [self._a_dominio(f) for f in self._s.scalars(select(self.modelo))]
 
     def _a_fila(self, entidad):
         raise NotImplementedError
@@ -128,6 +132,21 @@ class SqlVentaRepo(_SqlRepo):
                                li.lote_id, li.requiere_receta) for li in f.lineas]
         return Venta(f.id, f.sucursal_id, f.cajero_id, EstadoVenta(f.estado), lineas, receta,
                      f.observaciones, list(f.correcciones or []))
+
+
+class SqlSustitucionRepo(_SqlRepo):
+    modelo = m.SustitucionRow
+
+    def _a_fila(self, s: SustitucionDeVenta):
+        return m.SustitucionRow(
+            id=s.id, venta_id=s.venta_id, producto_solicitado=s.producto_solicitado,
+            alternativa=s.alternativa, motivo=s.motivo, responsable_id=s.responsable_id,
+            estado=s.estado.value, fecha=s.fecha)
+
+    def _a_dominio(self, f) -> SustitucionDeVenta:
+        return SustitucionDeVenta(f.id, f.venta_id, f.producto_solicitado, f.motivo,
+                                  f.responsable_id, f.fecha, EstadoSustitucion(f.estado),
+                                  f.alternativa)
 
 
 class SqlRetiroRepo(_SqlRepo):

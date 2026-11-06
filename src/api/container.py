@@ -6,6 +6,8 @@ from sqlalchemy import Engine
 
 from src.application.auditoria_service import AuditoriaApplicationService
 from src.application.inventario_service import InventarioApplicationService
+from src.application.registro_especial_service import RegistroEspecialService
+from src.application.reporte_service import ReporteService
 from src.application.reposicion_service import ReposicionApplicationService
 from src.application.venta_service import VentaApplicationService
 from src.infrastructure.clock import SystemClock
@@ -23,6 +25,8 @@ class Container:
     inventario: InventarioApplicationService
     reposicion: ReposicionApplicationService
     auditoria: AuditoriaApplicationService
+    registros: RegistroEspecialService
+    reportes: ReporteService
 
 
 def build_container(database_url: Optional[str] = None, clock=None, bus=None) -> Container:
@@ -40,4 +44,6 @@ def build_container(database_url: Optional[str] = None, clock=None, bus=None) ->
         InventarioApplicationService(uow_factory, bus, clock),
         ReposicionApplicationService(uow_factory, bus, clock),
         AuditoriaApplicationService(uow_factory, bus, clock),
+        RegistroEspecialService(uow_factory, bus, clock),
+        ReporteService(uow_factory, bus, clock),
     )

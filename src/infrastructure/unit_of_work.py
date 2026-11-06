@@ -24,6 +24,7 @@ class SqlAlchemyUnitOfWork:
         self.diferencias = r.SqlDiferenciaRepo(s)
         self.ajustes = r.SqlAjusteRepo(s)
         self.solicitudes = r.SqlSolicitudRepo(s)
+        self.sustituciones = r.SqlSustitucionRepo(s)
         self.historial = r.SqlAuditoria(s)
         return self
 

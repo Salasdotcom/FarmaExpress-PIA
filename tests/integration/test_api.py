@@ -330,3 +330,59 @@ def test_auditoria_registra_y_filtra(client):
     assert r.json()[1]["usuario"] == "C1" and r.json()[1]["despues"] == "COMPLETADA"
     solo = client.get("/auditoria", headers=RF, params={"accion": "completar_venta"}).json()
     assert len(solo) == 1
+
+
+# ------------------------------ US10 / US11 / US12 / US18 ------------------------------
+def test_us10_sustitucion_api(client):
+    vid = venta(client, [{"producto_id": "MED-001", "cantidad": 2, "lote_id": "LOT-001"}])
+    datos = {"producto_solicitado": "MED-001", "alternativa_id": "MED-003",
+             "motivo": "sin existencia", "lote_id": "LOT-005"}
+    assert client.post(f"/ventas/{vid}/sustituciones", headers=CAJERO,
+                       data=datos).status_code == 403
+    r = client.post(f"/ventas/{vid}/sustituciones", headers=RF, data=datos)
+    assert r.status_code == 201 and r.json()["estado"] == "AUTORIZADA"
+    assert "MED-003" in r.json()["mensaje"]
+    linea = client.get(f"/ventas/{vid}", headers=CAJERO).json()["lineas"][0]
+    assert linea["producto_id"] == "MED-003" and linea["cantidad"] == 2
+    r = client.post(f"/ventas/{vid}/sustituciones/rechazo", headers=RF,
+                    data={"producto_solicitado": "MED-003", "motivo": "sin alternativas"})
+    assert r.status_code == 201 and r.json()["estado"] == "RECHAZADA"
+    r = client.post("/ventas/NOPE/sustituciones", headers=RF, data=datos)
+    assert r.status_code == 404
+    r = client.post(f"/ventas/{vid}/sustituciones", headers=RF,
+                    data={**datos, "motivo": " ", "producto_solicitado": "MED-003",
+                          "alternativa_id": "MED-001"})
+    assert r.status_code == 422
+
+
+def test_us11_us12_registros_con_permisos(client):
+    vid = venta(client, [{"producto_id": "MED-003", "cantidad": 1, "lote_id": "LOT-005"}])
+    client.post(f"/ventas/{vid}/receta/revision", headers=RF, data={
+        "folio": "R-1", "medico": "Dr. Pérez", "cedula_medico": "12345",
+        "nombre_paciente": "Ana", "fecha_emision": "2026-11-01", "resultado": "ACEPTADA"})
+    completo = client.get(f"/registros-especiales/{vid}", headers=RF).json()
+    assert completo["nombre_paciente"] == "Ana" and completo["datos_personales_visibles"]
+    restringido = client.get(f"/registros-especiales/{vid}", headers=CAJERO).json()
+    assert restringido["nombre_paciente"] is None and restringido["nombre_medico"] is None
+    assert restringido["folio_receta"] == "R-1"
+    assert client.get("/registros-especiales", headers=ALM).status_code == 403
+    assert client.get("/registros-especiales", headers=COMPRAS).status_code == 403
+    lista = client.get("/registros-especiales", headers=RF, params={"resultado": "ACEPTADA"})
+    assert lista.status_code == 200 and len(lista.json()) == 1
+    assert "restringidos" in client.get("/registros-especiales", headers=CAJERO).json()[0][
+        "mensaje"]
+    assert client.get("/registros-especiales/NOPE", headers=RF).status_code == 404
+
+
+def test_us18_reportes_api(client):
+    r = client.get("/reportes/caducidad", headers=RF, params={"estado": "CADUCADO"})
+    assert r.status_code == 200 and r.json()["total"] == 1
+    assert r.json()["filas"][0]["lote_id"] == "LOT-004" and "1 registro" in r.json()["mensaje"]
+    r = client.get("/reportes/caducidad", headers=ALM, params={
+        "sucursal_id": "SUC-02", "desde": "2026-01-01", "hasta": "2030-12-31"})
+    assert r.status_code == 200 and r.json()["total"] == 2
+    for tipo in ("retiros", "diferencias", "ajustes", "solicitudes"):
+        assert client.get(f"/reportes/{tipo}", headers=COMPRAS).json()["total"] == 0
+    assert client.get("/reportes/caducidad", headers=CAJERO).status_code == 403
+    assert client.get("/reportes/ventas", headers=RF).status_code == 400   # tipo fuera de lista
+    assert client.get("/reportes/caducidad").status_code == 401
