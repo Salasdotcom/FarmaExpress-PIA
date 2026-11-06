@@ -3,7 +3,7 @@
 Sistema de control de existencias, caducidad, lotes, recetas y ajustes para una farmacia multisucursal.
 
 - Repositorio: https://github.com/Salasdotcom/FarmaExpress-PIA
-- Despliegue (Swagger en `/docs`): `<URL_DEPLOY>`
+- Despliegue (Swagger en `/docs`): https://farmaexpress-api-0qfl.onrender.com/docs
 
 ## Arquitectura (DDD en capas)
 `src/domain` (agregados, Value Objects, Specifications, State Machine, Domain Events, permisos) →
