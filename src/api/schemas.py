@@ -99,6 +99,14 @@ class RechazoSustitucionIn(BaseModel):
     motivo: str = Field(description="Por qué no se acepta ninguna alternativa")
 
 
+class CorreccionIn(BaseModel):
+    campo: str = Field(description="Dato descriptivo a corregir (sólo 'observaciones')",
+                       examples=["observaciones"])
+    nuevo_valor: str = Field(description="Nuevo valor del dato")
+    motivo: str = Field(description="Motivo de la corrección", examples=["Error de captura"])
+    solicitante_id: Optional[str] = Field(None, description="Quien solicitó la corrección")
+
+
 class ConfirmarIn(BaseModel):
     cantidad: Optional[int] = Field(None, description="Cantidad confirmada (vacío = la solicitada)")
 
@@ -137,6 +145,7 @@ class VentaOut(ConMensaje):
     requiere_receta: bool
     receta: Optional[RecetaOut]
     observaciones: str
+    correcciones: list[dict] = []
 
 
 class CaducidadOut(ConMensaje):
@@ -283,7 +292,7 @@ def venta_out(v: Venta) -> VentaOut:
             folio=r.folio, medico=r.medico, nombre_paciente=r.nombre_paciente,
             fecha_emision=r.fecha_emision, resultado=r.resultado.value if r.resultado else None,
             revisada_por=r.revisada_por),
-        observaciones=v.observaciones)
+        observaciones=v.observaciones, correcciones=list(v.correcciones))
 
 
 def caducidad_out(c: CaducidadConsultada) -> CaducidadOut:

@@ -34,3 +34,10 @@ def test_openapi_exportado_cubre_las_historias_nuevas():
     paths = json.loads(texto)["paths"]
     for ruta in ("/ventas/{venta_id}/sustituciones", "/registros-especiales", "/reportes/{tipo}"):
         assert ruta in paths
+
+
+def test_bpmn_publicados():
+    from pathlib import Path
+    d = Path("docs/architecture/bpmn")
+    for pm in ("02", "03", "07", "08", "09", "10", "11", "12"):
+        assert list(d.glob(f"PM-{pm}_*.bpmn")) and list(d.glob(f"PM-{pm}_*.svg"))

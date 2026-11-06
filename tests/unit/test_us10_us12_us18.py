@@ -205,3 +205,31 @@ def test_us18_ventas_especiales_sin_datos_personales(ctx):
     assert ctx.reportes.generar("ventas_especiales", RF, Filtros(estado="completada")).total == 0
     periodo = Filtros(desde=date(2026, 11, 1), hasta=date(2026, 11, 1))
     assert ctx.reportes.generar("ventas_especiales", RF, periodo).total == 1   # sólo VE (receta)
+
+
+# ------------------------------ US14: corrección de venta completada ------------------------------
+def test_us14_correccion_registra_historial_y_evento(ctx):
+    _venta(ctx)
+    ctx.ventas.completar_venta("V1", "C1")
+    total = ctx.store.ventas["V1"].total
+    v = ctx.ventas.corregir_venta_completada(
+        "V1", "observaciones", "nuevo", "typo", "RF1", RF, "C1")
+    assert v.observaciones == "nuevo" and v.total == total
+    c = ctx.store.ventas["V1"].correcciones[0]
+    assert (c["autorizador"], c["ejecutor"], c["motivo"]) == ("RF1", "C1", "typo")
+    assert "VentaCorregida" in [e.nombre for e in ctx.bus.publicados]
+    assert "CORREGIR_VENTA" in [h.accion for h in ctx.store.historial]
+
+
+def test_us14_permisos_y_reglas(ctx):
+    _venta(ctx)
+    with pytest.raises(InvalidTransition):
+        ctx.ventas.corregir_venta_completada("V1", "observaciones", "x", "m", "RF1", RF)
+    ctx.ventas.completar_venta("V1", "C1")
+    with pytest.raises(PermisoDenegado):
+        ctx.ventas.corregir_venta_completada("V1", "observaciones", "x", "m", "C1", CAJ)
+    with pytest.raises(ReglaDeNegocioViolada):
+        ctx.ventas.corregir_venta_completada("V1", "lineas", "x", "m", "RF1", RF)
+    with pytest.raises(ReglaDeNegocioViolada):
+        ctx.ventas.corregir_venta_completada("V1", "observaciones", "x", " ", "RF1", RF)
+    assert ctx.store.ventas["V1"].correcciones == []

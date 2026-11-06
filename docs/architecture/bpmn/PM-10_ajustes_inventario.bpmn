@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Defs_PM-10" targetNamespace="https://farmaexpress.example/bpmn">
+<process id="Proceso_PM-10" name="PM-10 · Autorización y ejecución de ajustes de inventario (US17)" isExecutable="false">
+<laneSet id="Lanes_PM-10">
+<lane id="Lane_PM-10_0" name="Almacén">
+<flowNodeRef>s</flowNodeRef>
+<flowNodeRef>t1</flowNodeRef>
+<flowNodeRef>t6</flowNodeRef>
+</lane>
+<lane id="Lane_PM-10_1" name="Responsable de farmacia">
+<flowNodeRef>t3</flowNodeRef>
+<flowNodeRef>g1</flowNodeRef>
+<flowNodeRef>t4</flowNodeRef>
+<flowNodeRef>x1</flowNodeRef>
+</lane>
+<lane id="Lane_PM-10_2" name="Sistema">
+<flowNodeRef>t2</flowNodeRef>
+<flowNodeRef>g0</flowNodeRef>
+<flowNodeRef>x0</flowNodeRef>
+<flowNodeRef>g2</flowNodeRef>
+<flowNodeRef>x2</flowNodeRef>
+<flowNodeRef>t5</flowNodeRef>
+<flowNodeRef>e1</flowNodeRef>
+<flowNodeRef>g3</flowNodeRef>
+<flowNodeRef>x3</flowNodeRef>
+<flowNodeRef>t7</flowNodeRef>
+<flowNodeRef>e2</flowNodeRef>
+<flowNodeRef>f</flowNodeRef>
+</lane>
+</laneSet>
+<startEvent id="s" name="Diferencia con causa y evidencia">
+<outgoing>F0</outgoing>
+</startEvent>
+<userTask id="t1" name="Solicitar ajuste indicando diferencia y motivo">
+<incoming>F0</incoming>
+<outgoing>F1</outgoing>
+</userTask>
+<serviceTask id="t2" name="Registrar ajuste PENDIENTE (cantidad anterior y nueva)">
+<incoming>F1</incoming>
+<outgoing>F2</outgoing>
+</serviceTask>
+<exclusiveGateway id="g0" name="¿Diferencia ajustable?">
+<incoming>F2</incoming>
+<outgoing>F3</outgoing>
+<outgoing>F4</outgoing>
+</exclusiveGateway>
+<endEvent id="x0" name="Solicitud rechazada (422)">
+<incoming>F4</incoming>
+</endEvent>
+<userTask id="t3" name="Revisar la evidencia y decidir">
+<incoming>F3</incoming>
+<outgoing>F5</outgoing>
+</userTask>
+<exclusiveGateway id="g1" name="¿Evidencia suficiente?">
+<incoming>F5</incoming>
+<outgoing>F6</outgoing>
+<outgoing>F7</outgoing>
+</exclusiveGateway>
+<userTask id="t4" name="Rechazar el ajuste">
+<incoming>F7</incoming>
+<outgoing>F8</outgoing>
+</userTask>
+<endEvent id="x1" name="Ajuste RECHAZADO; existencia sin cambios">
+<incoming>F8</incoming>
+</endEvent>
+<exclusiveGateway id="g2" name="¿Autoriza un responsable distinto del ejecutor?">
+<incoming>F6</incoming>
+<outgoing>F9</outgoing>
+<outgoing>F10</outgoing>
+</exclusiveGateway>
+<endEvent id="x2" name="Denegado (403): Almacén no autoriza su ajuste">
+<incoming>F10</incoming>
+</endEvent>
+<serviceTask id="t5" name="Registrar autorización: AUTORIZADO, autorizador y fecha">
+<incoming>F9</incoming>
+<outgoing>F11</outgoing>
+</serviceTask>
+<intermediateThrowEvent id="e1" name="AjusteDeInventarioAutorizado">
+<incoming>F11</incoming>
+<outgoing>F12</outgoing>
+</intermediateThrowEvent>
+<userTask id="t6" name="Aplicar el ajuste autorizado">
+<incoming>F12</incoming>
+<outgoing>F13</outgoing>
+</userTask>
+<exclusiveGateway id="g3" name="¿Existencia sin cambios desde la diferencia?">
+<incoming>F13</incoming>
+<outgoing>F14</outgoing>
+<outgoing>F15</outgoing>
+</exclusiveGateway>
+<endEvent id="x3" name="Aplicación rechazada (422)">
+<incoming>F15</incoming>
+</endEvent>
+<serviceTask id="t7" name="Actualizar existencia, marcar APLICADO y auditar">
+<incoming>F14</incoming>
+<outgoing>F16</outgoing>
+</serviceTask>
+<intermediateThrowEvent id="e2" name="AjusteDeInventarioAplicado">
+<incoming>F16</incoming>
+<outgoing>F17</outgoing>
+</intermediateThrowEvent>
+<endEvent id="f" name="Existencia ajustada con historial">
+<incoming>F17</incoming>
+</endEvent>
+<sequenceFlow id="F0" sourceRef="s" targetRef="t1"/>
+<sequenceFlow id="F1" sourceRef="t1" targetRef="t2"/>
+<sequenceFlow id="F2" sourceRef="t2" targetRef="g0"/>
+<sequenceFlow id="F3" name="Sí" sourceRef="g0" targetRef="t3"/>
+<sequenceFlow id="F4" name="No" sourceRef="g0" targetRef="x0"/>
+<sequenceFlow id="F5" sourceRef="t3" targetRef="g1"/>
+<sequenceFlow id="F6" name="Sí" sourceRef="g1" targetRef="g2"/>
+<sequenceFlow id="F7" name="No" sourceRef="g1" targetRef="t4"/>
+<sequenceFlow id="F8" sourceRef="t4" targetRef="x1"/>
+<sequenceFlow id="F9" name="Sí" sourceRef="g2" targetRef="t5"/>
+<sequenceFlow id="F10" name="No" sourceRef="g2" targetRef="x2"/>
+<sequenceFlow id="F11" sourceRef="t5" targetRef="e1"/>
+<sequenceFlow id="F12" sourceRef="e1" targetRef="t6"/>
+<sequenceFlow id="F13" sourceRef="t6" targetRef="g3"/>
+<sequenceFlow id="F14" name="Sí" sourceRef="g3" targetRef="t7"/>
+<sequenceFlow id="F15" name="No" sourceRef="g3" targetRef="x3"/>
+<sequenceFlow id="F16" sourceRef="t7" targetRef="e2"/>
+<sequenceFlow id="F17" sourceRef="e2" targetRef="f"/>
+</process>
+<bpmndi:BPMNDiagram id="Diag_PM-10">
+<bpmndi:BPMNPlane id="Plane_PM-10" bpmnElement="Proceso_PM-10">
+<bpmndi:BPMNShape id="S_L0" bpmnElement="Lane_PM-10_0" isHorizontal="true"><dc:Bounds x="0" y="30" width="2514" height="250"/></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="S_L1" bpmnElement="Lane_PM-10_1" isHorizontal="true"><dc:Bounds x="0" y="280" width="2514" height="250"/></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="S_L2" bpmnElement="Lane_PM-10_2" isHorizontal="true"><dc:Bounds x="0" y="530" width="2514" height="250"/></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="S_s" bpmnElement="s"><dc:Bounds x="114" y="137" width="36" height="36"/></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="S_t1" bpmnElement="t1"><dc:Bounds x="232" y="121" width="150" height="68"/></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="S_t2" bpmnElement="t2"><dc:Bounds x="406" y="568" width="150" height="68"/></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="S_g0" bpmnElement="g0"><dc:Bounds x="630" y="575" width="54" height="54"/></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="S_x0" bpmnElement="x0"><dc:Bounds x="814" y="697" width="36" height="36"/></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="S_t3" bpmnElement="t3"><dc:Bounds x="756" y="371" width="150" height="68"/></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="S_g1" bpmnElement="g1"><dc:Bounds x="980" y="378" width="54" height="54"/></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="S_t4" bpmnElement="t4"><dc:Bounds x="1106" y="371" width="150" height="68"/></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="S_x1" bpmnElement="x1"><dc:Bounds x="1338" y="387" width="36" height="36"/></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="S_g2" bpmnElement="g2"><dc:Bounds x="1154" y="575" width="54" height="54"/></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="S_x2" bpmnElement="x2"><dc:Bounds x="1338" y="697" width="36" height="36"/></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="S_t5" bpmnElement="t5"><dc:Bounds x="1282" y="568" width="150" height="68"/></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="S_e1" bpmnElement="e1"><dc:Bounds x="1514" y="584" width="36" height="36"/></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="S_t6" bpmnElement="t6"><dc:Bounds x="1632" y="121" width="150" height="68"/></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="S_g3" bpmnElement="g3"><dc:Bounds x="1854" y="575" width="54" height="54"/></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="S_x3" bpmnElement="x3"><dc:Bounds x="2038" y="697" width="36" height="36"/></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="S_t7" bpmnElement="t7"><dc:Bounds x="1982" y="568" width="150" height="68"/></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="S_e2" bpmnElement="e2"><dc:Bounds x="2214" y="584" width="36" height="36"/></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="S_f" bpmnElement="f"><dc:Bounds x="2388" y="584" width="36" height="36"/></bpmndi:BPMNShape>
+<bpmndi:BPMNEdge id="E_F0" bpmnElement="F0">
+<di:waypoint x="150" y="155"/>
+<di:waypoint x="232" y="155"/>
+</bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="E_F1" bpmnElement="F1">
+<di:waypoint x="382" y="155"/>
+<di:waypoint x="394" y="155"/>
+<di:waypoint x="394" y="602"/>
+<di:waypoint x="406" y="602"/>
+</bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="E_F2" bpmnElement="F2">
+<di:waypoint x="556" y="602"/>
+<di:waypoint x="630" y="602"/>
+</bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="E_F3" bpmnElement="F3">
+<di:waypoint x="684" y="602"/>
+<di:waypoint x="720" y="602"/>
+<di:waypoint x="720" y="405"/>
+<di:waypoint x="756" y="405"/>
+</bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="E_F4" bpmnElement="F4">
+<di:waypoint x="684" y="602"/>
+<di:waypoint x="748" y="602"/>
+<di:waypoint x="748" y="715"/>
+<di:waypoint x="814" y="715"/>
+</bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="E_F5" bpmnElement="F5">
+<di:waypoint x="906" y="405"/>
+<di:waypoint x="980" y="405"/>
+</bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="E_F6" bpmnElement="F6">
+<di:waypoint x="1006" y="432"/>
+<di:waypoint x="1006" y="602"/>
+<di:waypoint x="1154" y="602"/>
+</bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="E_F7" bpmnElement="F7">
+<di:waypoint x="1034" y="405"/>
+<di:waypoint x="1106" y="405"/>
+</bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="E_F8" bpmnElement="F8">
+<di:waypoint x="1256" y="405"/>
+<di:waypoint x="1338" y="405"/>
+</bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="E_F9" bpmnElement="F9">
+<di:waypoint x="1208" y="602"/>
+<di:waypoint x="1282" y="602"/>
+</bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="E_F10" bpmnElement="F10">
+<di:waypoint x="1182" y="629"/>
+<di:waypoint x="1182" y="715"/>
+<di:waypoint x="1338" y="715"/>
+</bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="E_F11" bpmnElement="F11">
+<di:waypoint x="1432" y="602"/>
+<di:waypoint x="1514" y="602"/>
+</bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="E_F12" bpmnElement="F12">
+<di:waypoint x="1550" y="602"/>
+<di:waypoint x="1590" y="602"/>
+<di:waypoint x="1590" y="155"/>
+<di:waypoint x="1632" y="155"/>
+</bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="E_F13" bpmnElement="F13">
+<di:waypoint x="1782" y="155"/>
+<di:waypoint x="1818" y="155"/>
+<di:waypoint x="1818" y="602"/>
+<di:waypoint x="1854" y="602"/>
+</bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="E_F14" bpmnElement="F14">
+<di:waypoint x="1908" y="602"/>
+<di:waypoint x="1982" y="602"/>
+</bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="E_F15" bpmnElement="F15">
+<di:waypoint x="1882" y="629"/>
+<di:waypoint x="1882" y="715"/>
+<di:waypoint x="2038" y="715"/>
+</bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="E_F16" bpmnElement="F16">
+<di:waypoint x="2132" y="602"/>
+<di:waypoint x="2214" y="602"/>
+</bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="E_F17" bpmnElement="F17">
+<di:waypoint x="2250" y="602"/>
+<di:waypoint x="2388" y="602"/>
+</bpmndi:BPMNEdge>
+</bpmndi:BPMNPlane>
+</bpmndi:BPMNDiagram>
+</definitions>

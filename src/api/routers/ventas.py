@@ -90,3 +90,14 @@ def rechazar_sustitucion(venta_id: str, datos: Annotated[sc.RechazoSustitucionIn
     x.mensaje = ("Ninguna alternativa fue aceptada: la sustitución no se realizó y la venta "
                  "no cambió.")
     return x
+
+
+@router.post("/{venta_id}/correcciones", response_model=VentaOut,
+             summary="Corregir un dato descriptivo de una venta COMPLETADA (US14)")
+def corregir_venta(venta_id: str, datos: Annotated[sc.CorreccionIn, Form()], c: Cont, u: SoloRF):
+    v = venta_out(c.ventas.corregir_venta_completada(
+        venta_id, datos.campo, datos.nuevo_valor, datos.motivo, u.id, u.rol,
+        datos.solicitante_id or None))
+    v.mensaje = (f"Venta {v.id} corregida: se conservó el dato original, el motivo, la fecha, "
+                 "quien solicitó y quien autorizó. El total y el inventario no cambiaron.")
+    return v

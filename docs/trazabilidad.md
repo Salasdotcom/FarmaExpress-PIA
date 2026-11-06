@@ -10,7 +10,7 @@
 | US08 | RN-04, RF-07, RF-17 | `SolicitudDeCompra.enviar` (sólo confirmadas) | `test_solicitud_compra.py` |
 | US09 | RN-05, RF-08 | `Venta.registrar_revision_receta`, `RecetaAceptada` | `test_venta.py`, `test_validacion_venta.py` |
 | US13 | RN-07 | `Venta` (state machine, `TRANSICIONES`) | `test_venta.py::test_transiciones_*` |
-| US14 | RN-07, RF-14 | `Venta.corregir_dato_descriptivo` | `test_venta.py::test_correccion_*` |
+| US14 | RN-07, RF-14 | `Venta.corregir_dato_descriptivo`, `VentaApplicationService.corregir_venta_completada`, `POST /ventas/{id}/correcciones` | `test_venta.py::test_correccion_*`, `test_us10_us12_us18.py::test_us14_*`, `test_api.py::test_us14_correccion_api` |
 | US15 | RN-08, RF-11 | `DiferenciaDeInventario.registrar` | `test_diferencia_ajuste.py` |
 | US16 | RN-08, RF-12 | `DiferenciaDeInventario.registrar_investigacion` | `test_diferencia_ajuste.py` |
 | US17 | RN-09, RF-13 | `AjusteDeInventario` (autorizar ≠ ejecutor, aplicar sólo si AUTORIZADO) | `test_diferencia_ajuste.py` |
@@ -40,3 +40,6 @@ Los CSV (actores/catálogo/operaciones) usan un modelo genérico de pedidos. Map
 | Total con Decimal | total = Σ precio × cantidad | `fixtures_csv.total_de`, `Dinero` | `test_total_exacto_con_decimal` |
 | Transiciones válidas/ inválidas con evento o excepción | State Machine de `Venta` | `venta.py`, `venta_service.py` | `test_completar_cancelar_y_eventos`, `test_repetir_aprobacion_y_saltar_estado_son_invalidas` |
 | Evidencia por caso | — | `scripts/ejecutar_fixtures.py` | `docs/evidencia/*.csv`, `test_script_genera_evidencia_sin_pendientes` |
+
+## Procesos BPMN
+Índice completo en `docs/architecture/bpmn/README.md` (PM-01…PM-12, cada uno ligado a sus historias de usuario).

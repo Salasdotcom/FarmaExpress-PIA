@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1464" height="810" viewBox="0 0 1464 810" font-family="Arial, Helvetica, sans-serif">
+<defs><marker id="fl" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#222"/></marker></defs>
+<rect width="100%" height="100%" fill="#fff"/>
+<text x="12" y="22" font-size="15" font-weight="bold">PM-08 · Registro y consulta de ventas especiales (US11, US12)</text>
+<rect x="1" y="30" width="1462" height="250" fill="#fafafa" stroke="#222" stroke-width="1.2"/>
+<rect x="1" y="30" width="38" height="250" fill="#e6ebf2" stroke="#222" stroke-width="1.2"/>
+<text transform="translate(24,155.0) rotate(-90)" font-size="12" font-weight="bold" text-anchor="middle">Responsable de farmacia</text>
+<rect x="1" y="280" width="1462" height="250" fill="#f3f6fb" stroke="#222" stroke-width="1.2"/>
+<rect x="1" y="280" width="38" height="250" fill="#e6ebf2" stroke="#222" stroke-width="1.2"/>
+<text transform="translate(24,405.0) rotate(-90)" font-size="12" font-weight="bold" text-anchor="middle">Usuario autorizado</text>
+<rect x="1" y="530" width="1462" height="250" fill="#fafafa" stroke="#222" stroke-width="1.2"/>
+<rect x="1" y="530" width="38" height="250" fill="#e6ebf2" stroke="#222" stroke-width="1.2"/>
+<text transform="translate(24,655.0) rotate(-90)" font-size="12" font-weight="bold" text-anchor="middle">Sistema</text>
+<polyline fill="none" stroke="#222" stroke-width="1.4" marker-end="url(#fl)" points="150,155 232,155"/>
+<polyline fill="none" stroke="#222" stroke-width="1.4" marker-end="url(#fl)" points="382,155 394,155 394,655 406,655"/>
+<polyline fill="none" stroke="#222" stroke-width="1.4" marker-end="url(#fl)" points="556,655 638,655"/>
+<polyline fill="none" stroke="#222" stroke-width="1.4" marker-end="url(#fl)" points="674,655 716,655 716,405 756,405"/>
+<polyline fill="none" stroke="#222" stroke-width="1.4" marker-end="url(#fl)" points="906,405 943,405 943,602 980,602"/>
+<polyline fill="none" stroke="#222" stroke-width="1.4" marker-end="url(#fl)" points="1034,602 1106,602"/>
+<text x="1040" y="596" font-size="10.5" font-weight="bold" fill="#8a1c1c">Responsable</text>
+<polyline fill="none" stroke="#222" stroke-width="1.4" marker-end="url(#fl)" points="1034,602 1070,602 1070,715 1106,715"/>
+<text x="1076" y="662" font-size="10.5" font-weight="bold" fill="#8a1c1c">Cajero</text>
+<polyline fill="none" stroke="#222" stroke-width="1.4" marker-end="url(#fl)" points="1034,602 1070,602 1070,405 1106,405"/>
+<text x="1076" y="508" font-size="10.5" font-weight="bold" fill="#8a1c1c">Almacén / Compras</text>
+<polyline fill="none" stroke="#222" stroke-width="1.4" marker-end="url(#fl)" points="1256,602 1338,602"/>
+<polyline fill="none" stroke="#222" stroke-width="1.4" marker-end="url(#fl)" points="1256,715 1338,715"/>
+<polyline fill="none" stroke="#222" stroke-width="1.4" marker-end="url(#fl)" points="1256,405 1338,405"/>
+<circle cx="132" cy="155" r="18" fill="#fff" stroke="#2e7d32" stroke-width="2"/><text x="132" y="186" font-size="10.5" text-anchor="middle">Venta con medicamento</text><text x="132" y="198" font-size="10.5" text-anchor="middle">que requiere receta</text>
+<rect x="232" y="121" width="150" height="68" rx="9" fill="#ffffff" stroke="#222" stroke-width="1.6"/><text x="306" y="140" font-size="10.5" text-anchor="middle">Revisar receta y capturar</text><text x="306" y="152" font-size="10.5" text-anchor="middle">folio, médico, cédula,</text><text x="306" y="166" font-size="10.5" text-anchor="middle">paciente, fecha y</text><text x="306" y="178" font-size="10.5" text-anchor="middle">resultado</text>
+<rect x="406" y="621" width="150" height="68" rx="9" fill="#e8f1ff" stroke="#222" stroke-width="1.6"/><text x="482" y="646" font-size="10.5" text-anchor="middle">Conservar el registro con</text><text x="482" y="659" font-size="10.5" text-anchor="middle">el responsable de la</text><text x="482" y="672" font-size="10.5" text-anchor="middle">revisión</text>
+<circle cx="656" cy="655" r="18" fill="#fff" stroke="#b26a00" stroke-width="2"/><circle cx="656" cy="655" r="14" fill="none" stroke="#b26a00" stroke-width="1.5"/><text x="656" y="686" font-size="10.5" text-anchor="middle">RecetaRevisada</text>
+<rect x="756" y="371" width="150" height="68" rx="9" fill="#ffffff" stroke="#222" stroke-width="1.6"/><text x="832" y="402" font-size="10.5" text-anchor="middle">Solicitar consulta del</text><text x="832" y="416" font-size="10.5" text-anchor="middle">registro</text>
+<polygon points="1006.5,575.0 1033.5,602 1006.5,629.0 979.5,602" fill="#fff8e1" stroke="#222" stroke-width="1.6"/><path d="M997.5,593 L1015.5,611 M1015.5,593 L997.5,611" stroke="#222" stroke-width="2.4"/><text x="1020" y="567" font-size="10.5" font-weight="bold" text-anchor="end">¿Qué rol consulta?</text>
+<rect x="1106" y="568" width="150" height="68" rx="9" fill="#e8f1ff" stroke="#222" stroke-width="1.6"/><text x="1182" y="600" font-size="10.5" text-anchor="middle">Mostrar registro completo</text><text x="1182" y="612" font-size="10.5" text-anchor="middle">y auditar la consulta</text>
+<rect x="1106" y="681" width="150" height="68" rx="9" fill="#e8f1ff" stroke="#222" stroke-width="1.6"/><text x="1182" y="706" font-size="10.5" text-anchor="middle">Mostrar registro sin</text><text x="1182" y="719" font-size="10.5" text-anchor="middle">datos personales de</text><text x="1182" y="732" font-size="10.5" text-anchor="middle">paciente ni médico</text>
+<rect x="1106" y="371" width="150" height="68" rx="9" fill="#ffffff" stroke="#222" stroke-width="1.6"/><text x="1182" y="402" font-size="10.5" text-anchor="middle">Recibir acceso denegado</text><text x="1182" y="416" font-size="10.5" text-anchor="middle">(403)</text>
+<circle cx="1356" cy="602" r="18" fill="#fff" stroke="#b71c1c" stroke-width="5"/><text x="1356" y="633" font-size="10.5" text-anchor="middle">Consulta completa</text>
+<circle cx="1356" cy="715" r="18" fill="#fff" stroke="#b71c1c" stroke-width="5"/><text x="1356" y="746" font-size="10.5" text-anchor="middle">Consulta restringida</text>
+<circle cx="1356" cy="405" r="18" fill="#fff" stroke="#b71c1c" stroke-width="5"/><text x="1356" y="436" font-size="10.5" text-anchor="middle">Sin acceso</text>
+</svg>

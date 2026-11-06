@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2164" height="810" viewBox="0 0 2164 810" font-family="Arial, Helvetica, sans-serif">
+<defs><marker id="fl" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#222"/></marker></defs>
+<rect width="100%" height="100%" fill="#fff"/>
+<text x="12" y="22" font-size="15" font-weight="bold">PM-02 · Retiro y seguimiento de lotes (US03, US04)</text>
+<rect x="1" y="30" width="2162" height="250" fill="#fafafa" stroke="#222" stroke-width="1.2"/>
+<rect x="1" y="30" width="38" height="250" fill="#e6ebf2" stroke="#222" stroke-width="1.2"/>
+<text transform="translate(24,155.0) rotate(-90)" font-size="12" font-weight="bold" text-anchor="middle">Responsable de farmacia</text>
+<rect x="1" y="280" width="2162" height="250" fill="#f3f6fb" stroke="#222" stroke-width="1.2"/>
+<rect x="1" y="280" width="38" height="250" fill="#e6ebf2" stroke="#222" stroke-width="1.2"/>
+<text transform="translate(24,405.0) rotate(-90)" font-size="12" font-weight="bold" text-anchor="middle">Almacén</text>
+<rect x="1" y="530" width="2162" height="250" fill="#fafafa" stroke="#222" stroke-width="1.2"/>
+<rect x="1" y="530" width="38" height="250" fill="#e6ebf2" stroke="#222" stroke-width="1.2"/>
+<text transform="translate(24,655.0) rotate(-90)" font-size="12" font-weight="bold" text-anchor="middle">Sistema</text>
+<polyline fill="none" stroke="#222" stroke-width="1.4" marker-end="url(#fl)" points="150,155 232,155"/>
+<polyline fill="none" stroke="#222" stroke-width="1.4" marker-end="url(#fl)" points="382,155 394,155 394,655 406,655"/>
+<polyline fill="none" stroke="#222" stroke-width="1.4" marker-end="url(#fl)" points="556,655 638,655"/>
+<polyline fill="none" stroke="#222" stroke-width="1.4" marker-end="url(#fl)" points="674,655 716,655 716,405 756,405"/>
+<polyline fill="none" stroke="#222" stroke-width="1.4" marker-end="url(#fl)" points="906,405 932,405"/>
+<polyline fill="none" stroke="#222" stroke-width="1.4" marker-end="url(#fl)" points="1082,405 1118,405 1118,655 1154,655"/>
+<polyline fill="none" stroke="#222" stroke-width="1.4" marker-end="url(#fl)" points="1208,655 1282,655"/>
+<text x="1214" y="649" font-size="10.5" font-weight="bold" fill="#8a1c1c">Sí</text>
+<polyline fill="none" stroke="#222" stroke-width="1.4" marker-end="url(#fl)" points="1182,628 1182,353 1006,353 1006,371"/>
+<text x="1188" y="622" font-size="10.5" font-weight="bold" fill="#8a1c1c">No · 422, corregir</text>
+<polyline fill="none" stroke="#222" stroke-width="1.4" marker-end="url(#fl)" points="1432,655 1504,655"/>
+<polyline fill="none" stroke="#222" stroke-width="1.4" marker-end="url(#fl)" points="1532,628 1532,386"/>
+<text x="1538" y="622" font-size="10.5" font-weight="bold" fill="#8a1c1c">Sí</text>
+<polyline fill="none" stroke="#222" stroke-width="1.4" marker-end="url(#fl)" points="1532,318 1532,300 1006,300 1006,371"/>
+<text x="1538" y="312" font-size="10.5" font-weight="bold" fill="#8a1c1c">nueva ejecución</text>
+<polyline fill="none" stroke="#222" stroke-width="1.4" marker-end="url(#fl)" points="1558,655 1595,655 1595,155 1632,155"/>
+<text x="1601" y="409" font-size="10.5" font-weight="bold" fill="#8a1c1c">No</text>
+<polyline fill="none" stroke="#222" stroke-width="1.4" marker-end="url(#fl)" points="1782,155 1794,155 1794,655 1806,655"/>
+<polyline fill="none" stroke="#222" stroke-width="1.4" marker-end="url(#fl)" points="1956,655 2038,655"/>
+<circle cx="132" cy="155" r="18" fill="#fff" stroke="#2e7d32" stroke-width="2"/><text x="132" y="186" font-size="10.5" text-anchor="middle">Retiro de lote</text><text x="132" y="198" font-size="10.5" text-anchor="middle">confirmado</text>
+<rect x="232" y="121" width="150" height="68" rx="9" fill="#ffffff" stroke="#222" stroke-width="1.6"/><text x="306" y="152" font-size="10.5" text-anchor="middle">Registrar retiro del lote</text><text x="306" y="166" font-size="10.5" text-anchor="middle">y su motivo</text>
+<rect x="406" y="621" width="150" height="68" rx="9" fill="#e8f1ff" stroke="#222" stroke-width="1.6"/><text x="482" y="646" font-size="10.5" text-anchor="middle">Marcar lote como retirado</text><text x="482" y="659" font-size="10.5" text-anchor="middle">y bloquear su venta en</text><text x="482" y="672" font-size="10.5" text-anchor="middle">todas las sucursales</text>
+<circle cx="656" cy="655" r="18" fill="#fff" stroke="#b26a00" stroke-width="2"/><circle cx="656" cy="655" r="14" fill="none" stroke="#b26a00" stroke-width="1.5"/><text x="656" y="686" font-size="10.5" text-anchor="middle">LoteRetirado</text>
+<rect x="756" y="371" width="150" height="68" rx="9" fill="#ffffff" stroke="#222" stroke-width="1.6"/><text x="832" y="396" font-size="10.5" text-anchor="middle">Identificar y separar</text><text x="832" y="409" font-size="10.5" text-anchor="middle">físicamente las unidades</text><text x="832" y="422" font-size="10.5" text-anchor="middle">afectadas</text>
+<rect x="932" y="371" width="150" height="68" rx="9" fill="#ffffff" stroke="#222" stroke-width="1.6"/><text x="1006" y="396" font-size="10.5" text-anchor="middle">Registrar cantidades</text><text x="1006" y="409" font-size="10.5" text-anchor="middle">identificadas y retiradas</text><text x="1006" y="422" font-size="10.5" text-anchor="middle">por sucursal</text>
+<polygon points="1181.5,628.0 1208.5,655 1181.5,682.0 1154.5,655" fill="#fff8e1" stroke="#222" stroke-width="1.6"/><path d="M1172.5,646 L1190.5,664 M1190.5,646 L1172.5,664" stroke="#222" stroke-width="2.4"/><text x="1182" y="695" font-size="10.5" font-weight="bold" text-anchor="middle">¿Retiradas ≤</text><text x="1182" y="707" font-size="10.5" font-weight="bold" text-anchor="middle">identificadas?</text>
+<rect x="1282" y="621" width="150" height="68" rx="9" fill="#e8f1ff" stroke="#222" stroke-width="1.6"/><text x="1356" y="640" font-size="10.5" text-anchor="middle">Registrar ejecución:</text><text x="1356" y="652" font-size="10.5" text-anchor="middle">retiro EN_EJECUCION y</text><text x="1356" y="666" font-size="10.5" text-anchor="middle">unidades en tránsito</text><text x="1356" y="678" font-size="10.5" text-anchor="middle">pendientes</text>
+<polygon points="1531.5,628.0 1558.5,655 1531.5,682.0 1504.5,655" fill="#fff8e1" stroke="#222" stroke-width="1.6"/><path d="M1522.5,646 L1540.5,664 M1540.5,646 L1522.5,664" stroke="#222" stroke-width="2.4"/><text x="1532" y="695" font-size="10.5" font-weight="bold" text-anchor="middle">¿Quedan unidades en</text><text x="1532" y="707" font-size="10.5" font-weight="bold" text-anchor="middle">tránsito pendientes?</text>
+<rect x="1456" y="318" width="150" height="68" rx="9" fill="#ffffff" stroke="#222" stroke-width="1.6"/><text x="1532" y="343" font-size="10.5" text-anchor="middle">Resolver unidades en</text><text x="1532" y="356" font-size="10.5" text-anchor="middle">tránsito (ubicar o</text><text x="1532" y="369" font-size="10.5" text-anchor="middle">confirmar)</text>
+<rect x="1632" y="121" width="150" height="68" rx="9" fill="#ffffff" stroke="#222" stroke-width="1.6"/><text x="1706" y="159" font-size="10.5" text-anchor="middle">Concluir el retiro</text>
+<rect x="1806" y="621" width="150" height="68" rx="9" fill="#e8f1ff" stroke="#222" stroke-width="1.6"/><text x="1882" y="646" font-size="10.5" text-anchor="middle">Retiro CONCLUIDO y</text><text x="1882" y="659" font-size="10.5" text-anchor="middle">registro de auditoría</text><text x="1882" y="672" font-size="10.5" text-anchor="middle">(RF-16)</text>
+<circle cx="2056" cy="655" r="18" fill="#fff" stroke="#b71c1c" stroke-width="5"/><text x="2056" y="686" font-size="10.5" text-anchor="middle">Retiro documentado</text>
+</svg>

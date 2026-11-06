@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1814" height="810" viewBox="0 0 1814 810" font-family="Arial, Helvetica, sans-serif">
+<defs><marker id="fl" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#222"/></marker></defs>
+<rect width="100%" height="100%" fill="#fff"/>
+<text x="12" y="22" font-size="15" font-weight="bold">PM-07 · Evaluación y autorización de sustitución (US10)</text>
+<rect x="1" y="30" width="1812" height="250" fill="#fafafa" stroke="#222" stroke-width="1.2"/>
+<rect x="1" y="30" width="38" height="250" fill="#e6ebf2" stroke="#222" stroke-width="1.2"/>
+<text transform="translate(24,155.0) rotate(-90)" font-size="12" font-weight="bold" text-anchor="middle">Cajero</text>
+<rect x="1" y="280" width="1812" height="250" fill="#f3f6fb" stroke="#222" stroke-width="1.2"/>
+<rect x="1" y="280" width="38" height="250" fill="#e6ebf2" stroke="#222" stroke-width="1.2"/>
+<text transform="translate(24,405.0) rotate(-90)" font-size="12" font-weight="bold" text-anchor="middle">Responsable de farmacia</text>
+<rect x="1" y="530" width="1812" height="250" fill="#fafafa" stroke="#222" stroke-width="1.2"/>
+<rect x="1" y="530" width="38" height="250" fill="#e6ebf2" stroke="#222" stroke-width="1.2"/>
+<text transform="translate(24,655.0) rotate(-90)" font-size="12" font-weight="bold" text-anchor="middle">Sistema</text>
+<polyline fill="none" stroke="#222" stroke-width="1.4" marker-end="url(#fl)" points="150,155 232,155"/>
+<polyline fill="none" stroke="#222" stroke-width="1.4" marker-end="url(#fl)" points="382,155 394,155 394,405 406,405"/>
+<polyline fill="none" stroke="#222" stroke-width="1.4" marker-end="url(#fl)" points="556,405 630,405"/>
+<polyline fill="none" stroke="#222" stroke-width="1.4" marker-end="url(#fl)" points="684,405 720,405 720,352 756,352"/>
+<text x="726" y="382" font-size="10.5" font-weight="bold" fill="#8a1c1c">Sí</text>
+<polyline fill="none" stroke="#222" stroke-width="1.4" marker-end="url(#fl)" points="684,405 720,405 720,465 756,465"/>
+<text x="726" y="439" font-size="10.5" font-weight="bold" fill="#8a1c1c">No</text>
+<polyline fill="none" stroke="#222" stroke-width="1.4" marker-end="url(#fl)" points="906,352 919,352 919,602 932,602"/>
+<polyline fill="none" stroke="#222" stroke-width="1.4" marker-end="url(#fl)" points="1082,602 1164,602"/>
+<polyline fill="none" stroke="#222" stroke-width="1.4" marker-end="url(#fl)" points="1200,602 1240,602 1240,102 1282,102"/>
+<polyline fill="none" stroke="#222" stroke-width="1.4" marker-end="url(#fl)" points="1432,102 1514,102"/>
+<polyline fill="none" stroke="#222" stroke-width="1.4" marker-end="url(#fl)" points="906,465 1084,465 1084,715 1106,715"/>
+<polyline fill="none" stroke="#222" stroke-width="1.4" marker-end="url(#fl)" points="1256,715 1338,715"/>
+<polyline fill="none" stroke="#222" stroke-width="1.4" marker-end="url(#fl)" points="1374,715 1416,715 1416,215 1456,215"/>
+<polyline fill="none" stroke="#222" stroke-width="1.4" marker-end="url(#fl)" points="1606,215 1688,215"/>
+<circle cx="132" cy="155" r="18" fill="#fff" stroke="#2e7d32" stroke-width="2"/><text x="132" y="186" font-size="10.5" text-anchor="middle">Producto solicitado</text><text x="132" y="198" font-size="10.5" text-anchor="middle">requiere sustitución</text>
+<rect x="232" y="121" width="150" height="68" rx="9" fill="#ffffff" stroke="#222" stroke-width="1.6"/><text x="306" y="152" font-size="10.5" text-anchor="middle">Solicitar evaluación de</text><text x="306" y="166" font-size="10.5" text-anchor="middle">sustitución</text>
+<rect x="406" y="371" width="150" height="68" rx="9" fill="#ffffff" stroke="#222" stroke-width="1.6"/><text x="482" y="402" font-size="10.5" text-anchor="middle">Evaluar alternativas</text><text x="482" y="416" font-size="10.5" text-anchor="middle">disponibles</text>
+<polygon points="656.5,378.0 683.5,405 656.5,432.0 629.5,405" fill="#fff8e1" stroke="#222" stroke-width="1.6"/><path d="M647.5,396 L665.5,414 M665.5,396 L647.5,414" stroke="#222" stroke-width="2.4"/><text x="670" y="370" font-size="10.5" font-weight="bold" text-anchor="end">¿Acepta una alternativa?</text>
+<rect x="756" y="318" width="150" height="68" rx="9" fill="#ffffff" stroke="#222" stroke-width="1.6"/><text x="832" y="350" font-size="10.5" text-anchor="middle">Autorizar sustitución con</text><text x="832" y="362" font-size="10.5" text-anchor="middle">alternativa y motivo</text>
+<rect x="932" y="568" width="150" height="68" rx="9" fill="#e8f1ff" stroke="#222" stroke-width="1.6"/><text x="1006" y="593" font-size="10.5" text-anchor="middle">Validar venta EN_PROCESO</text><text x="1006" y="606" font-size="10.5" text-anchor="middle">y alternativa habilitada;</text><text x="1006" y="619" font-size="10.5" text-anchor="middle">reemplazar línea</text>
+<circle cx="1182" cy="602" r="18" fill="#fff" stroke="#b26a00" stroke-width="2"/><circle cx="1182" cy="602" r="14" fill="none" stroke="#b26a00" stroke-width="1.5"/><text x="1182" y="633" font-size="10.5" text-anchor="middle">SustitucionAutorizada</text>
+<rect x="1282" y="68" width="150" height="68" rx="9" fill="#ffffff" stroke="#222" stroke-width="1.6"/><text x="1356" y="100" font-size="10.5" text-anchor="middle">Continuar la venta con la</text><text x="1356" y="112" font-size="10.5" text-anchor="middle">alternativa</text>
+<rect x="756" y="431" width="150" height="68" rx="9" fill="#ffffff" stroke="#222" stroke-width="1.6"/><text x="832" y="462" font-size="10.5" text-anchor="middle">Registrar rechazo con</text><text x="832" y="476" font-size="10.5" text-anchor="middle">motivo</text>
+<rect x="1106" y="681" width="150" height="68" rx="9" fill="#e8f1ff" stroke="#222" stroke-width="1.6"/><text x="1182" y="712" font-size="10.5" text-anchor="middle">Guardar decisión; la</text><text x="1182" y="726" font-size="10.5" text-anchor="middle">venta no cambia</text>
+<circle cx="1356" cy="715" r="18" fill="#fff" stroke="#b26a00" stroke-width="2"/><circle cx="1356" cy="715" r="14" fill="none" stroke="#b26a00" stroke-width="1.5"/><text x="1356" y="746" font-size="10.5" text-anchor="middle">SustitucionRechazada</text>
+<rect x="1456" y="181" width="150" height="68" rx="9" fill="#ffffff" stroke="#222" stroke-width="1.6"/><text x="1532" y="206" font-size="10.5" text-anchor="middle">Informar al cliente:</text><text x="1532" y="219" font-size="10.5" text-anchor="middle">continuar sin sustituir o</text><text x="1532" y="232" font-size="10.5" text-anchor="middle">cancelar</text>
+<circle cx="1532" cy="102" r="18" fill="#fff" stroke="#b71c1c" stroke-width="5"/><text x="1532" y="133" font-size="10.5" text-anchor="middle">Venta con sustitución</text>
+<circle cx="1706" cy="215" r="18" fill="#fff" stroke="#b71c1c" stroke-width="5"/><text x="1706" y="246" font-size="10.5" text-anchor="middle">Sin sustitución</text>
+</svg>

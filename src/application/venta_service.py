@@ -164,3 +164,20 @@ class VentaApplicationService(ServicioBase):
             uow.commit()
         self._publicar(sust)
         return sust
+
+    # --- US14: corrección de datos descriptivos (sólo responsable de farmacia) ---
+    def corregir_venta_completada(self, venta_id: str, campo: str, nuevo_valor: str, motivo: str,
+                                  autorizador_id: str, rol: Rol,
+                                  solicitante_id: Optional[str] = None) -> Venta:
+        exigir_rol(rol, Rol.RESPONSABLE_FARMACIA)
+        with self._uow() as uow:
+            venta = self._obtener(uow.ventas, venta_id, "Venta")
+            anterior = getattr(venta, campo, "") if campo == "observaciones" else ""
+            venta.corregir_dato_descriptivo(
+                campo, nuevo_valor, motivo, solicitante_id or autorizador_id, autorizador_id)
+            uow.ventas.guardar(venta)
+            self._auditar(uow, autorizador_id, "CORREGIR_VENTA", "Venta", venta.id,
+                          str(anterior), nuevo_valor)
+            uow.commit()
+        self._publicar(venta)
+        return venta

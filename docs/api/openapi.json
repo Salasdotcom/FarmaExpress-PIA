@@ -753,6 +753,103 @@
         }
       }
     },
+    "/ventas/{venta_id}/correcciones": {
+      "post": {
+        "tags": [
+          "Ventas (US02, US09, US13)"
+        ],
+        "summary": "Corregir un dato descriptivo de una venta COMPLETADA (US14)",
+        "operationId": "corregir_venta_ventas__venta_id__correcciones_post",
+        "parameters": [
+          {
+            "name": "venta_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Venta Id"
+            }
+          },
+          {
+            "name": "x-user-id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Tu identificador de usuario (ej. C1, RF1, A1)",
+              "examples": [
+                "C1"
+              ],
+              "title": "X-User-Id"
+            },
+            "description": "Tu identificador de usuario (ej. C1, RF1, A1)"
+          },
+          {
+            "name": "x-user-role",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Tu rol: elige de la lista",
+              "enum": [
+                "CAJERO",
+                "RESPONSABLE_FARMACIA",
+                "ALMACEN",
+                "COMPRAS"
+              ],
+              "title": "X-User-Role"
+            },
+            "description": "Tu rol: elige de la lista"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/CorreccionIn"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VentaOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/registros-especiales": {
       "get": {
         "tags": [
@@ -3294,6 +3391,50 @@
         "type": "object",
         "title": "ConfirmarIn"
       },
+      "CorreccionIn": {
+        "properties": {
+          "campo": {
+            "type": "string",
+            "title": "Campo",
+            "description": "Dato descriptivo a corregir (sólo 'observaciones')",
+            "examples": [
+              "observaciones"
+            ]
+          },
+          "nuevo_valor": {
+            "type": "string",
+            "title": "Nuevo Valor",
+            "description": "Nuevo valor del dato"
+          },
+          "motivo": {
+            "type": "string",
+            "title": "Motivo",
+            "description": "Motivo de la corrección",
+            "examples": [
+              "Error de captura"
+            ]
+          },
+          "solicitante_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Solicitante Id",
+            "description": "Quien solicitó la corrección"
+          }
+        },
+        "type": "object",
+        "required": [
+          "campo",
+          "nuevo_valor",
+          "motivo"
+        ],
+        "title": "CorreccionIn"
+      },
       "DiferenciaIn": {
         "properties": {
           "sucursal_id": {
@@ -4507,6 +4648,15 @@
           "observaciones": {
             "type": "string",
             "title": "Observaciones"
+          },
+          "correcciones": {
+            "items": {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            "type": "array",
+            "title": "Correcciones",
+            "default": []
           }
         },
         "type": "object",

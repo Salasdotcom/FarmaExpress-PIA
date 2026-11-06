@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2514" height="810" viewBox="0 0 2514 810" font-family="Arial, Helvetica, sans-serif">
+<defs><marker id="fl" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#222"/></marker></defs>
+<rect width="100%" height="100%" fill="#fff"/>
+<text x="12" y="22" font-size="15" font-weight="bold">PM-10 · Autorización y ejecución de ajustes de inventario (US17)</text>
+<rect x="1" y="30" width="2512" height="250" fill="#fafafa" stroke="#222" stroke-width="1.2"/>
+<rect x="1" y="30" width="38" height="250" fill="#e6ebf2" stroke="#222" stroke-width="1.2"/>
+<text transform="translate(24,155.0) rotate(-90)" font-size="12" font-weight="bold" text-anchor="middle">Almacén</text>
+<rect x="1" y="280" width="2512" height="250" fill="#f3f6fb" stroke="#222" stroke-width="1.2"/>
+<rect x="1" y="280" width="38" height="250" fill="#e6ebf2" stroke="#222" stroke-width="1.2"/>
+<text transform="translate(24,405.0) rotate(-90)" font-size="12" font-weight="bold" text-anchor="middle">Responsable de farmacia</text>
+<rect x="1" y="530" width="2512" height="250" fill="#fafafa" stroke="#222" stroke-width="1.2"/>
+<rect x="1" y="530" width="38" height="250" fill="#e6ebf2" stroke="#222" stroke-width="1.2"/>
+<text transform="translate(24,655.0) rotate(-90)" font-size="12" font-weight="bold" text-anchor="middle">Sistema</text>
+<polyline fill="none" stroke="#222" stroke-width="1.4" marker-end="url(#fl)" points="150,155 232,155"/>
+<polyline fill="none" stroke="#222" stroke-width="1.4" marker-end="url(#fl)" points="382,155 394,155 394,602 406,602"/>
+<polyline fill="none" stroke="#222" stroke-width="1.4" marker-end="url(#fl)" points="556,602 630,602"/>
+<polyline fill="none" stroke="#222" stroke-width="1.4" marker-end="url(#fl)" points="684,602 720,602 720,405 756,405"/>
+<text x="726" y="508" font-size="10.5" font-weight="bold" fill="#8a1c1c">Sí</text>
+<polyline fill="none" stroke="#222" stroke-width="1.4" marker-end="url(#fl)" points="684,602 748,602 748,715 814,715"/>
+<text x="754" y="662" font-size="10.5" font-weight="bold" fill="#8a1c1c">No</text>
+<polyline fill="none" stroke="#222" stroke-width="1.4" marker-end="url(#fl)" points="906,405 980,405"/>
+<polyline fill="none" stroke="#222" stroke-width="1.4" marker-end="url(#fl)" points="1006,432 1006,602 1154,602"/>
+<text x="1012" y="446" font-size="10.5" font-weight="bold" fill="#8a1c1c">Sí</text>
+<polyline fill="none" stroke="#222" stroke-width="1.4" marker-end="url(#fl)" points="1034,405 1106,405"/>
+<text x="1040" y="399" font-size="10.5" font-weight="bold" fill="#8a1c1c">No</text>
+<polyline fill="none" stroke="#222" stroke-width="1.4" marker-end="url(#fl)" points="1256,405 1338,405"/>
+<polyline fill="none" stroke="#222" stroke-width="1.4" marker-end="url(#fl)" points="1208,602 1282,602"/>
+<text x="1214" y="596" font-size="10.5" font-weight="bold" fill="#8a1c1c">Sí</text>
+<polyline fill="none" stroke="#222" stroke-width="1.4" marker-end="url(#fl)" points="1182,629 1182,715 1338,715"/>
+<text x="1188" y="643" font-size="10.5" font-weight="bold" fill="#8a1c1c">No</text>
+<polyline fill="none" stroke="#222" stroke-width="1.4" marker-end="url(#fl)" points="1432,602 1514,602"/>
+<polyline fill="none" stroke="#222" stroke-width="1.4" marker-end="url(#fl)" points="1550,602 1590,602 1590,155 1632,155"/>
+<polyline fill="none" stroke="#222" stroke-width="1.4" marker-end="url(#fl)" points="1782,155 1818,155 1818,602 1854,602"/>
+<polyline fill="none" stroke="#222" stroke-width="1.4" marker-end="url(#fl)" points="1908,602 1982,602"/>
+<text x="1914" y="596" font-size="10.5" font-weight="bold" fill="#8a1c1c">Sí</text>
+<polyline fill="none" stroke="#222" stroke-width="1.4" marker-end="url(#fl)" points="1882,629 1882,715 2038,715"/>
+<text x="1888" y="643" font-size="10.5" font-weight="bold" fill="#8a1c1c">No</text>
+<polyline fill="none" stroke="#222" stroke-width="1.4" marker-end="url(#fl)" points="2132,602 2214,602"/>
+<polyline fill="none" stroke="#222" stroke-width="1.4" marker-end="url(#fl)" points="2250,602 2388,602"/>
+<circle cx="132" cy="155" r="18" fill="#fff" stroke="#2e7d32" stroke-width="2"/><text x="132" y="186" font-size="10.5" text-anchor="middle">Diferencia con causa y</text><text x="132" y="198" font-size="10.5" text-anchor="middle">evidencia</text>
+<rect x="232" y="121" width="150" height="68" rx="9" fill="#ffffff" stroke="#222" stroke-width="1.6"/><text x="306" y="146" font-size="10.5" text-anchor="middle">Solicitar ajuste</text><text x="306" y="159" font-size="10.5" text-anchor="middle">indicando diferencia y</text><text x="306" y="172" font-size="10.5" text-anchor="middle">motivo</text>
+<rect x="406" y="568" width="150" height="68" rx="9" fill="#e8f1ff" stroke="#222" stroke-width="1.6"/><text x="482" y="593" font-size="10.5" text-anchor="middle">Registrar ajuste</text><text x="482" y="606" font-size="10.5" text-anchor="middle">PENDIENTE (cantidad</text><text x="482" y="619" font-size="10.5" text-anchor="middle">anterior y nueva)</text>
+<polygon points="656.5,575.0 683.5,602 656.5,629.0 629.5,602" fill="#fff8e1" stroke="#222" stroke-width="1.6"/><path d="M647.5,593 L665.5,611 M665.5,593 L647.5,611" stroke="#222" stroke-width="2.4"/><text x="670" y="567" font-size="10.5" font-weight="bold" text-anchor="end">¿Diferencia ajustable?</text>
+<circle cx="832" cy="715" r="18" fill="#fff" stroke="#b71c1c" stroke-width="5"/><text x="832" y="746" font-size="10.5" text-anchor="middle">Solicitud rechazada</text><text x="832" y="758" font-size="10.5" text-anchor="middle">(422)</text>
+<rect x="756" y="371" width="150" height="68" rx="9" fill="#ffffff" stroke="#222" stroke-width="1.6"/><text x="832" y="402" font-size="10.5" text-anchor="middle">Revisar la evidencia y</text><text x="832" y="416" font-size="10.5" text-anchor="middle">decidir</text>
+<polygon points="1006.5,378.0 1033.5,405 1006.5,432.0 979.5,405" fill="#fff8e1" stroke="#222" stroke-width="1.6"/><path d="M997.5,396 L1015.5,414 M1015.5,396 L997.5,414" stroke="#222" stroke-width="2.4"/><text x="1006" y="370" font-size="10.5" font-weight="bold" text-anchor="middle">¿Evidencia suficiente?</text>
+<rect x="1106" y="371" width="150" height="68" rx="9" fill="#ffffff" stroke="#222" stroke-width="1.6"/><text x="1182" y="409" font-size="10.5" text-anchor="middle">Rechazar el ajuste</text>
+<circle cx="1356" cy="405" r="18" fill="#fff" stroke="#b71c1c" stroke-width="5"/><text x="1356" y="436" font-size="10.5" text-anchor="middle">Ajuste RECHAZADO;</text><text x="1356" y="448" font-size="10.5" text-anchor="middle">existencia sin cambios</text>
+<polygon points="1181.5,575.0 1208.5,602 1181.5,629.0 1154.5,602" fill="#fff8e1" stroke="#222" stroke-width="1.6"/><path d="M1172.5,593 L1190.5,611 M1190.5,593 L1172.5,611" stroke="#222" stroke-width="2.4"/><text x="1182" y="555" font-size="10.5" font-weight="bold" text-anchor="middle">¿Autoriza un responsable</text><text x="1182" y="567" font-size="10.5" font-weight="bold" text-anchor="middle">distinto del ejecutor?</text>
+<circle cx="1356" cy="715" r="18" fill="#fff" stroke="#b71c1c" stroke-width="5"/><text x="1356" y="746" font-size="10.5" text-anchor="middle">Denegado (403):</text><text x="1356" y="758" font-size="10.5" text-anchor="middle">Almacén no autoriza su</text><text x="1356" y="770" font-size="10.5" text-anchor="middle">ajuste</text>
+<rect x="1282" y="568" width="150" height="68" rx="9" fill="#e8f1ff" stroke="#222" stroke-width="1.6"/><text x="1356" y="593" font-size="10.5" text-anchor="middle">Registrar autorización:</text><text x="1356" y="606" font-size="10.5" text-anchor="middle">AUTORIZADO, autorizador y</text><text x="1356" y="619" font-size="10.5" text-anchor="middle">fecha</text>
+<circle cx="1532" cy="602" r="18" fill="#fff" stroke="#b26a00" stroke-width="2"/><circle cx="1532" cy="602" r="14" fill="none" stroke="#b26a00" stroke-width="1.5"/><text x="1532" y="633" font-size="10.5" text-anchor="middle">AjusteDeInventarioAuto</text><text x="1532" y="645" font-size="10.5" text-anchor="middle">rizado</text>
+<rect x="1632" y="121" width="150" height="68" rx="9" fill="#ffffff" stroke="#222" stroke-width="1.6"/><text x="1706" y="152" font-size="10.5" text-anchor="middle">Aplicar el ajuste</text><text x="1706" y="166" font-size="10.5" text-anchor="middle">autorizado</text>
+<polygon points="1881.5,575.0 1908.5,602 1881.5,629.0 1854.5,602" fill="#fff8e1" stroke="#222" stroke-width="1.6"/><path d="M1872.5,593 L1890.5,611 M1890.5,593 L1872.5,611" stroke="#222" stroke-width="2.4"/><text x="1882" y="555" font-size="10.5" font-weight="bold" text-anchor="middle">¿Existencia sin cambios</text><text x="1882" y="567" font-size="10.5" font-weight="bold" text-anchor="middle">desde la diferencia?</text>
+<circle cx="2056" cy="715" r="18" fill="#fff" stroke="#b71c1c" stroke-width="5"/><text x="2056" y="746" font-size="10.5" text-anchor="middle">Aplicación rechazada</text><text x="2056" y="758" font-size="10.5" text-anchor="middle">(422)</text>
+<rect x="1982" y="568" width="150" height="68" rx="9" fill="#e8f1ff" stroke="#222" stroke-width="1.6"/><text x="2056" y="600" font-size="10.5" text-anchor="middle">Actualizar existencia,</text><text x="2056" y="612" font-size="10.5" text-anchor="middle">marcar APLICADO y auditar</text>
+<circle cx="2232" cy="602" r="18" fill="#fff" stroke="#b26a00" stroke-width="2"/><circle cx="2232" cy="602" r="14" fill="none" stroke="#b26a00" stroke-width="1.5"/><text x="2232" y="633" font-size="10.5" text-anchor="middle">AjusteDeInventarioApli</text><text x="2232" y="645" font-size="10.5" text-anchor="middle">cado</text>
+<circle cx="2406" cy="602" r="18" fill="#fff" stroke="#b71c1c" stroke-width="5"/><text x="2406" y="633" font-size="10.5" text-anchor="middle">Existencia ajustada</text><text x="2406" y="645" font-size="10.5" text-anchor="middle">con historial</text>
+</svg>

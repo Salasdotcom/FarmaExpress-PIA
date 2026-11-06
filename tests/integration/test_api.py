@@ -386,3 +386,21 @@ def test_us18_reportes_api(client):
     assert client.get("/reportes/caducidad", headers=CAJERO).status_code == 403
     assert client.get("/reportes/ventas", headers=RF).status_code == 400   # tipo fuera de lista
     assert client.get("/reportes/caducidad").status_code == 401
+
+
+def test_us14_correccion_api(client):
+    vid = venta(client, [{"producto_id": "MED-001", "cantidad": 1, "lote_id": "LOT-001"}])
+    datos = {"campo": "observaciones", "nuevo_valor": "dato corregido", "motivo": "typo"}
+    assert client.post(f"/ventas/{vid}/correcciones", headers=RF, data=datos).status_code == 409
+    assert client.post(f"/ventas/{vid}/completar", headers=CAJERO).status_code == 200
+    r = client.post(f"/ventas/{vid}/correcciones", headers=CAJERO, data=datos)
+    assert r.status_code == 403
+    r = client.post(f"/ventas/{vid}/correcciones", headers=RF, data=datos)
+    assert r.status_code == 200 and r.json()["observaciones"] == "dato corregido"
+    assert r.json()["correcciones"][0]["autorizador"] == "RF1"
+    assert "corregida" in r.json()["mensaje"]
+    assert client.post(f"/ventas/{vid}/correcciones", headers=RF,
+                       data={**datos, "campo": "lineas"}).status_code == 422
+    assert client.post("/ventas/NOPE/correcciones", headers=RF, data=datos).status_code == 404
+    r = client.post(f"/ventas/{vid}/correcciones", headers=RF, data={"campo": "x"})
+    assert r.status_code == 400

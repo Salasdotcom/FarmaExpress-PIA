@@ -136,3 +136,4 @@ class Venta:
             "fecha": datetime.now(timezone.utc).isoformat(),
         })
         setattr(self, campo, nuevo_valor)
+        self.events.append(DomainEvent("VentaCorregida", self.id, {"campo": campo}))
