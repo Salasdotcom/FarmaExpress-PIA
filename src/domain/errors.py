@@ -11,3 +11,7 @@ class InvalidTransition(DomainError):
 
 class ReglaDeNegocioViolada(DomainError):
     """Dato o regla inválida (-> HTTP 422)."""
+
+
+class PermisoDenegado(DomainError):
+    """El rol o usuario no puede ejecutar la acción (-> HTTP 403)."""

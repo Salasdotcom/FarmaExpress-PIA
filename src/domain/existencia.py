@@ -29,3 +29,9 @@ class Existencia:
         if not self.hay_disponible(solicitada):
             raise ReglaDeNegocioViolada("Existencia insuficiente")
         self.cantidad -= solicitada
+
+    def aplicar_ajuste(self, cantidad_nueva: int) -> None:
+        """Sólo lo invoca AjusteDeInventario autorizado (US17)."""
+        if cantidad_nueva < 0:
+            raise ReglaDeNegocioViolada("La existencia no puede ser negativa")
+        self.cantidad = cantidad_nueva

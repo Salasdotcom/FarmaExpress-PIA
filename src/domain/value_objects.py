@@ -75,3 +75,10 @@ class Dinero:
         if self.moneda != otro.moneda:
             raise ReglaDeNegocioViolada("Monedas distintas")
         return Dinero(self.monto + otro.monto, self.moneda)
+
+
+class Rol(str, Enum):
+    CAJERO = "CAJERO"
+    RESPONSABLE_FARMACIA = "RESPONSABLE_FARMACIA"
+    ALMACEN = "ALMACEN"
+    COMPRAS = "COMPRAS"
