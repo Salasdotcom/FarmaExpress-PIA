@@ -67,11 +67,12 @@ class VistaSql:
 
 class Ctx:
     def __init__(self, backend: str):
+        self.engine = None
         if backend == "memory":
             self.store = InMemoryStore()
             factory = lambda: InMemoryUnitOfWork(self.store)  # noqa: E731
         else:
-            engine = crear_engine("sqlite+pysqlite:///:memory:")
+            engine = self.engine = crear_engine("sqlite+pysqlite:///:memory:")
             init_db(engine)
             sf = crear_session_factory(engine)
             factory = lambda: SqlAlchemyUnitOfWork(sf)  # noqa: E731
@@ -103,4 +104,7 @@ class Ctx:
 
 @pytest.fixture(params=["memory", "sqlite"])
 def ctx(request):
-    return Ctx(request.param)
+    c = Ctx(request.param)
+    yield c
+    if c.engine is not None:
+        c.engine.dispose()  # cierra la conexión SQLite (evita ResourceWarning)

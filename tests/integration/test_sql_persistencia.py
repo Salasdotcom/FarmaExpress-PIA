@@ -34,7 +34,8 @@ def db(tmp_path):
         uow.existencias.guardar(Existencia("P1", "S1", 10, "L1"))
         uow.existencias.guardar(Existencia("P1", "S1", 3))  # sin lote
         uow.commit()
-    return url, sf
+    yield url, sf
+    engine.dispose()
 
 
 def servicios(sf):
@@ -50,13 +51,17 @@ def test_los_datos_sobreviven_a_un_reinicio(db):
     ventas.crear_venta("S1", "C1", [ItemVenta("P1", 2, "L1")], "V1")
     ventas.completar_venta("V1", "C1")
     # "reinicio": nuevo engine y nuevas sesiones sobre el mismo archivo
-    sf2 = crear_session_factory(crear_engine(url))
-    ventas2, inv2, _, factory2 = servicios(sf2)
-    v = ventas2.obtener_venta("V1")
-    assert v.estado is EstadoVenta.COMPLETADA and len(v.lineas) == 1
-    with factory2() as uow:
-        assert uow.existencias.obtener("P1", "L1", "S1").cantidad == 8
-        assert [h.accion for h in uow.historial.listar()] == ["CREAR_VENTA", "COMPLETAR_VENTA"]
+    engine2 = crear_engine(url)
+    try:
+        ventas2, _, _, factory2 = servicios(crear_session_factory(engine2))
+        v = ventas2.obtener_venta("V1")
+        assert v.estado is EstadoVenta.COMPLETADA and len(v.lineas) == 1
+        with factory2() as uow:
+            assert uow.existencias.obtener("P1", "L1", "S1").cantidad == 8
+            acciones = [h.accion for h in uow.historial.listar()]
+            assert acciones == ["CREAR_VENTA", "COMPLETAR_VENTA"]
+    finally:
+        engine2.dispose()
 
 
 def test_decimal_exacto_sin_flotantes(db):
@@ -150,6 +155,10 @@ def test_normalizar_url_y_engine_por_defecto(monkeypatch):
     assert normalizar_url("postgres://u:p@h/db") == "postgresql://u:p@h/db"
     assert normalizar_url("postgresql://u:p@h/db") == "postgresql://u:p@h/db"
     monkeypatch.delenv("DATABASE_URL", raising=False)
-    assert crear_engine().url.drivername == "sqlite+pysqlite"
+    e1 = crear_engine()
+    assert e1.url.drivername == "sqlite+pysqlite"
     monkeypatch.setenv("DATABASE_URL", "sqlite+pysqlite:///:memory:")
-    assert crear_engine().dialect.name == "sqlite"
+    e2 = crear_engine()
+    assert e2.dialect.name == "sqlite"
+    e1.dispose()
+    e2.dispose()
