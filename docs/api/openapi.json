@@ -4342,7 +4342,8 @@
           "retiros",
           "diferencias",
           "ajustes",
-          "solicitudes"
+          "solicitudes",
+          "ventas_especiales"
         ],
         "title": "TipoReporte"
       },

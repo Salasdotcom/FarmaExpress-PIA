@@ -9,7 +9,7 @@ from src.domain.errors import ReglaDeNegocioViolada
 from src.domain.permisos import exigir_rol
 from src.domain.value_objects import Rol
 
-TIPOS = ("caducidad", "retiros", "diferencias", "ajustes", "solicitudes")
+TIPOS = ("caducidad", "retiros", "diferencias", "ajustes", "solicitudes", "ventas_especiales")
 
 
 @dataclass(frozen=True)
@@ -141,4 +141,31 @@ class ReporteService(ServicioBase):
                           "primera_necesidad": primera.isoformat() if primera else None,
                           "fecha_envio": s.fecha_envio.isoformat() if s.fecha_envio else None,
                           "horas_hasta_envio": horas})
+        return filas
+
+    def _ventas_especiales(self, f: Filtros) -> list[dict]:
+        """Sin datos personales de paciente/médico: el reporte sólo cuenta y clasifica."""
+        with self._uow() as uow:
+            ventas = uow.ventas.listar()
+            sustituciones = uow.sustituciones.listar()
+        filas = []
+        for v in ventas:
+            sust = [x for x in sustituciones if x.venta_id == v.id]
+            if v.receta is None and not sust:
+                continue
+            resultado = v.receta.resultado.value if v.receta and v.receta.resultado else None
+            productos = {li.producto_id for li in v.lineas}
+            if not (_ok(v.sucursal_id, f.sucursal_id) and _ok(v.estado.value,
+                                                              f.estado and f.estado.upper())
+                    and (not f.producto_id or f.producto_id in productos)
+                    and (not f.lote_id or any(li.lote_id == f.lote_id for li in v.lineas))):
+                continue
+            if (f.desde or f.hasta) and (v.receta is None
+                                         or not _en_periodo(v.receta.fecha_emision, f)):
+                continue      # el periodo se mide por la fecha de la receta
+            filas.append({"venta_id": v.id, "sucursal_id": v.sucursal_id,
+                          "estado_venta": v.estado.value, "resultado_revision": resultado,
+                          "revisada_por": v.receta.revisada_por if v.receta else None,
+                          "sustituciones": len(sust),
+                          "fecha_receta": v.receta.fecha_emision.isoformat() if v.receta else None})
         return filas

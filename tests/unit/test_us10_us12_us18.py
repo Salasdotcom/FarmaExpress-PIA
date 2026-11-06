@@ -188,3 +188,20 @@ def test_us18_permisos_y_tipo_invalido(ctx):
         ctx.reportes.generar("caducidad", CAJ, Filtros())
     with pytest.raises(ReglaDeNegocioViolada):
         ctx.reportes.generar("inexistente", RF, Filtros())
+
+
+def test_us18_ventas_especiales_sin_datos_personales(ctx):
+    _venta_con_receta(ctx)
+    ctx.ventas.autorizar_sustitucion("V1", "P1", "P2", "m", "RF1", RF, "L2")
+    r = ctx.reportes.generar("ventas_especiales", RF, Filtros())
+    assert {f["venta_id"] for f in r.filas} == {"VE", "V1"}
+    assert all("nombre_paciente" not in f and "cedula_medico" not in f for f in r.filas)
+    fila = next(f for f in r.filas if f["venta_id"] == "VE")
+    assert fila["resultado_revision"] == "ACEPTADA" and fila["revisada_por"] == "RF1"
+    assert next(f for f in r.filas if f["venta_id"] == "V1")["sustituciones"] == 1
+    assert ctx.reportes.generar("ventas_especiales", RF, Filtros(sucursal_id="S9")).total == 0
+    assert ctx.reportes.generar("ventas_especiales", RF, Filtros(producto_id="P2")).total == 2
+    assert ctx.reportes.generar("ventas_especiales", RF, Filtros(lote_id="L2")).total == 2
+    assert ctx.reportes.generar("ventas_especiales", RF, Filtros(estado="completada")).total == 0
+    periodo = Filtros(desde=date(2026, 11, 1), hasta=date(2026, 11, 1))
+    assert ctx.reportes.generar("ventas_especiales", RF, periodo).total == 1   # sólo VE (receta)

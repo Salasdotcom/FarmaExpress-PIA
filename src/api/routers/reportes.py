@@ -17,6 +17,7 @@ class TipoReporte(str, Enum):
     diferencias = "diferencias"
     ajustes = "ajustes"
     solicitudes = "solicitudes"
+    ventas_especiales = "ventas_especiales"
 
 
 @router.get("/{tipo}", response_model=sc.ReporteOut,
