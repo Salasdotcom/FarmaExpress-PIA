@@ -18,6 +18,12 @@
 | US02/US09 (caso de uso) | RN-01, RN-05 | `VentaApplicationService.completar_venta` (DS-01, rollback DS-02) | `test_app_venta.py` |
 | RF-16 (auditoría) | RF-16 | `IAuditoria`, `RegistroAuditoria`, `_auditar` | `test_app_venta.py::test_ds01_*` |
 | Persistencia | ADR-07, RF-16 | `models.py`, `repositories.py`, `SqlAlchemyUnitOfWork`, tabla `historial` | `test_sql_persistencia.py`; `test_app_*.py` corren contra memoria y SQL |
+| API REST | RNF-01, US01-US17 | `src/api/routers/*`, `deps.py` (roles), `errors.py` (400/401/403/404/409/422) | `tests/integration/test_api.py` |
+| US01 (HTTP) | RN-01 | `GET /lotes/{id}/caducidad` | `test_api.py::test_caducidad_por_lote` |
+| US02 (HTTP) | RN-01, DS-02 | `POST /ventas/{id}/completar` → 422 `MEDICAMENTO_CADUCADO` | `test_api.py::test_ds02_*` |
+| US03/US04 (HTTP) | RN-02 | `POST /lotes/{id}/retiro`, `/retiros/{id}/*` | `test_api.py::test_retiro_*`, `test_lote_retirado_*` |
+| US17 (HTTP) | RN-09, ADR-02 | `POST /ajustes/{id}/autorizar` → 403 si autoriza el ejecutor | `test_api.py::test_ajuste_flujo_*` |
+| RF-16 (HTTP) | RF-16, RNF-01 | `GET /auditoria` (sólo responsable) | `test_api.py::test_auditoria_*` |
 | Pendiente | US10-US12, US18 | — | — |
 
 ## Adaptación de fixtures de la maestra

@@ -10,9 +10,11 @@ URL_POR_DEFECTO = "sqlite+pysqlite:///:memory:"
 
 
 def normalizar_url(url: str) -> str:
-    """Render/Heroku entregan 'postgres://'; SQLAlchemy exige 'postgresql://'."""
-    if url.startswith("postgres://"):
-        return "postgresql://" + url[len("postgres://"):]
+    """Render/Heroku entregan 'postgres://' o 'postgresql://'. SQLAlchemy 2.1 usaría psycopg 3
+    por defecto, pero este proyecto instala psycopg2: se fija el driver explícitamente."""
+    for prefijo in ("postgres://", "postgresql://"):
+        if url.startswith(prefijo):
+            return "postgresql+psycopg2://" + url[len(prefijo):]
     return url
 
 

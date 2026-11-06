@@ -1,0 +1,3255 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "FarmaExpress API",
+    "description": "\nLógica de negocio de **FarmaExpress** (PIA, Componentes de Lógica de Negocio).\n\n**Autenticación (MVP):** envíe `X-User-Id` y `X-User-Role`\n(`CAJERO`, `RESPONSABLE_FARMACIA`, `ALMACEN`, `COMPRAS`).\n\n**Códigos:** 200/201 éxito · 400 solicitud mal formada · 401 sin identidad ·\n403 rol sin permiso · 404 no existe · 409 transición de estado inválida ·\n422 regla de negocio violada.\n",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/ventas": {
+      "post": {
+        "tags": [
+          "Ventas (US02, US09, US13)"
+        ],
+        "summary": "Crear venta EN_PROCESO",
+        "operationId": "crear_venta_ventas_post",
+        "parameters": [
+          {
+            "name": "x-user-id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Identificador del usuario",
+              "title": "X-User-Id"
+            },
+            "description": "Identificador del usuario"
+          },
+          {
+            "name": "x-user-role",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "CAJERO | RESPONSABLE_FARMACIA | ALMACEN | COMPRAS",
+              "title": "X-User-Role"
+            },
+            "description": "CAJERO | RESPONSABLE_FARMACIA | ALMACEN | COMPRAS"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VentaIn"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VentaOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/ventas/{venta_id}": {
+      "get": {
+        "tags": [
+          "Ventas (US02, US09, US13)"
+        ],
+        "summary": "Consultar venta",
+        "operationId": "obtener_venta_ventas__venta_id__get",
+        "parameters": [
+          {
+            "name": "venta_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Venta Id"
+            }
+          },
+          {
+            "name": "x-user-id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Identificador del usuario",
+              "title": "X-User-Id"
+            },
+            "description": "Identificador del usuario"
+          },
+          {
+            "name": "x-user-role",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "CAJERO | RESPONSABLE_FARMACIA | ALMACEN | COMPRAS",
+              "title": "X-User-Role"
+            },
+            "description": "CAJERO | RESPONSABLE_FARMACIA | ALMACEN | COMPRAS"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VentaOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/ventas/{venta_id}/lineas": {
+      "post": {
+        "tags": [
+          "Ventas (US02, US09, US13)"
+        ],
+        "summary": "Agregar producto a una venta EN_PROCESO",
+        "operationId": "agregar_linea_ventas__venta_id__lineas_post",
+        "parameters": [
+          {
+            "name": "venta_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Venta Id"
+            }
+          },
+          {
+            "name": "x-user-id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Identificador del usuario",
+              "title": "X-User-Id"
+            },
+            "description": "Identificador del usuario"
+          },
+          {
+            "name": "x-user-role",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "CAJERO | RESPONSABLE_FARMACIA | ALMACEN | COMPRAS",
+              "title": "X-User-Role"
+            },
+            "description": "CAJERO | RESPONSABLE_FARMACIA | ALMACEN | COMPRAS"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ItemIn"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VentaOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/ventas/{venta_id}/receta/revision": {
+      "post": {
+        "tags": [
+          "Ventas (US02, US09, US13)"
+        ],
+        "summary": "Registrar la revisión de receta (sólo responsable de farmacia)",
+        "operationId": "revisar_receta_ventas__venta_id__receta_revision_post",
+        "parameters": [
+          {
+            "name": "venta_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Venta Id"
+            }
+          },
+          {
+            "name": "x-user-id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Identificador del usuario",
+              "title": "X-User-Id"
+            },
+            "description": "Identificador del usuario"
+          },
+          {
+            "name": "x-user-role",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "CAJERO | RESPONSABLE_FARMACIA | ALMACEN | COMPRAS",
+              "title": "X-User-Role"
+            },
+            "description": "CAJERO | RESPONSABLE_FARMACIA | ALMACEN | COMPRAS"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RecetaIn"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VentaOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/ventas/{venta_id}/completar": {
+      "post": {
+        "tags": [
+          "Ventas (US02, US09, US13)"
+        ],
+        "summary": "Completar venta: valida caducidad, lote, receta y existencias (DS-01/DS-02)",
+        "operationId": "completar_venta_ventas__venta_id__completar_post",
+        "parameters": [
+          {
+            "name": "venta_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Venta Id"
+            }
+          },
+          {
+            "name": "x-user-id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Identificador del usuario",
+              "title": "X-User-Id"
+            },
+            "description": "Identificador del usuario"
+          },
+          {
+            "name": "x-user-role",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "CAJERO | RESPONSABLE_FARMACIA | ALMACEN | COMPRAS",
+              "title": "X-User-Role"
+            },
+            "description": "CAJERO | RESPONSABLE_FARMACIA | ALMACEN | COMPRAS"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VentaOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/ventas/{venta_id}/cancelar": {
+      "post": {
+        "tags": [
+          "Ventas (US02, US09, US13)"
+        ],
+        "summary": "Cancelar venta EN_PROCESO",
+        "operationId": "cancelar_venta_ventas__venta_id__cancelar_post",
+        "parameters": [
+          {
+            "name": "venta_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Venta Id"
+            }
+          },
+          {
+            "name": "x-user-id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Identificador del usuario",
+              "title": "X-User-Id"
+            },
+            "description": "Identificador del usuario"
+          },
+          {
+            "name": "x-user-role",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "CAJERO | RESPONSABLE_FARMACIA | ALMACEN | COMPRAS",
+              "title": "X-User-Role"
+            },
+            "description": "CAJERO | RESPONSABLE_FARMACIA | ALMACEN | COMPRAS"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "anyOf": [
+                  {
+                    "$ref": "#/components/schemas/CancelarIn"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "title": "Datos"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VentaOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/lotes/{lote_id}/caducidad": {
+      "get": {
+        "tags": [
+          "Inventario (US01, US03-US05, US15-US17)"
+        ],
+        "summary": "Clasificación de caducidad de un lote (US01, RN-01)",
+        "operationId": "caducidad_lotes__lote_id__caducidad_get",
+        "parameters": [
+          {
+            "name": "lote_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Lote Id"
+            }
+          },
+          {
+            "name": "x-user-id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Identificador del usuario",
+              "title": "X-User-Id"
+            },
+            "description": "Identificador del usuario"
+          },
+          {
+            "name": "x-user-role",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "CAJERO | RESPONSABLE_FARMACIA | ALMACEN | COMPRAS",
+              "title": "X-User-Role"
+            },
+            "description": "CAJERO | RESPONSABLE_FARMACIA | ALMACEN | COMPRAS"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CaducidadOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/existencias/{producto_id}": {
+      "get": {
+        "tags": [
+          "Inventario (US01, US03-US05, US15-US17)"
+        ],
+        "summary": "Existencias por sucursal y lote (US05, informativa)",
+        "operationId": "existencias_existencias__producto_id__get",
+        "parameters": [
+          {
+            "name": "producto_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Producto Id"
+            }
+          },
+          {
+            "name": "x-user-id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Identificador del usuario",
+              "title": "X-User-Id"
+            },
+            "description": "Identificador del usuario"
+          },
+          {
+            "name": "x-user-role",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "CAJERO | RESPONSABLE_FARMACIA | ALMACEN | COMPRAS",
+              "title": "X-User-Role"
+            },
+            "description": "CAJERO | RESPONSABLE_FARMACIA | ALMACEN | COMPRAS"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExistenciasOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/lotes/{lote_id}/retiro": {
+      "post": {
+        "tags": [
+          "Inventario (US01, US03-US05, US15-US17)"
+        ],
+        "summary": "Registrar retiro confirmado: bloquea el lote en todas las sucursales",
+        "operationId": "registrar_retiro_lotes__lote_id__retiro_post",
+        "parameters": [
+          {
+            "name": "lote_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Lote Id"
+            }
+          },
+          {
+            "name": "x-user-id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Identificador del usuario",
+              "title": "X-User-Id"
+            },
+            "description": "Identificador del usuario"
+          },
+          {
+            "name": "x-user-role",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "CAJERO | RESPONSABLE_FARMACIA | ALMACEN | COMPRAS",
+              "title": "X-User-Role"
+            },
+            "description": "CAJERO | RESPONSABLE_FARMACIA | ALMACEN | COMPRAS"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RetiroIn"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RetiroOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/retiros/{retiro_id}": {
+      "get": {
+        "tags": [
+          "Inventario (US01, US03-US05, US15-US17)"
+        ],
+        "summary": "Consultar retiro",
+        "operationId": "obtener_retiro_retiros__retiro_id__get",
+        "parameters": [
+          {
+            "name": "retiro_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Retiro Id"
+            }
+          },
+          {
+            "name": "x-user-id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Identificador del usuario",
+              "title": "X-User-Id"
+            },
+            "description": "Identificador del usuario"
+          },
+          {
+            "name": "x-user-role",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "CAJERO | RESPONSABLE_FARMACIA | ALMACEN | COMPRAS",
+              "title": "X-User-Role"
+            },
+            "description": "CAJERO | RESPONSABLE_FARMACIA | ALMACEN | COMPRAS"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RetiroOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/retiros/{retiro_id}/ejecuciones": {
+      "post": {
+        "tags": [
+          "Inventario (US01, US03-US05, US15-US17)"
+        ],
+        "summary": "Registrar unidades identificadas y retiradas en una sucursal",
+        "operationId": "registrar_ejecucion_retiros__retiro_id__ejecuciones_post",
+        "parameters": [
+          {
+            "name": "retiro_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Retiro Id"
+            }
+          },
+          {
+            "name": "x-user-id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Identificador del usuario",
+              "title": "X-User-Id"
+            },
+            "description": "Identificador del usuario"
+          },
+          {
+            "name": "x-user-role",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "CAJERO | RESPONSABLE_FARMACIA | ALMACEN | COMPRAS",
+              "title": "X-User-Role"
+            },
+            "description": "CAJERO | RESPONSABLE_FARMACIA | ALMACEN | COMPRAS"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EjecucionIn"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RetiroOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/retiros/{retiro_id}/concluir": {
+      "post": {
+        "tags": [
+          "Inventario (US01, US03-US05, US15-US17)"
+        ],
+        "summary": "Concluir el retiro (RN-02: sin unidades en tránsito pendientes)",
+        "operationId": "concluir_retiro_retiros__retiro_id__concluir_post",
+        "parameters": [
+          {
+            "name": "retiro_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Retiro Id"
+            }
+          },
+          {
+            "name": "x-user-id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Identificador del usuario",
+              "title": "X-User-Id"
+            },
+            "description": "Identificador del usuario"
+          },
+          {
+            "name": "x-user-role",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "CAJERO | RESPONSABLE_FARMACIA | ALMACEN | COMPRAS",
+              "title": "X-User-Role"
+            },
+            "description": "CAJERO | RESPONSABLE_FARMACIA | ALMACEN | COMPRAS"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RetiroOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/diferencias": {
+      "post": {
+        "tags": [
+          "Inventario (US01, US03-US05, US15-US17)"
+        ],
+        "summary": "Registrar diferencia entre conteo físico y existencia registrada",
+        "operationId": "registrar_diferencia_diferencias_post",
+        "parameters": [
+          {
+            "name": "x-user-id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Identificador del usuario",
+              "title": "X-User-Id"
+            },
+            "description": "Identificador del usuario"
+          },
+          {
+            "name": "x-user-role",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "CAJERO | RESPONSABLE_FARMACIA | ALMACEN | COMPRAS",
+              "title": "X-User-Role"
+            },
+            "description": "CAJERO | RESPONSABLE_FARMACIA | ALMACEN | COMPRAS"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DiferenciaIn"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DiferenciaOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/diferencias/{diferencia_id}": {
+      "get": {
+        "tags": [
+          "Inventario (US01, US03-US05, US15-US17)"
+        ],
+        "summary": "Consultar diferencia",
+        "operationId": "obtener_diferencia_diferencias__diferencia_id__get",
+        "parameters": [
+          {
+            "name": "diferencia_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Diferencia Id"
+            }
+          },
+          {
+            "name": "x-user-id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Identificador del usuario",
+              "title": "X-User-Id"
+            },
+            "description": "Identificador del usuario"
+          },
+          {
+            "name": "x-user-role",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "CAJERO | RESPONSABLE_FARMACIA | ALMACEN | COMPRAS",
+              "title": "X-User-Role"
+            },
+            "description": "CAJERO | RESPONSABLE_FARMACIA | ALMACEN | COMPRAS"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DiferenciaOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/diferencias/{diferencia_id}/investigacion": {
+      "post": {
+        "tags": [
+          "Inventario (US01, US03-US05, US15-US17)"
+        ],
+        "summary": "Registrar causa y evidencia, o dejarla pendiente de aclaración (US16)",
+        "operationId": "investigar_diferencias__diferencia_id__investigacion_post",
+        "parameters": [
+          {
+            "name": "diferencia_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Diferencia Id"
+            }
+          },
+          {
+            "name": "x-user-id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Identificador del usuario",
+              "title": "X-User-Id"
+            },
+            "description": "Identificador del usuario"
+          },
+          {
+            "name": "x-user-role",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "CAJERO | RESPONSABLE_FARMACIA | ALMACEN | COMPRAS",
+              "title": "X-User-Role"
+            },
+            "description": "CAJERO | RESPONSABLE_FARMACIA | ALMACEN | COMPRAS"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/InvestigacionIn"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DiferenciaOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/ajustes": {
+      "post": {
+        "tags": [
+          "Inventario (US01, US03-US05, US15-US17)"
+        ],
+        "summary": "Solicitar ajuste a partir de una diferencia investigada",
+        "operationId": "solicitar_ajuste_ajustes_post",
+        "parameters": [
+          {
+            "name": "x-user-id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Identificador del usuario",
+              "title": "X-User-Id"
+            },
+            "description": "Identificador del usuario"
+          },
+          {
+            "name": "x-user-role",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "CAJERO | RESPONSABLE_FARMACIA | ALMACEN | COMPRAS",
+              "title": "X-User-Role"
+            },
+            "description": "CAJERO | RESPONSABLE_FARMACIA | ALMACEN | COMPRAS"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AjusteIn"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AjusteOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/ajustes/{ajuste_id}": {
+      "get": {
+        "tags": [
+          "Inventario (US01, US03-US05, US15-US17)"
+        ],
+        "summary": "Consultar ajuste",
+        "operationId": "obtener_ajuste_ajustes__ajuste_id__get",
+        "parameters": [
+          {
+            "name": "ajuste_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Ajuste Id"
+            }
+          },
+          {
+            "name": "x-user-id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Identificador del usuario",
+              "title": "X-User-Id"
+            },
+            "description": "Identificador del usuario"
+          },
+          {
+            "name": "x-user-role",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "CAJERO | RESPONSABLE_FARMACIA | ALMACEN | COMPRAS",
+              "title": "X-User-Role"
+            },
+            "description": "CAJERO | RESPONSABLE_FARMACIA | ALMACEN | COMPRAS"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AjusteOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/ajustes/{ajuste_id}/autorizar": {
+      "post": {
+        "tags": [
+          "Inventario (US01, US03-US05, US15-US17)"
+        ],
+        "summary": "Autorizar ajuste (responsable de farmacia distinto del ejecutor)",
+        "operationId": "autorizar_ajuste_ajustes__ajuste_id__autorizar_post",
+        "parameters": [
+          {
+            "name": "ajuste_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Ajuste Id"
+            }
+          },
+          {
+            "name": "x-user-id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Identificador del usuario",
+              "title": "X-User-Id"
+            },
+            "description": "Identificador del usuario"
+          },
+          {
+            "name": "x-user-role",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "CAJERO | RESPONSABLE_FARMACIA | ALMACEN | COMPRAS",
+              "title": "X-User-Role"
+            },
+            "description": "CAJERO | RESPONSABLE_FARMACIA | ALMACEN | COMPRAS"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AjusteOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/ajustes/{ajuste_id}/rechazar": {
+      "post": {
+        "tags": [
+          "Inventario (US01, US03-US05, US15-US17)"
+        ],
+        "summary": "Rechazar ajuste",
+        "operationId": "rechazar_ajuste_ajustes__ajuste_id__rechazar_post",
+        "parameters": [
+          {
+            "name": "ajuste_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Ajuste Id"
+            }
+          },
+          {
+            "name": "x-user-id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Identificador del usuario",
+              "title": "X-User-Id"
+            },
+            "description": "Identificador del usuario"
+          },
+          {
+            "name": "x-user-role",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "CAJERO | RESPONSABLE_FARMACIA | ALMACEN | COMPRAS",
+              "title": "X-User-Role"
+            },
+            "description": "CAJERO | RESPONSABLE_FARMACIA | ALMACEN | COMPRAS"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AjusteOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/ajustes/{ajuste_id}/aplicar": {
+      "post": {
+        "tags": [
+          "Inventario (US01, US03-US05, US15-US17)"
+        ],
+        "summary": "Aplicar un ajuste AUTORIZADO: es lo único que modifica la existencia",
+        "operationId": "aplicar_ajuste_ajustes__ajuste_id__aplicar_post",
+        "parameters": [
+          {
+            "name": "ajuste_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Ajuste Id"
+            }
+          },
+          {
+            "name": "x-user-id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Identificador del usuario",
+              "title": "X-User-Id"
+            },
+            "description": "Identificador del usuario"
+          },
+          {
+            "name": "x-user-role",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "CAJERO | RESPONSABLE_FARMACIA | ALMACEN | COMPRAS",
+              "title": "X-User-Role"
+            },
+            "description": "CAJERO | RESPONSABLE_FARMACIA | ALMACEN | COMPRAS"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AjusteOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/solicitudes-compra": {
+      "post": {
+        "tags": [
+          "Reposición (US06-US08)"
+        ],
+        "summary": "Crear solicitud de compra para una sucursal",
+        "operationId": "crear_solicitud_solicitudes_compra_post",
+        "parameters": [
+          {
+            "name": "x-user-id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Identificador del usuario",
+              "title": "X-User-Id"
+            },
+            "description": "Identificador del usuario"
+          },
+          {
+            "name": "x-user-role",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "CAJERO | RESPONSABLE_FARMACIA | ALMACEN | COMPRAS",
+              "title": "X-User-Role"
+            },
+            "description": "CAJERO | RESPONSABLE_FARMACIA | ALMACEN | COMPRAS"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SolicitudIn"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SolicitudOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/solicitudes-compra/{solicitud_id}": {
+      "get": {
+        "tags": [
+          "Reposición (US06-US08)"
+        ],
+        "summary": "Consultar solicitud",
+        "operationId": "obtener_solicitud_solicitudes_compra__solicitud_id__get",
+        "parameters": [
+          {
+            "name": "solicitud_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Solicitud Id"
+            }
+          },
+          {
+            "name": "x-user-id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Identificador del usuario",
+              "title": "X-User-Id"
+            },
+            "description": "Identificador del usuario"
+          },
+          {
+            "name": "x-user-role",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "CAJERO | RESPONSABLE_FARMACIA | ALMACEN | COMPRAS",
+              "title": "X-User-Role"
+            },
+            "description": "CAJERO | RESPONSABLE_FARMACIA | ALMACEN | COMPRAS"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SolicitudOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/solicitudes-compra/{solicitud_id}/necesidades": {
+      "post": {
+        "tags": [
+          "Reposición (US06-US08)"
+        ],
+        "summary": "Reportar una necesidad de reposición (Almacén)",
+        "operationId": "registrar_necesidad_solicitudes_compra__solicitud_id__necesidades_post",
+        "parameters": [
+          {
+            "name": "solicitud_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Solicitud Id"
+            }
+          },
+          {
+            "name": "x-user-id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Identificador del usuario",
+              "title": "X-User-Id"
+            },
+            "description": "Identificador del usuario"
+          },
+          {
+            "name": "x-user-role",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "CAJERO | RESPONSABLE_FARMACIA | ALMACEN | COMPRAS",
+              "title": "X-User-Role"
+            },
+            "description": "CAJERO | RESPONSABLE_FARMACIA | ALMACEN | COMPRAS"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NecesidadIn"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SolicitudOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/solicitudes-compra/{solicitud_id}/necesidades/{necesidad_id}/confirmar": {
+      "post": {
+        "tags": [
+          "Reposición (US06-US08)"
+        ],
+        "summary": "Confirmar una necesidad (responsable de farmacia)",
+        "operationId": "confirmar_solicitudes_compra__solicitud_id__necesidades__necesidad_id__confirmar_post",
+        "parameters": [
+          {
+            "name": "solicitud_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Solicitud Id"
+            }
+          },
+          {
+            "name": "necesidad_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Necesidad Id"
+            }
+          },
+          {
+            "name": "x-user-id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Identificador del usuario",
+              "title": "X-User-Id"
+            },
+            "description": "Identificador del usuario"
+          },
+          {
+            "name": "x-user-role",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "CAJERO | RESPONSABLE_FARMACIA | ALMACEN | COMPRAS",
+              "title": "X-User-Role"
+            },
+            "description": "CAJERO | RESPONSABLE_FARMACIA | ALMACEN | COMPRAS"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "anyOf": [
+                  {
+                    "$ref": "#/components/schemas/ConfirmarIn"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "title": "Datos"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SolicitudOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/solicitudes-compra/{solicitud_id}/necesidades/{necesidad_id}/rechazar": {
+      "post": {
+        "tags": [
+          "Reposición (US06-US08)"
+        ],
+        "summary": "Rechazar una necesidad (responsable de farmacia)",
+        "operationId": "rechazar_solicitudes_compra__solicitud_id__necesidades__necesidad_id__rechazar_post",
+        "parameters": [
+          {
+            "name": "solicitud_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Solicitud Id"
+            }
+          },
+          {
+            "name": "necesidad_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Necesidad Id"
+            }
+          },
+          {
+            "name": "x-user-id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Identificador del usuario",
+              "title": "X-User-Id"
+            },
+            "description": "Identificador del usuario"
+          },
+          {
+            "name": "x-user-role",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "CAJERO | RESPONSABLE_FARMACIA | ALMACEN | COMPRAS",
+              "title": "X-User-Role"
+            },
+            "description": "CAJERO | RESPONSABLE_FARMACIA | ALMACEN | COMPRAS"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SolicitudOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/solicitudes-compra/{solicitud_id}/enviar": {
+      "post": {
+        "tags": [
+          "Reposición (US06-US08)"
+        ],
+        "summary": "Enviar a Compras sólo lo confirmado (responsable de farmacia)",
+        "operationId": "enviar_solicitudes_compra__solicitud_id__enviar_post",
+        "parameters": [
+          {
+            "name": "solicitud_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Solicitud Id"
+            }
+          },
+          {
+            "name": "x-user-id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Identificador del usuario",
+              "title": "X-User-Id"
+            },
+            "description": "Identificador del usuario"
+          },
+          {
+            "name": "x-user-role",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "CAJERO | RESPONSABLE_FARMACIA | ALMACEN | COMPRAS",
+              "title": "X-User-Role"
+            },
+            "description": "CAJERO | RESPONSABLE_FARMACIA | ALMACEN | COMPRAS"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SolicitudOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auditoria": {
+      "get": {
+        "tags": [
+          "Auditoría (RF-16)"
+        ],
+        "summary": "Historial de acciones (sólo responsable de farmacia, RNF-01)",
+        "operationId": "consultar_auditoria_get",
+        "parameters": [
+          {
+            "name": "entidad_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Entidad Id"
+            }
+          },
+          {
+            "name": "accion",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Accion"
+            }
+          },
+          {
+            "name": "x-user-id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Identificador del usuario",
+              "title": "X-User-Id"
+            },
+            "description": "Identificador del usuario"
+          },
+          {
+            "name": "x-user-role",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "CAJERO | RESPONSABLE_FARMACIA | ALMACEN | COMPRAS",
+              "title": "X-User-Role"
+            },
+            "description": "CAJERO | RESPONSABLE_FARMACIA | ALMACEN | COMPRAS"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AuditoriaOut"
+                  },
+                  "title": "Response Consultar Auditoria Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/health": {
+      "get": {
+        "tags": [
+          "infra"
+        ],
+        "summary": "Health",
+        "operationId": "health_health_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "type": "object",
+                  "title": "Response Health Health Get"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "AjusteIn": {
+        "properties": {
+          "diferencia_id": {
+            "type": "string",
+            "title": "Diferencia Id"
+          },
+          "motivo": {
+            "type": "string",
+            "title": "Motivo"
+          }
+        },
+        "type": "object",
+        "required": [
+          "diferencia_id",
+          "motivo"
+        ],
+        "title": "AjusteIn"
+      },
+      "AjusteOut": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "diferencia_id": {
+            "type": "string",
+            "title": "Diferencia Id"
+          },
+          "cantidad_anterior": {
+            "type": "integer",
+            "title": "Cantidad Anterior"
+          },
+          "cantidad_nueva": {
+            "type": "integer",
+            "title": "Cantidad Nueva"
+          },
+          "motivo": {
+            "type": "string",
+            "title": "Motivo"
+          },
+          "estado": {
+            "type": "string",
+            "title": "Estado"
+          },
+          "ejecutor_id": {
+            "type": "string",
+            "title": "Ejecutor Id"
+          },
+          "autorizador_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Autorizador Id"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "diferencia_id",
+          "cantidad_anterior",
+          "cantidad_nueva",
+          "motivo",
+          "estado",
+          "ejecutor_id",
+          "autorizador_id"
+        ],
+        "title": "AjusteOut"
+      },
+      "AuditoriaOut": {
+        "properties": {
+          "usuario": {
+            "type": "string",
+            "title": "Usuario"
+          },
+          "accion": {
+            "type": "string",
+            "title": "Accion"
+          },
+          "entidad": {
+            "type": "string",
+            "title": "Entidad"
+          },
+          "entidad_id": {
+            "type": "string",
+            "title": "Entidad Id"
+          },
+          "antes": {
+            "type": "string",
+            "title": "Antes"
+          },
+          "despues": {
+            "type": "string",
+            "title": "Despues"
+          },
+          "fecha": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Fecha"
+          }
+        },
+        "type": "object",
+        "required": [
+          "usuario",
+          "accion",
+          "entidad",
+          "entidad_id",
+          "antes",
+          "despues",
+          "fecha"
+        ],
+        "title": "AuditoriaOut"
+      },
+      "CaducidadOut": {
+        "properties": {
+          "lote_id": {
+            "type": "string",
+            "title": "Lote Id"
+          },
+          "producto_id": {
+            "type": "string",
+            "title": "Producto Id"
+          },
+          "fecha_caducidad": {
+            "type": "string",
+            "format": "date",
+            "title": "Fecha Caducidad"
+          },
+          "dias_restantes": {
+            "type": "integer",
+            "title": "Dias Restantes"
+          },
+          "clasificacion": {
+            "type": "string",
+            "title": "Clasificacion"
+          },
+          "retirado": {
+            "type": "boolean",
+            "title": "Retirado"
+          },
+          "vendible": {
+            "type": "boolean",
+            "title": "Vendible"
+          }
+        },
+        "type": "object",
+        "required": [
+          "lote_id",
+          "producto_id",
+          "fecha_caducidad",
+          "dias_restantes",
+          "clasificacion",
+          "retirado",
+          "vendible"
+        ],
+        "title": "CaducidadOut"
+      },
+      "CancelarIn": {
+        "properties": {
+          "motivo": {
+            "type": "string",
+            "title": "Motivo",
+            "default": ""
+          }
+        },
+        "type": "object",
+        "title": "CancelarIn"
+      },
+      "ConfirmarIn": {
+        "properties": {
+          "cantidad": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Cantidad"
+          }
+        },
+        "type": "object",
+        "title": "ConfirmarIn"
+      },
+      "DiferenciaIn": {
+        "properties": {
+          "sucursal_id": {
+            "type": "string",
+            "title": "Sucursal Id"
+          },
+          "producto_id": {
+            "type": "string",
+            "title": "Producto Id"
+          },
+          "lote_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Lote Id"
+          },
+          "cantidad_fisica": {
+            "type": "integer",
+            "title": "Cantidad Fisica"
+          },
+          "prioritaria": {
+            "type": "boolean",
+            "title": "Prioritaria",
+            "default": false
+          }
+        },
+        "type": "object",
+        "required": [
+          "sucursal_id",
+          "producto_id",
+          "cantidad_fisica"
+        ],
+        "title": "DiferenciaIn"
+      },
+      "DiferenciaOut": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "producto_id": {
+            "type": "string",
+            "title": "Producto Id"
+          },
+          "sucursal_id": {
+            "type": "string",
+            "title": "Sucursal Id"
+          },
+          "lote_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Lote Id"
+          },
+          "cantidad_registrada": {
+            "type": "integer",
+            "title": "Cantidad Registrada"
+          },
+          "cantidad_fisica": {
+            "type": "integer",
+            "title": "Cantidad Fisica"
+          },
+          "delta": {
+            "type": "integer",
+            "title": "Delta"
+          },
+          "prioritaria": {
+            "type": "boolean",
+            "title": "Prioritaria"
+          },
+          "estado": {
+            "type": "string",
+            "title": "Estado"
+          },
+          "causa_identificada": {
+            "type": "string",
+            "title": "Causa Identificada"
+          },
+          "evidencia": {
+            "type": "string",
+            "title": "Evidencia"
+          },
+          "ajustable": {
+            "type": "boolean",
+            "title": "Ajustable"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "producto_id",
+          "sucursal_id",
+          "lote_id",
+          "cantidad_registrada",
+          "cantidad_fisica",
+          "delta",
+          "prioritaria",
+          "estado",
+          "causa_identificada",
+          "evidencia",
+          "ajustable"
+        ],
+        "title": "DiferenciaOut"
+      },
+      "EjecucionIn": {
+        "properties": {
+          "sucursal_id": {
+            "type": "string",
+            "title": "Sucursal Id"
+          },
+          "identificadas": {
+            "type": "integer",
+            "title": "Identificadas"
+          },
+          "retiradas": {
+            "type": "integer",
+            "title": "Retiradas"
+          }
+        },
+        "type": "object",
+        "required": [
+          "sucursal_id",
+          "identificadas",
+          "retiradas"
+        ],
+        "title": "EjecucionIn"
+      },
+      "EjecucionOut": {
+        "properties": {
+          "sucursal_id": {
+            "type": "string",
+            "title": "Sucursal Id"
+          },
+          "identificadas": {
+            "type": "integer",
+            "title": "Identificadas"
+          },
+          "retiradas": {
+            "type": "integer",
+            "title": "Retiradas"
+          },
+          "responsable_id": {
+            "type": "string",
+            "title": "Responsable Id"
+          }
+        },
+        "type": "object",
+        "required": [
+          "sucursal_id",
+          "identificadas",
+          "retiradas",
+          "responsable_id"
+        ],
+        "title": "EjecucionOut"
+      },
+      "ExistenciaOut": {
+        "properties": {
+          "sucursal_id": {
+            "type": "string",
+            "title": "Sucursal Id"
+          },
+          "lote_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Lote Id"
+          },
+          "cantidad": {
+            "type": "integer",
+            "title": "Cantidad"
+          },
+          "clasificacion": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Clasificacion"
+          },
+          "retirado": {
+            "type": "boolean",
+            "title": "Retirado"
+          }
+        },
+        "type": "object",
+        "required": [
+          "sucursal_id",
+          "lote_id",
+          "cantidad",
+          "clasificacion",
+          "retirado"
+        ],
+        "title": "ExistenciaOut"
+      },
+      "ExistenciasOut": {
+        "properties": {
+          "producto_id": {
+            "type": "string",
+            "title": "Producto Id"
+          },
+          "informativo": {
+            "type": "boolean",
+            "title": "Informativo",
+            "default": true
+          },
+          "nota": {
+            "type": "string",
+            "title": "Nota",
+            "default": "Consulta informativa: sin reserva ni transferencia (RN-03)"
+          },
+          "existencias": {
+            "items": {
+              "$ref": "#/components/schemas/ExistenciaOut"
+            },
+            "type": "array",
+            "title": "Existencias"
+          }
+        },
+        "type": "object",
+        "required": [
+          "producto_id",
+          "existencias"
+        ],
+        "title": "ExistenciasOut"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "InvestigacionIn": {
+        "properties": {
+          "causa": {
+            "type": "string",
+            "title": "Causa",
+            "default": ""
+          },
+          "evidencia": {
+            "type": "string",
+            "title": "Evidencia",
+            "default": ""
+          }
+        },
+        "type": "object",
+        "title": "InvestigacionIn"
+      },
+      "ItemIn": {
+        "properties": {
+          "producto_id": {
+            "type": "string",
+            "title": "Producto Id"
+          },
+          "cantidad": {
+            "type": "integer",
+            "title": "Cantidad"
+          },
+          "lote_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Lote Id"
+          }
+        },
+        "type": "object",
+        "required": [
+          "producto_id",
+          "cantidad"
+        ],
+        "title": "ItemIn"
+      },
+      "LineaOut": {
+        "properties": {
+          "producto_id": {
+            "type": "string",
+            "title": "Producto Id"
+          },
+          "cantidad": {
+            "type": "integer",
+            "title": "Cantidad"
+          },
+          "precio_unitario": {
+            "type": "string",
+            "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$",
+            "title": "Precio Unitario"
+          },
+          "subtotal": {
+            "type": "string",
+            "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$",
+            "title": "Subtotal"
+          },
+          "lote_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Lote Id"
+          },
+          "requiere_receta": {
+            "type": "boolean",
+            "title": "Requiere Receta"
+          }
+        },
+        "type": "object",
+        "required": [
+          "producto_id",
+          "cantidad",
+          "precio_unitario",
+          "subtotal",
+          "lote_id",
+          "requiere_receta"
+        ],
+        "title": "LineaOut"
+      },
+      "NecesidadIn": {
+        "properties": {
+          "producto_id": {
+            "type": "string",
+            "title": "Producto Id"
+          },
+          "cantidad": {
+            "type": "integer",
+            "title": "Cantidad"
+          },
+          "motivo": {
+            "type": "string",
+            "title": "Motivo",
+            "description": "FALTANTE | EXISTENCIA_BAJA | CADUCADO"
+          }
+        },
+        "type": "object",
+        "required": [
+          "producto_id",
+          "cantidad",
+          "motivo"
+        ],
+        "title": "NecesidadIn"
+      },
+      "NecesidadOut": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "producto_id": {
+            "type": "string",
+            "title": "Producto Id"
+          },
+          "cantidad_requerida": {
+            "type": "integer",
+            "title": "Cantidad Requerida"
+          },
+          "motivo": {
+            "type": "string",
+            "title": "Motivo"
+          },
+          "estado": {
+            "type": "string",
+            "title": "Estado"
+          },
+          "cantidad_confirmada": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Cantidad Confirmada"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "producto_id",
+          "cantidad_requerida",
+          "motivo",
+          "estado",
+          "cantidad_confirmada"
+        ],
+        "title": "NecesidadOut"
+      },
+      "RecetaIn": {
+        "properties": {
+          "folio": {
+            "type": "string",
+            "title": "Folio"
+          },
+          "medico": {
+            "type": "string",
+            "title": "Medico"
+          },
+          "cedula_medico": {
+            "type": "string",
+            "title": "Cedula Medico"
+          },
+          "nombre_paciente": {
+            "type": "string",
+            "title": "Nombre Paciente"
+          },
+          "fecha_emision": {
+            "type": "string",
+            "format": "date",
+            "title": "Fecha Emision"
+          },
+          "resultado": {
+            "$ref": "#/components/schemas/ResultadoRevision"
+          }
+        },
+        "type": "object",
+        "required": [
+          "folio",
+          "medico",
+          "cedula_medico",
+          "nombre_paciente",
+          "fecha_emision",
+          "resultado"
+        ],
+        "title": "RecetaIn"
+      },
+      "RecetaOut": {
+        "properties": {
+          "folio": {
+            "type": "string",
+            "title": "Folio"
+          },
+          "medico": {
+            "type": "string",
+            "title": "Medico"
+          },
+          "nombre_paciente": {
+            "type": "string",
+            "title": "Nombre Paciente"
+          },
+          "fecha_emision": {
+            "type": "string",
+            "format": "date",
+            "title": "Fecha Emision"
+          },
+          "resultado": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Resultado"
+          },
+          "revisada_por": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Revisada Por"
+          }
+        },
+        "type": "object",
+        "required": [
+          "folio",
+          "medico",
+          "nombre_paciente",
+          "fecha_emision",
+          "resultado",
+          "revisada_por"
+        ],
+        "title": "RecetaOut"
+      },
+      "ResultadoRevision": {
+        "type": "string",
+        "enum": [
+          "ACEPTADA",
+          "INCOMPLETA",
+          "VENCIDA",
+          "NO_ACEPTADA"
+        ],
+        "title": "ResultadoRevision"
+      },
+      "RetiroIn": {
+        "properties": {
+          "motivo": {
+            "type": "string",
+            "title": "Motivo"
+          }
+        },
+        "type": "object",
+        "required": [
+          "motivo"
+        ],
+        "title": "RetiroIn"
+      },
+      "RetiroOut": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "lote_id": {
+            "type": "string",
+            "title": "Lote Id"
+          },
+          "producto_id": {
+            "type": "string",
+            "title": "Producto Id"
+          },
+          "motivo": {
+            "type": "string",
+            "title": "Motivo"
+          },
+          "estado": {
+            "type": "string",
+            "title": "Estado"
+          },
+          "en_transito_pendiente": {
+            "type": "integer",
+            "title": "En Transito Pendiente"
+          },
+          "total_identificadas": {
+            "type": "integer",
+            "title": "Total Identificadas"
+          },
+          "total_retiradas": {
+            "type": "integer",
+            "title": "Total Retiradas"
+          },
+          "ejecuciones": {
+            "items": {
+              "$ref": "#/components/schemas/EjecucionOut"
+            },
+            "type": "array",
+            "title": "Ejecuciones"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "lote_id",
+          "producto_id",
+          "motivo",
+          "estado",
+          "en_transito_pendiente",
+          "total_identificadas",
+          "total_retiradas",
+          "ejecuciones"
+        ],
+        "title": "RetiroOut"
+      },
+      "SolicitudIn": {
+        "properties": {
+          "sucursal_id": {
+            "type": "string",
+            "title": "Sucursal Id"
+          }
+        },
+        "type": "object",
+        "required": [
+          "sucursal_id"
+        ],
+        "title": "SolicitudIn"
+      },
+      "SolicitudOut": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "sucursal_id": {
+            "type": "string",
+            "title": "Sucursal Id"
+          },
+          "estado": {
+            "type": "string",
+            "title": "Estado"
+          },
+          "solicitante_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Solicitante Id"
+          },
+          "necesidades": {
+            "items": {
+              "$ref": "#/components/schemas/NecesidadOut"
+            },
+            "type": "array",
+            "title": "Necesidades"
+          },
+          "lineas_a_comprar": {
+            "items": {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            "type": "array",
+            "title": "Lineas A Comprar"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "sucursal_id",
+          "estado",
+          "solicitante_id",
+          "necesidades",
+          "lineas_a_comprar"
+        ],
+        "title": "SolicitudOut"
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          },
+          "input": {
+            "title": "Input"
+          },
+          "ctx": {
+            "type": "object",
+            "title": "Context"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      },
+      "VentaIn": {
+        "properties": {
+          "sucursal_id": {
+            "type": "string",
+            "title": "Sucursal Id"
+          },
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/ItemIn"
+            },
+            "type": "array",
+            "title": "Items"
+          }
+        },
+        "type": "object",
+        "required": [
+          "sucursal_id"
+        ],
+        "title": "VentaIn"
+      },
+      "VentaOut": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "sucursal_id": {
+            "type": "string",
+            "title": "Sucursal Id"
+          },
+          "cajero_id": {
+            "type": "string",
+            "title": "Cajero Id"
+          },
+          "estado": {
+            "type": "string",
+            "title": "Estado"
+          },
+          "lineas": {
+            "items": {
+              "$ref": "#/components/schemas/LineaOut"
+            },
+            "type": "array",
+            "title": "Lineas"
+          },
+          "total": {
+            "type": "string",
+            "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$",
+            "title": "Total"
+          },
+          "moneda": {
+            "type": "string",
+            "title": "Moneda",
+            "default": "MXN"
+          },
+          "requiere_receta": {
+            "type": "boolean",
+            "title": "Requiere Receta"
+          },
+          "receta": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/RecetaOut"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "observaciones": {
+            "type": "string",
+            "title": "Observaciones"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "sucursal_id",
+          "cajero_id",
+          "estado",
+          "lineas",
+          "total",
+          "requiere_receta",
+          "receta",
+          "observaciones"
+        ],
+        "title": "VentaOut"
+      }
+    }
+  }
+}

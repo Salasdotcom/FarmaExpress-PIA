@@ -67,3 +67,7 @@ class ReposicionApplicationService(ServicioBase):
             uow.commit()
         self._publicar(s)
         return s
+
+    def obtener_solicitud(self, solicitud_id: str) -> SolicitudDeCompra:
+        with self._uow() as uow:
+            return self._obtener(uow.solicitudes, solicitud_id, "Solicitud")

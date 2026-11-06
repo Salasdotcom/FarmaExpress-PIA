@@ -152,8 +152,11 @@ def test_retiro_con_ejecuciones_persiste_en_orden(db):
 
 
 def test_normalizar_url_y_engine_por_defecto(monkeypatch):
-    assert normalizar_url("postgres://u:p@h/db") == "postgresql://u:p@h/db"
-    assert normalizar_url("postgresql://u:p@h/db") == "postgresql://u:p@h/db"
+    esperado = "postgresql+psycopg2://u:p@h/db"
+    assert normalizar_url("postgres://u:p@h/db") == esperado
+    assert normalizar_url("postgresql://u:p@h/db") == esperado
+    assert normalizar_url(esperado) == esperado           # ya trae driver: no se toca
+    assert normalizar_url("sqlite+pysqlite:///:memory:") == "sqlite+pysqlite:///:memory:"
     monkeypatch.delenv("DATABASE_URL", raising=False)
     e1 = crear_engine()
     assert e1.url.drivername == "sqlite+pysqlite"

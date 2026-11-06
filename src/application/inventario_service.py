@@ -1,5 +1,6 @@
 """Casos de uso de inventario: retiros, diferencias, ajustes y consulta de existencias."""
 from dataclasses import dataclass
+from datetime import date
 from typing import Optional
 
 from src.application.base import ServicioBase, nuevo_id
@@ -17,6 +18,20 @@ class ExistenciaConsultada:
     cantidad: int
     clasificacion: Optional[str]
     retirado: bool
+
+
+@dataclass(frozen=True)
+class CaducidadConsultada:
+    lote_id: str
+    producto_id: str
+    fecha_caducidad: date
+    dias_restantes: int
+    clasificacion: str
+    retirado: bool
+
+    @property
+    def vendible(self) -> bool:
+        return self.clasificacion != "CADUCADO" and not self.retirado
 
 
 class InventarioApplicationService(ServicioBase):
@@ -156,3 +171,25 @@ class InventarioApplicationService(ServicioBase):
         if ex is None:
             raise NoEncontrado(f"No hay existencia de {producto_id}/{lote_id} en {sucursal_id}")
         return ex
+
+    # --- Consultas (GET) ---
+    def consultar_caducidad(self, lote_id: str) -> CaducidadConsultada:
+        """US01 / RN-01: clasificación de un lote según los días restantes."""
+        with self._uow() as uow:
+            lote = self._obtener(uow.lotes, lote_id, "Lote")
+            hoy = self._clock.hoy()
+            return CaducidadConsultada(
+                lote.id, lote.producto_id, lote.fecha_caducidad,
+                (lote.fecha_caducidad - hoy).days, lote.clasificacion(hoy).value, lote.retirado)
+
+    def obtener_retiro(self, retiro_id: str) -> RetiroDeLote:
+        with self._uow() as uow:
+            return self._obtener(uow.retiros, retiro_id, "Retiro")
+
+    def obtener_diferencia(self, diferencia_id: str) -> DiferenciaDeInventario:
+        with self._uow() as uow:
+            return self._obtener(uow.diferencias, diferencia_id, "Diferencia")
+
+    def obtener_ajuste(self, ajuste_id: str) -> AjusteDeInventario:
+        with self._uow() as uow:
+            return self._obtener(uow.ajustes, ajuste_id, "Ajuste")
