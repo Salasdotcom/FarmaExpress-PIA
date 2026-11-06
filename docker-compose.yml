@@ -18,7 +18,7 @@ services:
     profiles: ["test"]
     env_file: .env
     environment:
-      DATABASE_URL: sqlite+pysqlite:///:memory:
+      DATABASE_URL: "sqlite+pysqlite:///:memory:"
     command: >
       sh -c "ruff check src tests &&
              pytest --cov=src --cov-report=term-missing --cov-fail-under=80"

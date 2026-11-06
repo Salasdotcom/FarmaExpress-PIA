@@ -71,3 +71,20 @@ explica qué ocurrió; las 422 de venta incluyen `violaciones` y `explicacion` l
 ## Paquete de pruebas del docente (Fase 4)
 `python scripts/ejecutar_fixtures.py` ejecuta los 120 casos y 20 transiciones y deja la evidencia en
 `docs/evidencia/`. Mapeo y diferencias: [docs/fixtures_mapeo.md](docs/fixtures_mapeo.md).
+
+
+## Despliegue en Render (producción para la demo)
+1. Repositorio en GitHub con `render.yaml` en la raíz.
+2. En Render: **New → Blueprint** → elegir el repositorio → *Apply*. Crea la API (Docker) y la
+   base PostgreSQL `farmaexpress-db`; `DATABASE_URL` se inyecta automáticamente.
+3. Al terminar, Swagger UI queda en `https://<servicio>.onrender.com/docs` y el contrato en
+   `/openapi.json`. Variables: `DATABASE_URL`, `APP_ENV=production`, `SEED_DEMO=true`.
+4. El plan gratuito duerme tras 15 min sin tráfico: abrir `/health` un minuto antes de la demo.
+
+## Docker Compose (DB + App + Tests)
+```
+copy .env.example .env          # PowerShell: Copy-Item .env.example .env
+docker compose up --build       # PostgreSQL 16 + API en http://localhost:8000/docs
+docker compose --profile test run --rm tests   # ruff + pytest con cobertura >= 80 %
+docker compose down -v          # apagar y borrar el volumen
+```

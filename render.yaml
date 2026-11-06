@@ -1,0 +1,22 @@
+# Blueprint de Render: crea la API (Docker) y su base PostgreSQL con un solo clic.
+services:
+  - type: web
+    name: farmaexpress-api
+    runtime: docker
+    plan: free
+    healthCheckPath: /health
+    envVars:
+      - key: DATABASE_URL            # 12-Factor: la conexión sale del entorno, no del código
+        fromDatabase:
+          name: farmaexpress-db
+          property: connectionString
+      - key: APP_ENV
+        value: production
+      - key: SEED_DEMO               # carga los datos de demostración (idempotente)
+        value: "true"
+
+databases:
+  - name: farmaexpress-db
+    plan: free
+    databaseName: farmaexpress
+    user: farma
