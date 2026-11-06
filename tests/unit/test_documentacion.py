@@ -41,3 +41,10 @@ def test_bpmn_publicados():
     d = Path("docs/architecture/bpmn")
     for pm in ("02", "03", "07", "08", "09", "10", "11", "12"):
         assert list(d.glob(f"PM-{pm}_*.bpmn")) and list(d.glob(f"PM-{pm}_*.svg"))
+
+
+def test_uml_y_adrs_publicados():
+    from pathlib import Path
+    assert Path("docs/architecture/uml/clases.svg").exists()
+    assert Path("docs/architecture/uml/capas.svg").exists()
+    assert len(list(Path("docs/architecture/adr").glob("ADR-*.md"))) >= 8

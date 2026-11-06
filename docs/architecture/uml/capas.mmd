@@ -1,0 +1,19 @@
+classDiagram
+direction TB
+class VentaApplicationService { +crear_venta +completar_venta +autorizar_sustitucion +rechazar_sustitucion +corregir_venta_completada }
+class RegistroEspecialService { +consultar +registrar }
+class ReporteService { +generar(tipo, filtros) }
+class UnitOfWork { <<port>> +commit() +rollback() }
+class EventBus { <<port>> +publicar() }
+class Repositorio { <<port>> +obtener() +guardar() +listar() }
+class SqlRepositorio { <<adapter>> }
+class MemoriaRepositorio { <<adapter>> }
+class Routers { <<FastAPI>> }
+Routers --> VentaApplicationService
+Routers --> RegistroEspecialService
+Routers --> ReporteService
+VentaApplicationService --> UnitOfWork
+VentaApplicationService --> EventBus
+UnitOfWork o-- Repositorio
+Repositorio <|.. SqlRepositorio
+Repositorio <|.. MemoriaRepositorio

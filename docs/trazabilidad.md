@@ -43,3 +43,6 @@ Los CSV (actores/catálogo/operaciones) usan un modelo genérico de pedidos. Map
 
 ## Procesos BPMN
 Índice completo en `docs/architecture/bpmn/README.md` (PM-01…PM-12, cada uno ligado a sus historias de usuario).
+
+## Arquitectura
+UML en `docs/architecture/uml/`; decisiones en `docs/architecture/adr/` (ADR-01…ADR-08).

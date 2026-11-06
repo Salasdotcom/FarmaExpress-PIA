@@ -1,0 +1,69 @@
+classDiagram
+direction LR
+class Venta {
+  +id
+  +sucursal_id
+  +cajero_id
+  +estado: EstadoVenta
+  +observaciones
+  +correcciones: list
+  +total() Dinero
+  +completar()
+  +cancelar(motivo)
+  +sustituir_linea()
+  +corregir_dato_descriptivo()
+}
+class LineaDeVenta { +producto_id +cantidad +precio_unitario +lote_id +subtotal() }
+class Receta { +folio +medico +nombre_paciente +fecha_emision +resultado }
+class SustitucionDeVenta { +estado: EstadoSustitucion +producto_solicitado +alternativa +motivo +responsable_id +autorizar() +rechazar() }
+class Producto { +id +nombre +categoria +requiere_receta +habilitado }
+class Lote { +id +producto_id +caducidad +retirado }
+class Existencia { +producto_id +lote_id +sucursal_id +cantidad +descontar() }
+class RetiroDeLote { +estado: EstadoRetiro }
+class DiferenciaDeInventario { +estado: EstadoInvestigacion }
+class AjusteDeInventario { +estado: EstadoAjuste +autorizar() }
+class NecesidadReposicion { +estado: EstadoNecesidad }
+class SolicitudDeCompra { +estado: EstadoSolicitud }
+class RegistroAuditoria { +usuario +accion +entidad +antes +despues }
+class DomainEvent { +nombre +agregado_id +datos }
+class Dinero { +monto +moneda }
+class Cantidad
+class Rol { <<enumeration>> CAJERO RESPONSABLE_FARMACIA ALMACEN COMPRAS }
+class EstadoVenta { <<enumeration>> EN_PROCESO COMPLETADA CANCELADA }
+class Specification~T~ { +cumple(x) bool +and_ +or_ +not_ }
+class ServicioDeValidacionDeVenta { +validar(ctx) ResultadoValidacion }
+class SinMedicamentoCaducado
+class SinLoteRetirado
+class ExistenciasSuficientes
+class RecetaAceptada
+class ActorActivo
+class OperacionConLineas
+class OperacionAutorizada
+class ActorPreferente
+class TotalMinimo
+class PromocionActiva
+
+Venta "1" *-- "1..*" LineaDeVenta
+Venta "1" o-- "0..1" Receta
+Venta --> EstadoVenta
+Venta ..> DomainEvent : emite
+Venta "1" <-- "0..*" SustitucionDeVenta
+LineaDeVenta --> Dinero
+LineaDeVenta --> Cantidad
+LineaDeVenta ..> Producto
+Lote "*" --> "1" Producto
+Existencia "*" --> "1" Lote
+RetiroDeLote ..> Lote
+DiferenciaDeInventario <.. AjusteDeInventario
+NecesidadReposicion <.. SolicitudDeCompra
+ServicioDeValidacionDeVenta ..> Specification
+Specification <|-- SinMedicamentoCaducado
+Specification <|-- SinLoteRetirado
+Specification <|-- ExistenciasSuficientes
+Specification <|-- RecetaAceptada
+Specification <|-- ActorActivo
+Specification <|-- OperacionConLineas
+Specification <|-- OperacionAutorizada
+Specification <|-- ActorPreferente
+Specification <|-- TotalMinimo
+Specification <|-- PromocionActiva
