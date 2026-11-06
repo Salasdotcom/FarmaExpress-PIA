@@ -10,7 +10,7 @@ Sistema de control de existencias, caducidad, lotes, recetas y ajustes para una 
 `src/application` (casos de uso, puertos, auditoría) →
 `src/infrastructure` (SQLAlchemy, Unit of Work, memoria, seed) →
 `src/api` (FastAPI: routers, esquemas, errores, raíz de composición).
-Documentación en `docs/`: `BRD.md`, `architecture/` (ADR-01..07, BPMN), `api/openapi.json`, `trazabilidad.md`.
+Documentación en `docs/`: `BRD.md`, `architecture/` (ADR-01..08, `bpmn/`, `uml/`), `analisis/` (18 features Gherkin, glosario), `api/openapi.json`, `trazabilidad.md`.
 
 ## Ejecución local
 ```bash
@@ -36,27 +36,19 @@ Identidad por encabezados (MVP): `X-User-Id` y `X-User-Role` = `CAJERO | RESPONS
 Datos de demostración (`SEED_DEMO=true`, idempotente, fechas relativas a hoy): productos `MED-001..005`,
 lotes `LOT-001..006` (normal, próximo, crítico y **caducado hoy**), sucursales `SUC-01` y `SUC-02`.
 
-Ejemplo:
+Ejemplo (los POST usan formularios):
 ```bash
 curl -X POST localhost:8000/ventas -H "X-User-Id: C1" -H "X-User-Role: CAJERO" \
-  -H "content-type: application/json" \
-  -d '{"sucursal_id":"SUC-01","items":[{"producto_id":"MED-001","cantidad":2,"lote_id":"LOT-001"}]}'
+  -F sucursal_id=SUC-01 -F producto_id=MED-001 -F cantidad=2 -F lote_id=LOT-001
 ```
 Contrato OpenAPI exportado: `python scripts/export_openapi.py` → `docs/api/openapi.json`.
 
 ## Pruebas
 ```bash
-ruff check src tests
+ruff check .
 pytest --cov=src --cov-report=term-missing --cov-fail-under=80
 ```
 Las pruebas de aplicación corren contra memoria **y** SQLAlchemy (mismo contrato).
-
-## Docker Compose (DB + App + Tests)
-```bash
-cp .env.example .env
-docker compose up --build                              # db + app en :8000
-docker compose --profile test run --rm tests
-```
 
 ## Regla clave: caducidad (RN-01)
 >90 días normal · 11–90 próximo · 1–10 crítico · **hoy = caducidad o posterior → caducado (no vendible)**.
@@ -90,9 +82,15 @@ docker compose down -v          # apagar y borrar el volumen
 ```
 
 
-## Historias añadidas (US10, US11, US12, US18)
+## Historias añadidas (US10, US11, US12, US14, US18)
 | Endpoint | Historia | Rol |
 |---|---|---|
 | `POST /ventas/{id}/sustituciones` · `/sustituciones/rechazo` | US10 | Responsable de farmacia |
 | `GET /registros-especiales` · `/{venta_id}` | US11, US12 | Responsable (completo); Cajero (sin datos personales); Almacén/Compras 403 |
-| `GET /reportes/{tipo}` (caducidad, retiros, diferencias, ajustes, solicitudes) | US18 | Responsable, Almacén, Compras |
+| `GET /reportes/{tipo}` (caducidad, retiros, diferencias, ajustes, solicitudes, ventas_especiales) | US18 | Responsable, Almacén, Compras |
+| `POST /ventas/{id}/correcciones` | US14 | Responsable de farmacia |
+
+## Trazabilidad y análisis
+BRD → historias → regla → componente → prueba en [docs/trazabilidad.md](docs/trazabilidad.md).
+Gherkin: `docs/analisis/features/` · BPMN: `docs/architecture/bpmn/README.md` ·
+UML: `docs/architecture/uml/` · ADRs: `docs/architecture/adr/`. CI: GitHub Actions (`.github/workflows/ci.yml`).
