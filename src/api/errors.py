@@ -11,6 +11,15 @@ from src.domain.errors import (
     ValidacionDeVentaFallida,
 )
 
+EXPLICACIONES = {
+    "VENTA_NO_EN_PROCESO": "La venta ya no está EN_PROCESO, no puede modificarse.",
+    "MEDICAMENTO_CADUCADO": "Hay un medicamento caducado (hoy o antes): no es vendible.",
+    "LOTE_RETIRADO": "Hay un lote con retiro vigente: está bloqueado para la venta.",
+    "EXISTENCIA_INSUFICIENTE": "No hay piezas suficientes en la sucursal para esa cantidad.",
+    "RECETA_REQUERIDA": "Un producto exige receta y la venta no tiene una registrada.",
+    "RECETA_NO_ACEPTADA": "La receta no fue aceptada por el responsable de farmacia.",
+}
+
 
 def _resp(status: int, codigo: str, detalle: str, **extra) -> JSONResponse:
     return JSONResponse(status_code=status, content={"codigo": codigo, "detalle": detalle, **extra})
@@ -31,7 +40,9 @@ def registrar_errores(app: FastAPI) -> None:
 
     @app.exception_handler(ValidacionDeVentaFallida)
     async def _422_venta(_: Request, e: ValidacionDeVentaFallida):
-        return _resp(422, "VENTA_NO_COMPLETABLE", str(e), violaciones=list(e.violaciones))
+        explicacion = [EXPLICACIONES.get(v, v) for v in e.violaciones]
+        return _resp(422, "VENTA_NO_COMPLETABLE", str(e), violaciones=list(e.violaciones),
+                     explicacion=explicacion)
 
     @app.exception_handler(ReglaDeNegocioViolada)
     async def _422(_: Request, e: ReglaDeNegocioViolada):

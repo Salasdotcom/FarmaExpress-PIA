@@ -27,10 +27,13 @@
                   "type": "null"
                 }
               ],
-              "description": "Identificador del usuario",
+              "description": "Tu identificador de usuario (ej. C1, RF1, A1)",
+              "examples": [
+                "C1"
+              ],
               "title": "X-User-Id"
             },
-            "description": "Identificador del usuario"
+            "description": "Tu identificador de usuario (ej. C1, RF1, A1)"
           },
           {
             "name": "x-user-role",
@@ -45,16 +48,22 @@
                   "type": "null"
                 }
               ],
-              "description": "CAJERO | RESPONSABLE_FARMACIA | ALMACEN | COMPRAS",
+              "description": "Tu rol: elige de la lista",
+              "enum": [
+                "CAJERO",
+                "RESPONSABLE_FARMACIA",
+                "ALMACEN",
+                "COMPRAS"
+              ],
               "title": "X-User-Role"
             },
-            "description": "CAJERO | RESPONSABLE_FARMACIA | ALMACEN | COMPRAS"
+            "description": "Tu rol: elige de la lista"
           }
         ],
         "requestBody": {
           "required": true,
           "content": {
-            "application/json": {
+            "application/x-www-form-urlencoded": {
               "schema": {
                 "$ref": "#/components/schemas/VentaIn"
               }
@@ -115,10 +124,13 @@
                   "type": "null"
                 }
               ],
-              "description": "Identificador del usuario",
+              "description": "Tu identificador de usuario (ej. C1, RF1, A1)",
+              "examples": [
+                "C1"
+              ],
               "title": "X-User-Id"
             },
-            "description": "Identificador del usuario"
+            "description": "Tu identificador de usuario (ej. C1, RF1, A1)"
           },
           {
             "name": "x-user-role",
@@ -133,10 +145,16 @@
                   "type": "null"
                 }
               ],
-              "description": "CAJERO | RESPONSABLE_FARMACIA | ALMACEN | COMPRAS",
+              "description": "Tu rol: elige de la lista",
+              "enum": [
+                "CAJERO",
+                "RESPONSABLE_FARMACIA",
+                "ALMACEN",
+                "COMPRAS"
+              ],
               "title": "X-User-Role"
             },
-            "description": "CAJERO | RESPONSABLE_FARMACIA | ALMACEN | COMPRAS"
+            "description": "Tu rol: elige de la lista"
           }
         ],
         "responses": {
@@ -193,10 +211,13 @@
                   "type": "null"
                 }
               ],
-              "description": "Identificador del usuario",
+              "description": "Tu identificador de usuario (ej. C1, RF1, A1)",
+              "examples": [
+                "C1"
+              ],
               "title": "X-User-Id"
             },
-            "description": "Identificador del usuario"
+            "description": "Tu identificador de usuario (ej. C1, RF1, A1)"
           },
           {
             "name": "x-user-role",
@@ -211,16 +232,22 @@
                   "type": "null"
                 }
               ],
-              "description": "CAJERO | RESPONSABLE_FARMACIA | ALMACEN | COMPRAS",
+              "description": "Tu rol: elige de la lista",
+              "enum": [
+                "CAJERO",
+                "RESPONSABLE_FARMACIA",
+                "ALMACEN",
+                "COMPRAS"
+              ],
               "title": "X-User-Role"
             },
-            "description": "CAJERO | RESPONSABLE_FARMACIA | ALMACEN | COMPRAS"
+            "description": "Tu rol: elige de la lista"
           }
         ],
         "requestBody": {
           "required": true,
           "content": {
-            "application/json": {
+            "application/x-www-form-urlencoded": {
               "schema": {
                 "$ref": "#/components/schemas/ItemIn"
               }
@@ -281,10 +308,13 @@
                   "type": "null"
                 }
               ],
-              "description": "Identificador del usuario",
+              "description": "Tu identificador de usuario (ej. C1, RF1, A1)",
+              "examples": [
+                "C1"
+              ],
               "title": "X-User-Id"
             },
-            "description": "Identificador del usuario"
+            "description": "Tu identificador de usuario (ej. C1, RF1, A1)"
           },
           {
             "name": "x-user-role",
@@ -299,16 +329,22 @@
                   "type": "null"
                 }
               ],
-              "description": "CAJERO | RESPONSABLE_FARMACIA | ALMACEN | COMPRAS",
+              "description": "Tu rol: elige de la lista",
+              "enum": [
+                "CAJERO",
+                "RESPONSABLE_FARMACIA",
+                "ALMACEN",
+                "COMPRAS"
+              ],
               "title": "X-User-Role"
             },
-            "description": "CAJERO | RESPONSABLE_FARMACIA | ALMACEN | COMPRAS"
+            "description": "Tu rol: elige de la lista"
           }
         ],
         "requestBody": {
           "required": true,
           "content": {
-            "application/json": {
+            "application/x-www-form-urlencoded": {
               "schema": {
                 "$ref": "#/components/schemas/RecetaIn"
               }
@@ -369,10 +405,13 @@
                   "type": "null"
                 }
               ],
-              "description": "Identificador del usuario",
+              "description": "Tu identificador de usuario (ej. C1, RF1, A1)",
+              "examples": [
+                "C1"
+              ],
               "title": "X-User-Id"
             },
-            "description": "Identificador del usuario"
+            "description": "Tu identificador de usuario (ej. C1, RF1, A1)"
           },
           {
             "name": "x-user-role",
@@ -387,10 +426,16 @@
                   "type": "null"
                 }
               ],
-              "description": "CAJERO | RESPONSABLE_FARMACIA | ALMACEN | COMPRAS",
+              "description": "Tu rol: elige de la lista",
+              "enum": [
+                "CAJERO",
+                "RESPONSABLE_FARMACIA",
+                "ALMACEN",
+                "COMPRAS"
+              ],
               "title": "X-User-Role"
             },
-            "description": "CAJERO | RESPONSABLE_FARMACIA | ALMACEN | COMPRAS"
+            "description": "Tu rol: elige de la lista"
           }
         ],
         "responses": {
@@ -447,10 +492,13 @@
                   "type": "null"
                 }
               ],
-              "description": "Identificador del usuario",
+              "description": "Tu identificador de usuario (ej. C1, RF1, A1)",
+              "examples": [
+                "C1"
+              ],
               "title": "X-User-Id"
             },
-            "description": "Identificador del usuario"
+            "description": "Tu identificador de usuario (ej. C1, RF1, A1)"
           },
           {
             "name": "x-user-role",
@@ -465,25 +513,24 @@
                   "type": "null"
                 }
               ],
-              "description": "CAJERO | RESPONSABLE_FARMACIA | ALMACEN | COMPRAS",
+              "description": "Tu rol: elige de la lista",
+              "enum": [
+                "CAJERO",
+                "RESPONSABLE_FARMACIA",
+                "ALMACEN",
+                "COMPRAS"
+              ],
               "title": "X-User-Role"
             },
-            "description": "CAJERO | RESPONSABLE_FARMACIA | ALMACEN | COMPRAS"
+            "description": "Tu rol: elige de la lista"
           }
         ],
         "requestBody": {
+          "required": true,
           "content": {
-            "application/json": {
+            "application/x-www-form-urlencoded": {
               "schema": {
-                "anyOf": [
-                  {
-                    "$ref": "#/components/schemas/CancelarIn"
-                  },
-                  {
-                    "type": "null"
-                  }
-                ],
-                "title": "Datos"
+                "$ref": "#/components/schemas/CancelarIn"
               }
             }
           }
@@ -542,10 +589,13 @@
                   "type": "null"
                 }
               ],
-              "description": "Identificador del usuario",
+              "description": "Tu identificador de usuario (ej. C1, RF1, A1)",
+              "examples": [
+                "C1"
+              ],
               "title": "X-User-Id"
             },
-            "description": "Identificador del usuario"
+            "description": "Tu identificador de usuario (ej. C1, RF1, A1)"
           },
           {
             "name": "x-user-role",
@@ -560,10 +610,16 @@
                   "type": "null"
                 }
               ],
-              "description": "CAJERO | RESPONSABLE_FARMACIA | ALMACEN | COMPRAS",
+              "description": "Tu rol: elige de la lista",
+              "enum": [
+                "CAJERO",
+                "RESPONSABLE_FARMACIA",
+                "ALMACEN",
+                "COMPRAS"
+              ],
               "title": "X-User-Role"
             },
-            "description": "CAJERO | RESPONSABLE_FARMACIA | ALMACEN | COMPRAS"
+            "description": "Tu rol: elige de la lista"
           }
         ],
         "responses": {
@@ -620,10 +676,13 @@
                   "type": "null"
                 }
               ],
-              "description": "Identificador del usuario",
+              "description": "Tu identificador de usuario (ej. C1, RF1, A1)",
+              "examples": [
+                "C1"
+              ],
               "title": "X-User-Id"
             },
-            "description": "Identificador del usuario"
+            "description": "Tu identificador de usuario (ej. C1, RF1, A1)"
           },
           {
             "name": "x-user-role",
@@ -638,10 +697,16 @@
                   "type": "null"
                 }
               ],
-              "description": "CAJERO | RESPONSABLE_FARMACIA | ALMACEN | COMPRAS",
+              "description": "Tu rol: elige de la lista",
+              "enum": [
+                "CAJERO",
+                "RESPONSABLE_FARMACIA",
+                "ALMACEN",
+                "COMPRAS"
+              ],
               "title": "X-User-Role"
             },
-            "description": "CAJERO | RESPONSABLE_FARMACIA | ALMACEN | COMPRAS"
+            "description": "Tu rol: elige de la lista"
           }
         ],
         "responses": {
@@ -698,10 +763,13 @@
                   "type": "null"
                 }
               ],
-              "description": "Identificador del usuario",
+              "description": "Tu identificador de usuario (ej. C1, RF1, A1)",
+              "examples": [
+                "C1"
+              ],
               "title": "X-User-Id"
             },
-            "description": "Identificador del usuario"
+            "description": "Tu identificador de usuario (ej. C1, RF1, A1)"
           },
           {
             "name": "x-user-role",
@@ -716,16 +784,22 @@
                   "type": "null"
                 }
               ],
-              "description": "CAJERO | RESPONSABLE_FARMACIA | ALMACEN | COMPRAS",
+              "description": "Tu rol: elige de la lista",
+              "enum": [
+                "CAJERO",
+                "RESPONSABLE_FARMACIA",
+                "ALMACEN",
+                "COMPRAS"
+              ],
               "title": "X-User-Role"
             },
-            "description": "CAJERO | RESPONSABLE_FARMACIA | ALMACEN | COMPRAS"
+            "description": "Tu rol: elige de la lista"
           }
         ],
         "requestBody": {
           "required": true,
           "content": {
-            "application/json": {
+            "application/x-www-form-urlencoded": {
               "schema": {
                 "$ref": "#/components/schemas/RetiroIn"
               }
@@ -786,10 +860,13 @@
                   "type": "null"
                 }
               ],
-              "description": "Identificador del usuario",
+              "description": "Tu identificador de usuario (ej. C1, RF1, A1)",
+              "examples": [
+                "C1"
+              ],
               "title": "X-User-Id"
             },
-            "description": "Identificador del usuario"
+            "description": "Tu identificador de usuario (ej. C1, RF1, A1)"
           },
           {
             "name": "x-user-role",
@@ -804,10 +881,16 @@
                   "type": "null"
                 }
               ],
-              "description": "CAJERO | RESPONSABLE_FARMACIA | ALMACEN | COMPRAS",
+              "description": "Tu rol: elige de la lista",
+              "enum": [
+                "CAJERO",
+                "RESPONSABLE_FARMACIA",
+                "ALMACEN",
+                "COMPRAS"
+              ],
               "title": "X-User-Role"
             },
-            "description": "CAJERO | RESPONSABLE_FARMACIA | ALMACEN | COMPRAS"
+            "description": "Tu rol: elige de la lista"
           }
         ],
         "responses": {
@@ -864,10 +947,13 @@
                   "type": "null"
                 }
               ],
-              "description": "Identificador del usuario",
+              "description": "Tu identificador de usuario (ej. C1, RF1, A1)",
+              "examples": [
+                "C1"
+              ],
               "title": "X-User-Id"
             },
-            "description": "Identificador del usuario"
+            "description": "Tu identificador de usuario (ej. C1, RF1, A1)"
           },
           {
             "name": "x-user-role",
@@ -882,16 +968,22 @@
                   "type": "null"
                 }
               ],
-              "description": "CAJERO | RESPONSABLE_FARMACIA | ALMACEN | COMPRAS",
+              "description": "Tu rol: elige de la lista",
+              "enum": [
+                "CAJERO",
+                "RESPONSABLE_FARMACIA",
+                "ALMACEN",
+                "COMPRAS"
+              ],
               "title": "X-User-Role"
             },
-            "description": "CAJERO | RESPONSABLE_FARMACIA | ALMACEN | COMPRAS"
+            "description": "Tu rol: elige de la lista"
           }
         ],
         "requestBody": {
           "required": true,
           "content": {
-            "application/json": {
+            "application/x-www-form-urlencoded": {
               "schema": {
                 "$ref": "#/components/schemas/EjecucionIn"
               }
@@ -952,10 +1044,13 @@
                   "type": "null"
                 }
               ],
-              "description": "Identificador del usuario",
+              "description": "Tu identificador de usuario (ej. C1, RF1, A1)",
+              "examples": [
+                "C1"
+              ],
               "title": "X-User-Id"
             },
-            "description": "Identificador del usuario"
+            "description": "Tu identificador de usuario (ej. C1, RF1, A1)"
           },
           {
             "name": "x-user-role",
@@ -970,10 +1065,16 @@
                   "type": "null"
                 }
               ],
-              "description": "CAJERO | RESPONSABLE_FARMACIA | ALMACEN | COMPRAS",
+              "description": "Tu rol: elige de la lista",
+              "enum": [
+                "CAJERO",
+                "RESPONSABLE_FARMACIA",
+                "ALMACEN",
+                "COMPRAS"
+              ],
               "title": "X-User-Role"
             },
-            "description": "CAJERO | RESPONSABLE_FARMACIA | ALMACEN | COMPRAS"
+            "description": "Tu rol: elige de la lista"
           }
         ],
         "responses": {
@@ -1021,10 +1122,13 @@
                   "type": "null"
                 }
               ],
-              "description": "Identificador del usuario",
+              "description": "Tu identificador de usuario (ej. C1, RF1, A1)",
+              "examples": [
+                "C1"
+              ],
               "title": "X-User-Id"
             },
-            "description": "Identificador del usuario"
+            "description": "Tu identificador de usuario (ej. C1, RF1, A1)"
           },
           {
             "name": "x-user-role",
@@ -1039,16 +1143,22 @@
                   "type": "null"
                 }
               ],
-              "description": "CAJERO | RESPONSABLE_FARMACIA | ALMACEN | COMPRAS",
+              "description": "Tu rol: elige de la lista",
+              "enum": [
+                "CAJERO",
+                "RESPONSABLE_FARMACIA",
+                "ALMACEN",
+                "COMPRAS"
+              ],
               "title": "X-User-Role"
             },
-            "description": "CAJERO | RESPONSABLE_FARMACIA | ALMACEN | COMPRAS"
+            "description": "Tu rol: elige de la lista"
           }
         ],
         "requestBody": {
           "required": true,
           "content": {
-            "application/json": {
+            "application/x-www-form-urlencoded": {
               "schema": {
                 "$ref": "#/components/schemas/DiferenciaIn"
               }
@@ -1109,10 +1219,13 @@
                   "type": "null"
                 }
               ],
-              "description": "Identificador del usuario",
+              "description": "Tu identificador de usuario (ej. C1, RF1, A1)",
+              "examples": [
+                "C1"
+              ],
               "title": "X-User-Id"
             },
-            "description": "Identificador del usuario"
+            "description": "Tu identificador de usuario (ej. C1, RF1, A1)"
           },
           {
             "name": "x-user-role",
@@ -1127,10 +1240,16 @@
                   "type": "null"
                 }
               ],
-              "description": "CAJERO | RESPONSABLE_FARMACIA | ALMACEN | COMPRAS",
+              "description": "Tu rol: elige de la lista",
+              "enum": [
+                "CAJERO",
+                "RESPONSABLE_FARMACIA",
+                "ALMACEN",
+                "COMPRAS"
+              ],
               "title": "X-User-Role"
             },
-            "description": "CAJERO | RESPONSABLE_FARMACIA | ALMACEN | COMPRAS"
+            "description": "Tu rol: elige de la lista"
           }
         ],
         "responses": {
@@ -1187,10 +1306,13 @@
                   "type": "null"
                 }
               ],
-              "description": "Identificador del usuario",
+              "description": "Tu identificador de usuario (ej. C1, RF1, A1)",
+              "examples": [
+                "C1"
+              ],
               "title": "X-User-Id"
             },
-            "description": "Identificador del usuario"
+            "description": "Tu identificador de usuario (ej. C1, RF1, A1)"
           },
           {
             "name": "x-user-role",
@@ -1205,16 +1327,22 @@
                   "type": "null"
                 }
               ],
-              "description": "CAJERO | RESPONSABLE_FARMACIA | ALMACEN | COMPRAS",
+              "description": "Tu rol: elige de la lista",
+              "enum": [
+                "CAJERO",
+                "RESPONSABLE_FARMACIA",
+                "ALMACEN",
+                "COMPRAS"
+              ],
               "title": "X-User-Role"
             },
-            "description": "CAJERO | RESPONSABLE_FARMACIA | ALMACEN | COMPRAS"
+            "description": "Tu rol: elige de la lista"
           }
         ],
         "requestBody": {
           "required": true,
           "content": {
-            "application/json": {
+            "application/x-www-form-urlencoded": {
               "schema": {
                 "$ref": "#/components/schemas/InvestigacionIn"
               }
@@ -1266,10 +1394,13 @@
                   "type": "null"
                 }
               ],
-              "description": "Identificador del usuario",
+              "description": "Tu identificador de usuario (ej. C1, RF1, A1)",
+              "examples": [
+                "C1"
+              ],
               "title": "X-User-Id"
             },
-            "description": "Identificador del usuario"
+            "description": "Tu identificador de usuario (ej. C1, RF1, A1)"
           },
           {
             "name": "x-user-role",
@@ -1284,16 +1415,22 @@
                   "type": "null"
                 }
               ],
-              "description": "CAJERO | RESPONSABLE_FARMACIA | ALMACEN | COMPRAS",
+              "description": "Tu rol: elige de la lista",
+              "enum": [
+                "CAJERO",
+                "RESPONSABLE_FARMACIA",
+                "ALMACEN",
+                "COMPRAS"
+              ],
               "title": "X-User-Role"
             },
-            "description": "CAJERO | RESPONSABLE_FARMACIA | ALMACEN | COMPRAS"
+            "description": "Tu rol: elige de la lista"
           }
         ],
         "requestBody": {
           "required": true,
           "content": {
-            "application/json": {
+            "application/x-www-form-urlencoded": {
               "schema": {
                 "$ref": "#/components/schemas/AjusteIn"
               }
@@ -1354,10 +1491,13 @@
                   "type": "null"
                 }
               ],
-              "description": "Identificador del usuario",
+              "description": "Tu identificador de usuario (ej. C1, RF1, A1)",
+              "examples": [
+                "C1"
+              ],
               "title": "X-User-Id"
             },
-            "description": "Identificador del usuario"
+            "description": "Tu identificador de usuario (ej. C1, RF1, A1)"
           },
           {
             "name": "x-user-role",
@@ -1372,10 +1512,16 @@
                   "type": "null"
                 }
               ],
-              "description": "CAJERO | RESPONSABLE_FARMACIA | ALMACEN | COMPRAS",
+              "description": "Tu rol: elige de la lista",
+              "enum": [
+                "CAJERO",
+                "RESPONSABLE_FARMACIA",
+                "ALMACEN",
+                "COMPRAS"
+              ],
               "title": "X-User-Role"
             },
-            "description": "CAJERO | RESPONSABLE_FARMACIA | ALMACEN | COMPRAS"
+            "description": "Tu rol: elige de la lista"
           }
         ],
         "responses": {
@@ -1432,10 +1578,13 @@
                   "type": "null"
                 }
               ],
-              "description": "Identificador del usuario",
+              "description": "Tu identificador de usuario (ej. C1, RF1, A1)",
+              "examples": [
+                "C1"
+              ],
               "title": "X-User-Id"
             },
-            "description": "Identificador del usuario"
+            "description": "Tu identificador de usuario (ej. C1, RF1, A1)"
           },
           {
             "name": "x-user-role",
@@ -1450,10 +1599,16 @@
                   "type": "null"
                 }
               ],
-              "description": "CAJERO | RESPONSABLE_FARMACIA | ALMACEN | COMPRAS",
+              "description": "Tu rol: elige de la lista",
+              "enum": [
+                "CAJERO",
+                "RESPONSABLE_FARMACIA",
+                "ALMACEN",
+                "COMPRAS"
+              ],
               "title": "X-User-Role"
             },
-            "description": "CAJERO | RESPONSABLE_FARMACIA | ALMACEN | COMPRAS"
+            "description": "Tu rol: elige de la lista"
           }
         ],
         "responses": {
@@ -1510,10 +1665,13 @@
                   "type": "null"
                 }
               ],
-              "description": "Identificador del usuario",
+              "description": "Tu identificador de usuario (ej. C1, RF1, A1)",
+              "examples": [
+                "C1"
+              ],
               "title": "X-User-Id"
             },
-            "description": "Identificador del usuario"
+            "description": "Tu identificador de usuario (ej. C1, RF1, A1)"
           },
           {
             "name": "x-user-role",
@@ -1528,10 +1686,16 @@
                   "type": "null"
                 }
               ],
-              "description": "CAJERO | RESPONSABLE_FARMACIA | ALMACEN | COMPRAS",
+              "description": "Tu rol: elige de la lista",
+              "enum": [
+                "CAJERO",
+                "RESPONSABLE_FARMACIA",
+                "ALMACEN",
+                "COMPRAS"
+              ],
               "title": "X-User-Role"
             },
-            "description": "CAJERO | RESPONSABLE_FARMACIA | ALMACEN | COMPRAS"
+            "description": "Tu rol: elige de la lista"
           }
         ],
         "responses": {
@@ -1588,10 +1752,13 @@
                   "type": "null"
                 }
               ],
-              "description": "Identificador del usuario",
+              "description": "Tu identificador de usuario (ej. C1, RF1, A1)",
+              "examples": [
+                "C1"
+              ],
               "title": "X-User-Id"
             },
-            "description": "Identificador del usuario"
+            "description": "Tu identificador de usuario (ej. C1, RF1, A1)"
           },
           {
             "name": "x-user-role",
@@ -1606,10 +1773,16 @@
                   "type": "null"
                 }
               ],
-              "description": "CAJERO | RESPONSABLE_FARMACIA | ALMACEN | COMPRAS",
+              "description": "Tu rol: elige de la lista",
+              "enum": [
+                "CAJERO",
+                "RESPONSABLE_FARMACIA",
+                "ALMACEN",
+                "COMPRAS"
+              ],
               "title": "X-User-Role"
             },
-            "description": "CAJERO | RESPONSABLE_FARMACIA | ALMACEN | COMPRAS"
+            "description": "Tu rol: elige de la lista"
           }
         ],
         "responses": {
@@ -1657,10 +1830,13 @@
                   "type": "null"
                 }
               ],
-              "description": "Identificador del usuario",
+              "description": "Tu identificador de usuario (ej. C1, RF1, A1)",
+              "examples": [
+                "C1"
+              ],
               "title": "X-User-Id"
             },
-            "description": "Identificador del usuario"
+            "description": "Tu identificador de usuario (ej. C1, RF1, A1)"
           },
           {
             "name": "x-user-role",
@@ -1675,16 +1851,22 @@
                   "type": "null"
                 }
               ],
-              "description": "CAJERO | RESPONSABLE_FARMACIA | ALMACEN | COMPRAS",
+              "description": "Tu rol: elige de la lista",
+              "enum": [
+                "CAJERO",
+                "RESPONSABLE_FARMACIA",
+                "ALMACEN",
+                "COMPRAS"
+              ],
               "title": "X-User-Role"
             },
-            "description": "CAJERO | RESPONSABLE_FARMACIA | ALMACEN | COMPRAS"
+            "description": "Tu rol: elige de la lista"
           }
         ],
         "requestBody": {
           "required": true,
           "content": {
-            "application/json": {
+            "application/x-www-form-urlencoded": {
               "schema": {
                 "$ref": "#/components/schemas/SolicitudIn"
               }
@@ -1745,10 +1927,13 @@
                   "type": "null"
                 }
               ],
-              "description": "Identificador del usuario",
+              "description": "Tu identificador de usuario (ej. C1, RF1, A1)",
+              "examples": [
+                "C1"
+              ],
               "title": "X-User-Id"
             },
-            "description": "Identificador del usuario"
+            "description": "Tu identificador de usuario (ej. C1, RF1, A1)"
           },
           {
             "name": "x-user-role",
@@ -1763,10 +1948,16 @@
                   "type": "null"
                 }
               ],
-              "description": "CAJERO | RESPONSABLE_FARMACIA | ALMACEN | COMPRAS",
+              "description": "Tu rol: elige de la lista",
+              "enum": [
+                "CAJERO",
+                "RESPONSABLE_FARMACIA",
+                "ALMACEN",
+                "COMPRAS"
+              ],
               "title": "X-User-Role"
             },
-            "description": "CAJERO | RESPONSABLE_FARMACIA | ALMACEN | COMPRAS"
+            "description": "Tu rol: elige de la lista"
           }
         ],
         "responses": {
@@ -1823,10 +2014,13 @@
                   "type": "null"
                 }
               ],
-              "description": "Identificador del usuario",
+              "description": "Tu identificador de usuario (ej. C1, RF1, A1)",
+              "examples": [
+                "C1"
+              ],
               "title": "X-User-Id"
             },
-            "description": "Identificador del usuario"
+            "description": "Tu identificador de usuario (ej. C1, RF1, A1)"
           },
           {
             "name": "x-user-role",
@@ -1841,16 +2035,22 @@
                   "type": "null"
                 }
               ],
-              "description": "CAJERO | RESPONSABLE_FARMACIA | ALMACEN | COMPRAS",
+              "description": "Tu rol: elige de la lista",
+              "enum": [
+                "CAJERO",
+                "RESPONSABLE_FARMACIA",
+                "ALMACEN",
+                "COMPRAS"
+              ],
               "title": "X-User-Role"
             },
-            "description": "CAJERO | RESPONSABLE_FARMACIA | ALMACEN | COMPRAS"
+            "description": "Tu rol: elige de la lista"
           }
         ],
         "requestBody": {
           "required": true,
           "content": {
-            "application/json": {
+            "application/x-www-form-urlencoded": {
               "schema": {
                 "$ref": "#/components/schemas/NecesidadIn"
               }
@@ -1920,10 +2120,13 @@
                   "type": "null"
                 }
               ],
-              "description": "Identificador del usuario",
+              "description": "Tu identificador de usuario (ej. C1, RF1, A1)",
+              "examples": [
+                "C1"
+              ],
               "title": "X-User-Id"
             },
-            "description": "Identificador del usuario"
+            "description": "Tu identificador de usuario (ej. C1, RF1, A1)"
           },
           {
             "name": "x-user-role",
@@ -1938,25 +2141,24 @@
                   "type": "null"
                 }
               ],
-              "description": "CAJERO | RESPONSABLE_FARMACIA | ALMACEN | COMPRAS",
+              "description": "Tu rol: elige de la lista",
+              "enum": [
+                "CAJERO",
+                "RESPONSABLE_FARMACIA",
+                "ALMACEN",
+                "COMPRAS"
+              ],
               "title": "X-User-Role"
             },
-            "description": "CAJERO | RESPONSABLE_FARMACIA | ALMACEN | COMPRAS"
+            "description": "Tu rol: elige de la lista"
           }
         ],
         "requestBody": {
+          "required": true,
           "content": {
-            "application/json": {
+            "application/x-www-form-urlencoded": {
               "schema": {
-                "anyOf": [
-                  {
-                    "$ref": "#/components/schemas/ConfirmarIn"
-                  },
-                  {
-                    "type": "null"
-                  }
-                ],
-                "title": "Datos"
+                "$ref": "#/components/schemas/ConfirmarIn"
               }
             }
           }
@@ -2024,10 +2226,13 @@
                   "type": "null"
                 }
               ],
-              "description": "Identificador del usuario",
+              "description": "Tu identificador de usuario (ej. C1, RF1, A1)",
+              "examples": [
+                "C1"
+              ],
               "title": "X-User-Id"
             },
-            "description": "Identificador del usuario"
+            "description": "Tu identificador de usuario (ej. C1, RF1, A1)"
           },
           {
             "name": "x-user-role",
@@ -2042,10 +2247,16 @@
                   "type": "null"
                 }
               ],
-              "description": "CAJERO | RESPONSABLE_FARMACIA | ALMACEN | COMPRAS",
+              "description": "Tu rol: elige de la lista",
+              "enum": [
+                "CAJERO",
+                "RESPONSABLE_FARMACIA",
+                "ALMACEN",
+                "COMPRAS"
+              ],
               "title": "X-User-Role"
             },
-            "description": "CAJERO | RESPONSABLE_FARMACIA | ALMACEN | COMPRAS"
+            "description": "Tu rol: elige de la lista"
           }
         ],
         "responses": {
@@ -2102,10 +2313,13 @@
                   "type": "null"
                 }
               ],
-              "description": "Identificador del usuario",
+              "description": "Tu identificador de usuario (ej. C1, RF1, A1)",
+              "examples": [
+                "C1"
+              ],
               "title": "X-User-Id"
             },
-            "description": "Identificador del usuario"
+            "description": "Tu identificador de usuario (ej. C1, RF1, A1)"
           },
           {
             "name": "x-user-role",
@@ -2120,10 +2334,16 @@
                   "type": "null"
                 }
               ],
-              "description": "CAJERO | RESPONSABLE_FARMACIA | ALMACEN | COMPRAS",
+              "description": "Tu rol: elige de la lista",
+              "enum": [
+                "CAJERO",
+                "RESPONSABLE_FARMACIA",
+                "ALMACEN",
+                "COMPRAS"
+              ],
               "title": "X-User-Role"
             },
-            "description": "CAJERO | RESPONSABLE_FARMACIA | ALMACEN | COMPRAS"
+            "description": "Tu rol: elige de la lista"
           }
         ],
         "responses": {
@@ -2203,10 +2423,13 @@
                   "type": "null"
                 }
               ],
-              "description": "Identificador del usuario",
+              "description": "Tu identificador de usuario (ej. C1, RF1, A1)",
+              "examples": [
+                "C1"
+              ],
               "title": "X-User-Id"
             },
-            "description": "Identificador del usuario"
+            "description": "Tu identificador de usuario (ej. C1, RF1, A1)"
           },
           {
             "name": "x-user-role",
@@ -2221,10 +2444,16 @@
                   "type": "null"
                 }
               ],
-              "description": "CAJERO | RESPONSABLE_FARMACIA | ALMACEN | COMPRAS",
+              "description": "Tu rol: elige de la lista",
+              "enum": [
+                "CAJERO",
+                "RESPONSABLE_FARMACIA",
+                "ALMACEN",
+                "COMPRAS"
+              ],
               "title": "X-User-Role"
             },
-            "description": "CAJERO | RESPONSABLE_FARMACIA | ALMACEN | COMPRAS"
+            "description": "Tu rol: elige de la lista"
           }
         ],
         "responses": {
@@ -2285,11 +2514,13 @@
         "properties": {
           "diferencia_id": {
             "type": "string",
-            "title": "Diferencia Id"
+            "title": "Diferencia Id",
+            "description": "ID de la diferencia investigada"
           },
           "motivo": {
             "type": "string",
-            "title": "Motivo"
+            "title": "Motivo",
+            "description": "Motivo del ajuste"
           }
         },
         "type": "object",
@@ -2301,6 +2532,12 @@
       },
       "AjusteOut": {
         "properties": {
+          "mensaje": {
+            "type": "string",
+            "title": "Mensaje",
+            "description": "Explicación de lo ocurrido en la operación",
+            "default": ""
+          },
           "id": {
             "type": "string",
             "title": "Id"
@@ -2400,6 +2637,12 @@
       },
       "CaducidadOut": {
         "properties": {
+          "mensaje": {
+            "type": "string",
+            "title": "Mensaje",
+            "description": "Explicación de lo ocurrido en la operación",
+            "default": ""
+          },
           "lote_id": {
             "type": "string",
             "title": "Lote Id"
@@ -2447,6 +2690,7 @@
           "motivo": {
             "type": "string",
             "title": "Motivo",
+            "description": "Motivo de la cancelación (opcional)",
             "default": ""
           }
         },
@@ -2464,7 +2708,8 @@
                 "type": "null"
               }
             ],
-            "title": "Cantidad"
+            "title": "Cantidad",
+            "description": "Cantidad confirmada (vacío = la solicitada)"
           }
         },
         "type": "object",
@@ -2474,11 +2719,17 @@
         "properties": {
           "sucursal_id": {
             "type": "string",
-            "title": "Sucursal Id"
+            "title": "Sucursal Id",
+            "examples": [
+              "SUC-01"
+            ]
           },
           "producto_id": {
             "type": "string",
-            "title": "Producto Id"
+            "title": "Producto Id",
+            "examples": [
+              "MED-001"
+            ]
           },
           "lote_id": {
             "anyOf": [
@@ -2489,15 +2740,23 @@
                 "type": "null"
               }
             ],
-            "title": "Lote Id"
+            "title": "Lote Id",
+            "examples": [
+              "LOT-001"
+            ]
           },
           "cantidad_fisica": {
             "type": "integer",
-            "title": "Cantidad Fisica"
+            "title": "Cantidad Fisica",
+            "description": "Cantidad contada físicamente",
+            "examples": [
+              45
+            ]
           },
           "prioritaria": {
             "type": "boolean",
             "title": "Prioritaria",
+            "description": "Marcar como prioritaria",
             "default": false
           }
         },
@@ -2511,6 +2770,12 @@
       },
       "DiferenciaOut": {
         "properties": {
+          "mensaje": {
+            "type": "string",
+            "title": "Mensaje",
+            "description": "Explicación de lo ocurrido en la operación",
+            "default": ""
+          },
           "id": {
             "type": "string",
             "title": "Id"
@@ -2588,15 +2853,26 @@
         "properties": {
           "sucursal_id": {
             "type": "string",
-            "title": "Sucursal Id"
+            "title": "Sucursal Id",
+            "examples": [
+              "SUC-01"
+            ]
           },
           "identificadas": {
             "type": "integer",
-            "title": "Identificadas"
+            "title": "Identificadas",
+            "description": "Unidades localizadas",
+            "examples": [
+              5
+            ]
           },
           "retiradas": {
             "type": "integer",
-            "title": "Retiradas"
+            "title": "Retiradas",
+            "description": "Unidades físicamente retiradas",
+            "examples": [
+              5
+            ]
           }
         },
         "type": "object",
@@ -2684,6 +2960,12 @@
       },
       "ExistenciasOut": {
         "properties": {
+          "mensaje": {
+            "type": "string",
+            "title": "Mensaje",
+            "description": "Explicación de lo ocurrido en la operación",
+            "default": ""
+          },
           "producto_id": {
             "type": "string",
             "title": "Producto Id"
@@ -2731,11 +3013,13 @@
           "causa": {
             "type": "string",
             "title": "Causa",
+            "description": "Causa identificada (vacío = pendiente de aclaración)",
             "default": ""
           },
           "evidencia": {
             "type": "string",
             "title": "Evidencia",
+            "description": "Evidencia que respalda la causa",
             "default": ""
           }
         },
@@ -2746,11 +3030,19 @@
         "properties": {
           "producto_id": {
             "type": "string",
-            "title": "Producto Id"
+            "title": "Producto Id",
+            "description": "Producto a agregar",
+            "examples": [
+              "MED-002"
+            ]
           },
           "cantidad": {
             "type": "integer",
-            "title": "Cantidad"
+            "title": "Cantidad",
+            "description": "Piezas",
+            "examples": [
+              1
+            ]
           },
           "lote_id": {
             "anyOf": [
@@ -2761,7 +3053,8 @@
                 "type": "null"
               }
             ],
-            "title": "Lote Id"
+            "title": "Lote Id",
+            "description": "Lote específico (opcional)"
           }
         },
         "type": "object",
@@ -2818,20 +3111,34 @@
         ],
         "title": "LineaOut"
       },
+      "MotivoNecesidad": {
+        "type": "string",
+        "enum": [
+          "FALTANTE",
+          "EXISTENCIA_BAJA",
+          "CADUCADO"
+        ],
+        "title": "MotivoNecesidad"
+      },
       "NecesidadIn": {
         "properties": {
           "producto_id": {
             "type": "string",
-            "title": "Producto Id"
+            "title": "Producto Id",
+            "examples": [
+              "MED-001"
+            ]
           },
           "cantidad": {
             "type": "integer",
-            "title": "Cantidad"
+            "title": "Cantidad",
+            "examples": [
+              20
+            ]
           },
           "motivo": {
-            "type": "string",
-            "title": "Motivo",
-            "description": "FALTANTE | EXISTENCIA_BAJA | CADUCADO"
+            "$ref": "#/components/schemas/MotivoNecesidad",
+            "description": "Motivo de la necesidad"
           }
         },
         "type": "object",
@@ -2891,27 +3198,44 @@
         "properties": {
           "folio": {
             "type": "string",
-            "title": "Folio"
+            "title": "Folio",
+            "examples": [
+              "REC-001"
+            ]
           },
           "medico": {
             "type": "string",
-            "title": "Medico"
+            "title": "Medico",
+            "examples": [
+              "Dra. Ana Pérez"
+            ]
           },
           "cedula_medico": {
             "type": "string",
-            "title": "Cedula Medico"
+            "title": "Cedula Medico",
+            "examples": [
+              "1234567"
+            ]
           },
           "nombre_paciente": {
             "type": "string",
-            "title": "Nombre Paciente"
+            "title": "Nombre Paciente",
+            "examples": [
+              "Juan López"
+            ]
           },
           "fecha_emision": {
             "type": "string",
             "format": "date",
-            "title": "Fecha Emision"
+            "title": "Fecha Emision",
+            "description": "AAAA-MM-DD",
+            "examples": [
+              "2026-11-01"
+            ]
           },
           "resultado": {
-            "$ref": "#/components/schemas/ResultadoRevision"
+            "$ref": "#/components/schemas/ResultadoRevision",
+            "description": "Resultado de la revisión"
           }
         },
         "type": "object",
@@ -2992,7 +3316,11 @@
         "properties": {
           "motivo": {
             "type": "string",
-            "title": "Motivo"
+            "title": "Motivo",
+            "description": "Motivo del retiro",
+            "examples": [
+              "Alerta sanitaria"
+            ]
           }
         },
         "type": "object",
@@ -3003,6 +3331,12 @@
       },
       "RetiroOut": {
         "properties": {
+          "mensaje": {
+            "type": "string",
+            "title": "Mensaje",
+            "description": "Explicación de lo ocurrido en la operación",
+            "default": ""
+          },
           "id": {
             "type": "string",
             "title": "Id"
@@ -3061,7 +3395,10 @@
         "properties": {
           "sucursal_id": {
             "type": "string",
-            "title": "Sucursal Id"
+            "title": "Sucursal Id",
+            "examples": [
+              "SUC-01"
+            ]
           }
         },
         "type": "object",
@@ -3072,6 +3409,12 @@
       },
       "SolicitudOut": {
         "properties": {
+          "mensaje": {
+            "type": "string",
+            "title": "Mensaje",
+            "description": "Explicación de lo ocurrido en la operación",
+            "default": ""
+          },
           "id": {
             "type": "string",
             "title": "Id"
@@ -3166,14 +3509,56 @@
         "properties": {
           "sucursal_id": {
             "type": "string",
-            "title": "Sucursal Id"
+            "title": "Sucursal Id",
+            "description": "Sucursal donde se vende",
+            "examples": [
+              "SUC-01"
+            ]
           },
-          "items": {
-            "items": {
-              "$ref": "#/components/schemas/ItemIn"
-            },
-            "type": "array",
-            "title": "Items"
+          "producto_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Producto Id",
+            "description": "Producto de la primera línea (opcional)",
+            "examples": [
+              "MED-001"
+            ]
+          },
+          "cantidad": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Cantidad",
+            "description": "Piezas de esa primera línea",
+            "examples": [
+              2
+            ]
+          },
+          "lote_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Lote Id",
+            "description": "Lote específico (opcional)",
+            "examples": [
+              "LOT-001"
+            ]
           }
         },
         "type": "object",
@@ -3184,6 +3569,12 @@
       },
       "VentaOut": {
         "properties": {
+          "mensaje": {
+            "type": "string",
+            "title": "Mensaje",
+            "description": "Explicación de lo ocurrido en la operación",
+            "default": ""
+          },
           "id": {
             "type": "string",
             "title": "Id"

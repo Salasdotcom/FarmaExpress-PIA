@@ -10,79 +10,89 @@ from src.domain.ajuste import AjusteDeInventario
 from src.domain.auditoria import RegistroAuditoria
 from src.domain.diferencia import DiferenciaDeInventario
 from src.domain.retiro import RetiroDeLote
-from src.domain.solicitud_compra import SolicitudDeCompra
+from src.domain.solicitud_compra import MotivoNecesidad, SolicitudDeCompra
 from src.domain.value_objects import ResultadoRevision
 from src.domain.venta import Venta
 
 
 # ----------------------------- entrada -----------------------------
-class ItemIn(BaseModel):
-    producto_id: str
-    cantidad: int
-    lote_id: Optional[str] = None
-
-
+# Todos los modelos de entrada se reciben como FORMULARIO (un recuadro por campo en
+# Swagger UI). Los campos opcionales pueden dejarse vacíos.
 class VentaIn(BaseModel):
-    sucursal_id: str
-    items: list[ItemIn] = Field(default_factory=list)
+    sucursal_id: str = Field(description="Sucursal donde se vende", examples=["SUC-01"])
+    producto_id: Optional[str] = Field(None, description="Producto de la primera línea (opcional)",
+                                       examples=["MED-001"])
+    cantidad: Optional[int] = Field(None, description="Piezas de esa primera línea", examples=[2])
+    lote_id: Optional[str] = Field(None, description="Lote específico (opcional)",
+                                   examples=["LOT-001"])
+
+
+class ItemIn(BaseModel):
+    producto_id: str = Field(description="Producto a agregar", examples=["MED-002"])
+    cantidad: int = Field(description="Piezas", examples=[1])
+    lote_id: Optional[str] = Field(None, description="Lote específico (opcional)")
 
 
 class CancelarIn(BaseModel):
-    motivo: str = ""
+    motivo: str = Field("", description="Motivo de la cancelación (opcional)")
 
 
 class RecetaIn(BaseModel):
-    folio: str
-    medico: str
-    cedula_medico: str
-    nombre_paciente: str
-    fecha_emision: date
-    resultado: ResultadoRevision
+    folio: str = Field(examples=["REC-001"])
+    medico: str = Field(examples=["Dra. Ana Pérez"])
+    cedula_medico: str = Field(examples=["1234567"])
+    nombre_paciente: str = Field(examples=["Juan López"])
+    fecha_emision: date = Field(description="AAAA-MM-DD", examples=["2026-11-01"])
+    resultado: ResultadoRevision = Field(description="Resultado de la revisión")
 
 
 class RetiroIn(BaseModel):
-    motivo: str
+    motivo: str = Field(description="Motivo del retiro", examples=["Alerta sanitaria"])
 
 
 class EjecucionIn(BaseModel):
-    sucursal_id: str
-    identificadas: int
-    retiradas: int
+    sucursal_id: str = Field(examples=["SUC-01"])
+    identificadas: int = Field(description="Unidades localizadas", examples=[5])
+    retiradas: int = Field(description="Unidades físicamente retiradas", examples=[5])
 
 
 class DiferenciaIn(BaseModel):
-    sucursal_id: str
-    producto_id: str
-    lote_id: Optional[str] = None
-    cantidad_fisica: int
-    prioritaria: bool = False
+    sucursal_id: str = Field(examples=["SUC-01"])
+    producto_id: str = Field(examples=["MED-001"])
+    lote_id: Optional[str] = Field(None, examples=["LOT-001"])
+    cantidad_fisica: int = Field(description="Cantidad contada físicamente", examples=[45])
+    prioritaria: bool = Field(False, description="Marcar como prioritaria")
 
 
 class InvestigacionIn(BaseModel):
-    causa: str = ""
-    evidencia: str = ""
+    causa: str = Field("", description="Causa identificada (vacío = pendiente de aclaración)")
+    evidencia: str = Field("", description="Evidencia que respalda la causa")
 
 
 class AjusteIn(BaseModel):
-    diferencia_id: str
-    motivo: str
+    diferencia_id: str = Field(description="ID de la diferencia investigada")
+    motivo: str = Field(description="Motivo del ajuste")
 
 
 class SolicitudIn(BaseModel):
-    sucursal_id: str
+    sucursal_id: str = Field(examples=["SUC-01"])
 
 
 class NecesidadIn(BaseModel):
-    producto_id: str
-    cantidad: int
-    motivo: str = Field(description="FALTANTE | EXISTENCIA_BAJA | CADUCADO")
+    producto_id: str = Field(examples=["MED-001"])
+    cantidad: int = Field(examples=[20])
+    motivo: MotivoNecesidad = Field(description="Motivo de la necesidad")
 
 
 class ConfirmarIn(BaseModel):
-    cantidad: Optional[int] = None
+    cantidad: Optional[int] = Field(None, description="Cantidad confirmada (vacío = la solicitada)")
 
 
 # ------------------------------ salida ------------------------------
+class ConMensaje(BaseModel):
+    mensaje: str = Field("", description="Explicación de lo ocurrido en la operación")
+
+
 class LineaOut(BaseModel):
     producto_id: str
     cantidad: int
@@ -101,7 +111,7 @@ class RecetaOut(BaseModel):
     revisada_por: Optional[str]
 
 
-class VentaOut(BaseModel):
+class VentaOut(ConMensaje):
     id: str
     sucursal_id: str
     cajero_id: str
@@ -114,7 +124,7 @@ class VentaOut(BaseModel):
     observaciones: str
 
 
-class CaducidadOut(BaseModel):
+class CaducidadOut(ConMensaje):
     lote_id: str
     producto_id: str
     fecha_caducidad: date
@@ -132,7 +142,7 @@ class ExistenciaOut(BaseModel):
     retirado: bool
 
 
-class ExistenciasOut(BaseModel):
+class ExistenciasOut(ConMensaje):
     producto_id: str
     informativo: bool = True
     nota: str = "Consulta informativa: sin reserva ni transferencia (RN-03)"
@@ -146,7 +156,7 @@ class EjecucionOut(BaseModel):
     responsable_id: str
 
 
-class RetiroOut(BaseModel):
+class RetiroOut(ConMensaje):
     id: str
     lote_id: str
     producto_id: str
@@ -158,7 +168,7 @@ class RetiroOut(BaseModel):
     ejecuciones: list[EjecucionOut]
 
 
-class DiferenciaOut(BaseModel):
+class DiferenciaOut(ConMensaje):
     id: str
     producto_id: str
     sucursal_id: str
@@ -173,7 +183,7 @@ class DiferenciaOut(BaseModel):
     ajustable: bool
 
 
-class AjusteOut(BaseModel):
+class AjusteOut(ConMensaje):
     id: str
     diferencia_id: str
     cantidad_anterior: int
@@ -193,7 +203,7 @@ class NecesidadOut(BaseModel):
     cantidad_confirmada: Optional[int]
 
 
-class SolicitudOut(BaseModel):
+class SolicitudOut(ConMensaje):
     id: str
     sucursal_id: str
     estado: str

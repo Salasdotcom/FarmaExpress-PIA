@@ -60,3 +60,10 @@ docker compose --profile test run --rm tests
 
 ## Regla clave: caducidad (RN-01)
 >90 días normal · 11–90 próximo · 1–10 crítico · **hoy = caducidad o posterior → caducado (no vendible)**.
+
+
+## Uso desde Swagger UI (formularios)
+
+Todos los POST reciben **formularios** (un recuadro por campo; los opcionales pueden dejarse en
+blanco) y el rol se elige de una lista. Cada respuesta 200/201 incluye un campo `mensaje` que
+explica qué ocurrió; las 422 de venta incluyen `violaciones` y `explicacion` legible.

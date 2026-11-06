@@ -20,9 +20,11 @@ def get_container(request: Request) -> Container:
 
 
 def usuario_actual(
-    x_user_id: Annotated[Optional[str], Header(description="Identificador del usuario")] = None,
+    x_user_id: Annotated[Optional[str], Header(
+        description="Tu identificador de usuario (ej. C1, RF1, A1)", examples=["C1"])] = None,
     x_user_role: Annotated[Optional[str], Header(
-        description="CAJERO | RESPONSABLE_FARMACIA | ALMACEN | COMPRAS")] = None,
+        description="Tu rol: elige de la lista",
+        json_schema_extra={"enum": [r.value for r in Rol]})] = None,
 ) -> Usuario:
     if not x_user_id or not x_user_role:
         raise HTTPException(401, "Faltan los encabezados X-User-Id y X-User-Role")
