@@ -1,0 +1,11 @@
+# ADR-02. Separación entre autorización y aplicación de ajustes de inventario
+
+| Campo del ADR | Contenido |
+| --- | --- |
+| Título | Separación de la autorización y aplicación de ajustes de inventario. |
+| Estado | Aceptado. |
+| Contexto | FarmaExpress necesita registrar diferencias entre las cantidades físicas y las cantidades registradas en el sistema. Estas diferencias deben investigarse antes de realizar un ajuste. Además, el personal de Almacén puede ejecutar las actividades correspondientes, pero no debe autorizar sus propios ajustes. Por lo tanto, es necesario separar la decisión de autorizar un ajuste de la operación que modifica las existencias registradas. |
+| Alternativas | **Autorización y aplicación en una sola operación:** simplifica el flujo, pero no permite distinguir claramente quién autorizó el cambio y quién lo ejecutó. **Autorización y aplicación separadas:** permite registrar primero la decisión del Responsable de farmacia y posteriormente realizar el ajuste por el usuario autorizado para ejecutarlo. Requiere controlar el estado de autorización y verificarlo antes de aplicar el cambio. |
+| Decisión | Se propone separar ambas operaciones mediante AutorizarAjusteDeInventario y AplicarAjusteDeInventario. El Responsable de farmacia registra la autorización y el usuario correspondiente ejecuta el ajuste. El sistema verifica que exista una autorización válida antes de modificar las existencias. |
+| Consecuencias | **Beneficios:** separación de responsabilidades, mayor control sobre los cambios de inventario y trazabilidad de quién autoriza y quién ejecuta cada ajuste. **Costos:** requiere registrar información adicional sobre la autorización, el motivo, la evidencia y los responsables. **Riesgos:** un ajuste podría quedar pendiente si no se realiza su aplicación después de ser autorizado. **Trabajo posterior:** implementar la verificación de autorización, conservar el historial de operaciones y asegurar que la actualización de existencias y el registro de la aplicación se realicen de manera consistente. |
+| Trazabilidad | US15 (registro de diferencias entre cantidades físicas y registradas), US16 (investigación de diferencias de inventario) y US17 (autorización y aplicación de ajustes de inventario). |
