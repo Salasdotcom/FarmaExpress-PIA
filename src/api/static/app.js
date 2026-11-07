@@ -11,15 +11,15 @@ const legible = s => String(s ?? "").replace(/_/g, " ").toLowerCase().replace(/^
 
 /* ---------- vistas por rol ---------- */
 const VISTAS = [
-  {id: "inicio", ico: "🏠", nombre: "Inicio", roles: null},
-  {id: "ventas", ico: "🛒", nombre: "Ventas", roles: ["CAJERO", "RESPONSABLE_FARMACIA"]},
-  {id: "catalogo", ico: "💊", nombre: "Productos y lotes", roles: null},
-  {id: "retiros", ico: "⚠️", nombre: "Retiro de lotes", roles: ["RESPONSABLE_FARMACIA", "ALMACEN"]},
-  {id: "ajustes", ico: "📋", nombre: "Diferencias y ajustes", roles: ["RESPONSABLE_FARMACIA", "ALMACEN"]},
-  {id: "reposicion", ico: "📦", nombre: "Reposición", roles: ["RESPONSABLE_FARMACIA", "ALMACEN", "COMPRAS"]},
-  {id: "especiales", ico: "🔒", nombre: "Ventas especiales", roles: ["CAJERO", "RESPONSABLE_FARMACIA"]},
-  {id: "reportes", ico: "📊", nombre: "Reportes", roles: ["RESPONSABLE_FARMACIA", "ALMACEN", "COMPRAS"]},
-  {id: "auditoria", ico: "🕵️", nombre: "Auditoría", roles: ["RESPONSABLE_FARMACIA"]},
+  {id: "inicio", grupo: "", nombre: "Inicio", roles: null},
+  {id: "ventas", grupo: "Mostrador", nombre: "Ventas", roles: ["CAJERO", "RESPONSABLE_FARMACIA"]},
+  {id: "especiales", grupo: "Mostrador", nombre: "Ventas especiales", roles: ["CAJERO", "RESPONSABLE_FARMACIA"]},
+  {id: "catalogo", grupo: "Inventario", nombre: "Productos y lotes", roles: null},
+  {id: "retiros", grupo: "Inventario", nombre: "Retiro de lotes", roles: ["RESPONSABLE_FARMACIA", "ALMACEN"]},
+  {id: "ajustes", grupo: "Inventario", nombre: "Diferencias y ajustes", roles: ["RESPONSABLE_FARMACIA", "ALMACEN"]},
+  {id: "reposicion", grupo: "Inventario", nombre: "Reposición", roles: ["RESPONSABLE_FARMACIA", "ALMACEN", "COMPRAS"]},
+  {id: "reportes", grupo: "Administración", nombre: "Reportes", roles: ["RESPONSABLE_FARMACIA", "ALMACEN", "COMPRAS"]},
+  {id: "auditoria", grupo: "Administración", nombre: "Auditoría", roles: ["RESPONSABLE_FARMACIA"]},
 ];
 const permitida = v => !v.roles || v.roles.includes(S.user.rol);
 
@@ -83,7 +83,7 @@ const sucOpts = sel => (S.cat?.sucursales || []).map(s => opt(s, s, s === sel)).
 /* ---------- modal genérico con formulario ---------- */
 function cerrarModal() { $("#modalRoot").innerHTML = ""; }
 function modal(titulo, html, {wide = false} = {}) {
-  $("#modalRoot").innerHTML = `<div class="overlay" role="dialog" aria-modal="true" aria-label="${esc(titulo)}"><div class="modal${wide ? " wide" : ""}"><h2><span>${esc(titulo)}</span><button class="x" data-x aria-label="Cerrar">×</button></h2><div id="mBody">${html}</div></div></div>`;
+  $("#modalRoot").innerHTML = `<div class="overlay" role="dialog" aria-modal="true" aria-label="${esc(titulo)}"><div class="modal${wide ? " wide" : ""}"><h2><span>${esc(titulo)}</span><button class="x" data-x>Cerrar</button></h2><div id="mBody">${html}</div></div></div>`;
   $("#modalRoot .overlay").addEventListener("click", e => { if (e.target.classList.contains("overlay") || e.target.dataset.x !== undefined) cerrarModal(); });
   return $("#mBody");
 }
@@ -144,7 +144,12 @@ function guardarUsuario() { try { localStorage.setItem("fx_user", JSON.stringify
 function leerUsuario() { try { const u = JSON.parse(localStorage.getItem("fx_user")); if (u && ROLES[u.rol] && u.id) S.user = u; } catch (_) { /* sin storage */ } }
 
 function pintarNav() {
-  $("#nav").innerHTML = VISTAS.filter(permitida).map(v => `<button data-v="${v.id}" class="${S.view === v.id ? "on" : ""}"><span class="ico">${v.ico}</span>${v.nombre}</button>`).join("");
+  let g = null;
+  $("#nav").innerHTML = VISTAS.filter(permitida).map(v => {
+    const cab = v.grupo && v.grupo !== g ? `<div class="grp">${v.grupo}</div>` : "";
+    g = v.grupo || g;
+    return `${cab}<button data-v="${v.id}" class="${S.view === v.id ? "on" : ""}"${S.view === v.id ? ' aria-current="page"' : ""}>${v.nombre}</button>`;
+  }).join("");
   $("#uId").value = S.user.id; $("#uRol").value = S.user.rol;
 }
 async function ir(id) {
@@ -181,7 +186,7 @@ RENDER.inicio = async main => {
         "Todos los lotes están vigentes.")}
     </section>
     <section class="card"><h2>Accesos rápidos</h2><div class="grid" style="grid-template-columns:repeat(auto-fill,minmax(160px,1fr))">
-      ${accesos.map(v => `<button class="btn ghost" data-v="${v.id}">${v.ico} ${v.nombre}</button>`).join("")}</div>
+      ${accesos.map(v => `<button class="btn ghost" data-v="${v.id}">${v.nombre}</button>`).join("")}</div>
       <p class="muted" style="margin-top:16px">La documentación técnica de la API (Swagger) sigue disponible en <a href="/docs" target="_blank" rel="noopener">/docs</a>.</p>
     </section>
   </div>`;
@@ -199,7 +204,7 @@ RENDER.ventas = async main => {
         <div class="field"><label for="vProd">Producto</label><select id="vProd" name="producto_id" data-producto>${S.cat.productos.filter(p => p.habilitado).map(p => opt(p.id, `${p.descripcion} · ${money(p.precio)}${p.requiere_receta ? " · receta" : ""}`)).join("")}</select></div>
         <div class="field"><label for="vLote">Lote</label><select id="vLote" name="lote_id" data-lote="producto_id" data-solo-vendibles="1"></select><small>Solo se listan lotes vendibles.</small></div>
         <div class="field"><label for="vCant">Cantidad</label><input id="vCant" name="cantidad" type="number" min="1" value="1" required></div>
-        <button class="btn ghost" type="submit">＋ Agregar al carrito</button>
+        <button class="btn ghost" type="submit">Agregar al carrito</button>
       </form>
       <hr style="border:0;border-top:1px solid var(--line);margin:16px 0">
       <h3>Carrito</h3><div id="vCart"></div>
@@ -219,7 +224,7 @@ RENDER.ventas = async main => {
   const pintarCart = () => {
     const total = S.cart.reduce((a, i) => a + i.cantidad * Number(prodDe(i.producto_id).precio || 0), 0);
     $("#vCart").innerHTML = S.cart.length
-      ? `<ul style="list-style:none;padding:0;margin:0 0 10px">${S.cart.map((i, n) => `<li class="row" style="justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--line)"><span>${i.cantidad} × ${esc(prodDe(i.producto_id).descripcion)}${i.lote_id ? ` <span class="chip">${esc(i.lote_id)}</span>` : ""}</span><button class="btn ghost sm" data-quita="${n}" aria-label="Quitar">Quitar</button></li>`).join("")}</ul>
+      ? `<ul style="list-style:none;padding:0;margin:0 0 10px">${S.cart.map((i, n) => `<li class="row" style="justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--line)"><span>${i.cantidad} × ${esc(prodDe(i.producto_id).descripcion)}${i.lote_id ? ` <span class="chip">${esc(i.lote_id)}</span>` : ""}</span><button class="btn ghost sm" data-quita="${n}">Quitar</button></li>`).join("")}</ul>
          <div class="row" style="justify-content:space-between"><span class="muted">Total estimado</span><span class="total">${money(total)}</span></div>
          <div class="row" style="margin-top:10px"><button class="btn" id="vCrear">Registrar venta</button><button class="btn ghost" id="vVaciar">Vaciar</button></div>`
       : `<div class="empty">El carrito está vacío.</div>`;
@@ -322,7 +327,7 @@ async function reporte(tipo, params = {}) {
 RENDER.retiros = async main => {
   const r = await reporte("retiros");
   main.innerHTML = `${titulo("Retiro de lotes", "Un retiro bloquea el lote en todas las sucursales. Almacén registra las unidades localizadas y retiradas.")}
-  ${S.user.rol === "RESPONSABLE_FARMACIA" ? '<div class="row" style="margin-bottom:14px"><button class="btn" data-retiro="">＋ Registrar retiro</button></div>' : ""}
+  ${S.user.rol === "RESPONSABLE_FARMACIA" ? '<div class="row" style="margin-bottom:14px"><button class="btn" data-retiro="">Registrar retiro</button></div>' : ""}
   <section class="card">${tabla([{t: "Retiro"}, {t: "Lote"}, {t: "Producto"}, {t: "Estado"}, {t: "Localizadas", num: 1}, {t: "Retiradas", num: 1}, {t: "En tránsito", num: 1}, {t: ""}],
     r.filas.map(x => `<tr><td class="mono">${esc(x.retiro_id)}</td><td class="mono">${esc(x.lote_id)}</td><td>${esc(prodDe(x.producto_id).descripcion || x.producto_id)}</td><td>${badge(x.estado)}</td><td class="num">${x.identificadas}</td><td class="num">${x.retiradas}</td><td class="num">${x.en_transito_pendiente}</td>
       <td class="row">${x.estado !== "EJECUTADO" ? `<button class="btn ghost sm" data-ejec="${esc(x.retiro_id)}">Registrar unidades</button><button class="btn ghost sm" data-conc="${esc(x.retiro_id)}">Concluir</button>` : ""}</td></tr>`),
@@ -334,7 +339,7 @@ RENDER.ajustes = async main => {
   const [dif, aj] = await Promise.all([reporte("diferencias"), reporte("ajustes")]);
   const rf = S.user.rol === "RESPONSABLE_FARMACIA";
   main.innerHTML = `${titulo("Diferencias y ajustes de inventario", "Registra la diferencia del conteo, investígala y solicita un ajuste. Lo autoriza un responsable distinto de quien lo solicita.")}
-  <div class="row" style="margin-bottom:14px"><button class="btn" id="nDif">＋ Registrar diferencia</button></div>
+  <div class="row" style="margin-bottom:14px"><button class="btn" id="nDif">Registrar diferencia</button></div>
   <section class="card" style="margin-bottom:16px"><h2>Diferencias</h2>${tabla([{t: "Diferencia"}, {t: "Sucursal"}, {t: "Producto"}, {t: "Lote"}, {t: "Sistema", num: 1}, {t: "Físico", num: 1}, {t: "Dif.", num: 1}, {t: "Estado"}, {t: ""}],
     dif.filas.map(d => `<tr><td class="mono">${esc(d.diferencia_id)}</td><td>${esc(d.sucursal_id)}</td><td>${esc(prodDe(d.producto_id).descripcion || d.producto_id)}${d.prioritaria ? ' <span class="badge b-crit">Prioritaria</span>' : ""}</td><td class="mono">${esc(d.lote_id || "—")}</td><td class="num">${d.cantidad_registrada}</td><td class="num">${d.cantidad_fisica}</td><td class="num">${d.delta}</td><td>${badge(d.estado)}</td>
       <td class="row"><button class="btn ghost sm" data-inv="${esc(d.diferencia_id)}">Investigar</button><button class="btn ghost sm" data-saj="${esc(d.diferencia_id)}">Solicitar ajuste</button></td></tr>`),
@@ -354,7 +359,7 @@ RENDER.ajustes = async main => {
 RENDER.reposicion = async main => {
   const r = await reporte("solicitudes");
   main.innerHTML = `${titulo("Reposición", "Almacén reporta necesidades; el responsable de farmacia las confirma y envía la solicitud a Compras.")}
-  ${["ALMACEN", "RESPONSABLE_FARMACIA"].includes(S.user.rol) ? '<div class="row" style="margin-bottom:14px"><button class="btn" id="nSol">＋ Nueva solicitud de compra</button></div>' : ""}
+  ${["ALMACEN", "RESPONSABLE_FARMACIA"].includes(S.user.rol) ? '<div class="row" style="margin-bottom:14px"><button class="btn" id="nSol">Nueva solicitud de compra</button></div>' : ""}
   <section class="card">${tabla([{t: "Solicitud"}, {t: "Sucursal"}, {t: "Estado"}, {t: "Necesidades", num: 1}, {t: "Confirmadas", num: 1}, {t: "Envío"}],
     r.filas.map(s => `<tr class="click" data-sol="${esc(s.solicitud_id)}"><td class="mono">${esc(s.solicitud_id)}</td><td>${esc(s.sucursal_id)}</td><td>${badge(s.estado)}</td><td class="num">${s.necesidades}</td><td class="num">${s.confirmadas}</td><td>${esc(s.fecha_envio ? s.fecha_envio.slice(0, 10) : "—")}</td></tr>`),
     "No hay solicitudes de compra.")}</section>`;
@@ -371,7 +376,7 @@ async function abrirSolicitud(id) {
       s.necesidades.map(n => `<tr><td>${esc(prodDe(n.producto_id).descripcion || n.producto_id)}</td><td>${esc(legible(n.motivo))}</td><td class="num">${n.cantidad_requerida}</td><td class="num">${n.cantidad_confirmada ?? "—"}</td><td>${badge(n.estado)}</td>
         <td class="row">${rf && n.estado === "PENDIENTE_REVISION" && s.estado !== "ENVIADA" ? `<button class="btn sm" data-conf="${esc(n.id)}">Confirmar</button><button class="btn ghost sm" data-rech="${esc(n.id)}">Rechazar</button>` : ""}</td></tr>`), "Aún no hay necesidades.")}
     ${s.estado === "ENVIADA" ? `<h3 style="margin-top:14px">Enviado a Compras</h3><ul>${s.lineas_a_comprar.map(l => `<li>${esc(l.cantidad ?? l.cantidad_confirmada ?? "")} × ${esc(prodDe(l.producto_id).descripcion || l.producto_id)}</li>`).join("")}</ul>` : ""}
-    <div class="row" style="margin-top:14px">${alm && s.estado !== "ENVIADA" ? '<button class="btn ghost" data-a="nec">＋ Agregar necesidad</button>' : ""}${rf && s.estado !== "ENVIADA" ? '<button class="btn" data-a="enviar">Enviar a Compras</button>' : ""}</div>`, {wide: true});
+    <div class="row" style="margin-top:14px">${alm && s.estado !== "ENVIADA" ? '<button class="btn ghost" data-a="nec">Agregar necesidad</button>' : ""}${rf && s.estado !== "ENVIADA" ? '<button class="btn" data-a="enviar">Enviar a Compras</button>' : ""}</div>`, {wide: true});
   const recargar = () => { cerrarModal(); abrirSolicitud(s.id); if (S.view === "reposicion") ir("reposicion"); };
   body.querySelectorAll("[data-conf]").forEach(b => b.addEventListener("click", () => formulario("Confirmar necesidad", [{name: "cantidad", label: "Cantidad confirmada", type: "number", min: 1, required: false, hint: "Déjalo vacío para confirmar la cantidad solicitada."}], "Confirmar", async d => { const r = await api("POST", `${U}/necesidades/${encodeURIComponent(b.dataset.conf)}/confirmar`, d); ok(r); setTimeout(recargar, 0); return r; })));
   body.querySelectorAll("[data-rech]").forEach(b => b.addEventListener("click", () => confirmar("Rechazar necesidad", "No se enviará a Compras.", "Rechazar", async () => { const r = await api("POST", `${U}/necesidades/${encodeURIComponent(b.dataset.rech)}/rechazar`, {}); ok(r); setTimeout(recargar, 0); return r; }, true)));
