@@ -41,7 +41,7 @@ class ResultadoRevision(str, Enum):
 def clasificar_caducidad(fecha_caducidad: date, hoy: date) -> ClasificacionDeCaducidad:
     """RN-01 / US01. Caducado desde el mismo día de la fecha de caducidad."""
     dias = (fecha_caducidad - hoy).days
-    if dias <= 0:
+    if dias < 0:
         return ClasificacionDeCaducidad.CADUCADO
     if dias <= UMBRAL_CRITICO_DIAS:
         return ClasificacionDeCaducidad.CRITICO
