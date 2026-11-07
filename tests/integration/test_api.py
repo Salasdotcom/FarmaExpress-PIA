@@ -398,9 +398,32 @@ def test_us14_correccion_api(client):
     r = client.post(f"/ventas/{vid}/correcciones", headers=RF, data=datos)
     assert r.status_code == 200 and r.json()["observaciones"] == "dato corregido"
     assert r.json()["correcciones"][0]["autorizador"] == "RF1"
-    assert "corregida" in r.json()["mensaje"]
+    assert "Corrección" in r.json()["mensaje"]
     assert client.post(f"/ventas/{vid}/correcciones", headers=RF,
                        data={**datos, "campo": "lineas"}).status_code == 422
     assert client.post("/ventas/NOPE/correcciones", headers=RF, data=datos).status_code == 404
     r = client.post(f"/ventas/{vid}/correcciones", headers=RF, data={"campo": "x"})
     assert r.status_code == 400
+
+
+# ---------------------------- interfaz web ----------------------------
+def test_interfaz_web_servida_y_swagger_intacto(client):
+    r = client.get("/", follow_redirects=False)
+    assert r.status_code in (302, 307) and r.headers["location"] == "/app/"
+    assert "FarmaExpress" in client.get("/app/").text
+    assert "text/css" in client.get("/app/styles.css").headers["content-type"]
+    assert "api(" in client.get("/app/app.js").text
+    assert client.get("/docs").status_code == 200
+
+
+def test_catalogo_y_listado_de_ventas(client):
+    assert client.get("/catalogo").status_code == 401
+    cat = client.get("/catalogo", headers=CAJERO).json()
+    assert cat["sucursales"] and cat["productos"][0]["lotes"][0]["existencias"] is not None
+    assert client.get("/ventas", headers=CAJERO).json() == []
+    datos = {"sucursal_id": "SUC-01", "producto_id": cat["productos"][0]["id"], "cantidad": 1}
+    r = client.post("/ventas", data=datos, headers=CAJERO)
+    import re
+    assert re.fullmatch(r"VTA-[0-9A-F]{8}", r.json()["id"])
+    assert r.json()["id"] not in r.json()["mensaje"]
+    assert len(client.get("/ventas?estado=EN_PROCESO", headers=CAJERO).json()) == 1

@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FarmaExpress · Sistema de farmacia</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230f766e'/%3E%3Cpath d='M13 7h6v6h6v6h-6v6h-6v-6H7v-6h6z' fill='white'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="topbar">
+  <button class="menu-btn" id="menuBtn" aria-label="Menú">☰</button>
+  <div class="brand"><span class="logo">+</span><div><strong>FarmaExpress</strong><small>Sistema de farmacia</small></div></div>
+  <div class="spacer"></div>
+  <div class="usuario">
+    <label>Usuario <input id="uId" size="6" aria-label="Identificador de usuario"></label>
+    <label>Rol
+      <select id="uRol" aria-label="Rol">
+        <option value="CAJERO">Cajero</option>
+        <option value="RESPONSABLE_FARMACIA">Responsable de farmacia</option>
+        <option value="ALMACEN">Almacén</option>
+        <option value="COMPRAS">Compras</option>
+      </select>
+    </label>
+  </div>
+  <a class="btn ghost" href="/docs" target="_blank" rel="noopener">Documentación API</a>
+</header>
+<div class="layout">
+  <nav class="sidebar" id="nav" aria-label="Módulos"></nav>
+  <main id="main" tabindex="-1"></main>
+</div>
+<div id="toasts" aria-live="polite"></div>
+<div id="modalRoot"></div>
+<script src="app.js"></script>
+</body>
+</html>

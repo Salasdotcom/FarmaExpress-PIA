@@ -92,6 +92,118 @@
             }
           }
         }
+      },
+      "get": {
+        "tags": [
+          "Ventas (US02, US09, US13)"
+        ],
+        "summary": "Listar ventas (más recientes primero)",
+        "operationId": "listar_ventas_ventas_get",
+        "parameters": [
+          {
+            "name": "estado",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Estado"
+            }
+          },
+          {
+            "name": "sucursal_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Sucursal Id"
+            }
+          },
+          {
+            "name": "x-user-id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Tu identificador de usuario (ej. C1, RF1, A1)",
+              "examples": [
+                "C1"
+              ],
+              "title": "X-User-Id"
+            },
+            "description": "Tu identificador de usuario (ej. C1, RF1, A1)"
+          },
+          {
+            "name": "x-user-role",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Tu rol: elige de la lista",
+              "enum": [
+                "CAJERO",
+                "RESPONSABLE_FARMACIA",
+                "ALMACEN",
+                "COMPRAS"
+              ],
+              "title": "X-User-Role"
+            },
+            "description": "Tu rol: elige de la lista"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/VentaOut"
+                  },
+                  "title": "Response Listar Ventas Ventas Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
       }
     },
     "/ventas/{venta_id}": {
@@ -1034,6 +1146,84 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/RegistroEspecialOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/catalogo": {
+      "get": {
+        "tags": [
+          "Inventario (US01, US03-US05, US15-US17)"
+        ],
+        "summary": "Catálogo de productos con lotes, caducidad y existencias (interfaz web)",
+        "operationId": "catalogo_catalogo_get",
+        "parameters": [
+          {
+            "name": "x-user-id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Tu identificador de usuario (ej. C1, RF1, A1)",
+              "examples": [
+                "C1"
+              ],
+              "title": "X-User-Id"
+            },
+            "description": "Tu identificador de usuario (ej. C1, RF1, A1)"
+          },
+          {
+            "name": "x-user-role",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Tu rol: elige de la lista",
+              "enum": [
+                "CAJERO",
+                "RESPONSABLE_FARMACIA",
+                "ALMACEN",
+                "COMPRAS"
+              ],
+              "title": "X-User-Role"
+            },
+            "description": "Tu rol: elige de la lista"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CatalogoOut"
                 }
               }
             }
@@ -3373,6 +3563,30 @@
         "type": "object",
         "title": "CancelarIn"
       },
+      "CatalogoOut": {
+        "properties": {
+          "productos": {
+            "items": {
+              "$ref": "#/components/schemas/ProductoCatalogoOut"
+            },
+            "type": "array",
+            "title": "Productos"
+          },
+          "sucursales": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Sucursales"
+          }
+        },
+        "type": "object",
+        "required": [
+          "productos",
+          "sucursales"
+        ],
+        "title": "CatalogoOut"
+      },
       "ConfirmarIn": {
         "properties": {
           "cantidad": {
@@ -3631,6 +3845,24 @@
         ],
         "title": "EjecucionOut"
       },
+      "ExistenciaLoteOut": {
+        "properties": {
+          "sucursal_id": {
+            "type": "string",
+            "title": "Sucursal Id"
+          },
+          "cantidad": {
+            "type": "integer",
+            "title": "Cantidad"
+          }
+        },
+        "type": "object",
+        "required": [
+          "sucursal_id",
+          "cantidad"
+        ],
+        "title": "ExistenciaLoteOut"
+      },
       "ExistenciaOut": {
         "properties": {
           "sucursal_id": {
@@ -3831,6 +4063,53 @@
         ],
         "title": "LineaOut"
       },
+      "LoteCatalogoOut": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "fecha_caducidad": {
+            "type": "string",
+            "format": "date",
+            "title": "Fecha Caducidad"
+          },
+          "dias_restantes": {
+            "type": "integer",
+            "title": "Dias Restantes"
+          },
+          "clasificacion": {
+            "type": "string",
+            "title": "Clasificacion"
+          },
+          "retirado": {
+            "type": "boolean",
+            "title": "Retirado"
+          },
+          "vendible": {
+            "type": "boolean",
+            "title": "Vendible"
+          },
+          "existencias": {
+            "items": {
+              "$ref": "#/components/schemas/ExistenciaLoteOut"
+            },
+            "type": "array",
+            "title": "Existencias"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "fecha_caducidad",
+          "dias_restantes",
+          "clasificacion",
+          "retirado",
+          "vendible",
+          "existencias"
+        ],
+        "title": "LoteCatalogoOut"
+      },
       "MotivoNecesidad": {
         "type": "string",
         "enum": [
@@ -3913,6 +4192,53 @@
           "cantidad_confirmada"
         ],
         "title": "NecesidadOut"
+      },
+      "ProductoCatalogoOut": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "descripcion": {
+            "type": "string",
+            "title": "Descripcion"
+          },
+          "precio": {
+            "type": "string",
+            "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$",
+            "title": "Precio"
+          },
+          "categoria": {
+            "type": "string",
+            "title": "Categoria"
+          },
+          "requiere_receta": {
+            "type": "boolean",
+            "title": "Requiere Receta"
+          },
+          "habilitado": {
+            "type": "boolean",
+            "title": "Habilitado"
+          },
+          "lotes": {
+            "items": {
+              "$ref": "#/components/schemas/LoteCatalogoOut"
+            },
+            "type": "array",
+            "title": "Lotes"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "descripcion",
+          "precio",
+          "categoria",
+          "requiere_receta",
+          "habilitado",
+          "lotes"
+        ],
+        "title": "ProductoCatalogoOut"
       },
       "RecetaIn": {
         "properties": {

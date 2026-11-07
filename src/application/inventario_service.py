@@ -40,7 +40,8 @@ class InventarioApplicationService(ServicioBase):
                          retiro_id: Optional[str] = None) -> RetiroDeLote:
         with self._uow() as uow:
             lote = self._obtener(uow.lotes, lote_id, "Lote")
-            retiro = RetiroDeLote.registrar(retiro_id or nuevo_id(), lote, motivo, usuario, rol)
+            retiro = RetiroDeLote.registrar(
+                retiro_id or nuevo_id("RET"), lote, motivo, usuario, rol)
             uow.lotes.guardar(lote)
             uow.retiros.guardar(retiro)
             self._auditar(uow, usuario, "REGISTRAR_RETIRO", "RetiroDeLote", retiro.id, "",
@@ -80,7 +81,7 @@ class InventarioApplicationService(ServicioBase):
         with self._uow() as uow:
             ex = self._existencia(uow, producto_id, lote_id, sucursal_id)
             dif = DiferenciaDeInventario.registrar(
-                diferencia_id or nuevo_id(), producto_id, sucursal_id, ex.cantidad,
+                diferencia_id or nuevo_id("DIF"), producto_id, sucursal_id, ex.cantidad,
                 cantidad_fisica, usuario, lote_id, prioritaria, self._clock.ahora())
             uow.diferencias.guardar(dif)
             self._auditar(uow, usuario, "REGISTRAR_DIFERENCIA", "Diferencia", dif.id,
@@ -107,7 +108,8 @@ class InventarioApplicationService(ServicioBase):
                          ajuste_id: Optional[str] = None) -> AjusteDeInventario:
         with self._uow() as uow:
             dif = self._obtener(uow.diferencias, diferencia_id, "Diferencia")
-            ajuste = AjusteDeInventario.solicitar(ajuste_id or nuevo_id(), dif, ejecutor_id, motivo)
+            ajuste = AjusteDeInventario.solicitar(
+                ajuste_id or nuevo_id("AJU"), dif, ejecutor_id, motivo)
             uow.ajustes.guardar(ajuste)
             self._auditar(uow, ejecutor_id, "SOLICITAR_AJUSTE", "Ajuste", ajuste.id, "",
                           ajuste.estado.value)
@@ -173,6 +175,32 @@ class InventarioApplicationService(ServicioBase):
         return ex
 
     # --- Consultas (GET) ---
+    def catalogo(self) -> dict:
+        """Productos con sus lotes, estado de caducidad y existencias (para la interfaz web)."""
+        with self._uow() as uow:
+            hoy = self._clock.hoy()
+            existencias = uow.existencias.listar()
+            productos = []
+            for p in sorted(uow.productos.listar(), key=lambda x: x.id):
+                lotes = []
+                for lote in sorted((x for x in uow.lotes.listar() if x.producto_id == p.id),
+                                   key=lambda x: x.id):
+                    clasif = lote.clasificacion(hoy).value
+                    lotes.append({
+                        "id": lote.id, "fecha_caducidad": lote.fecha_caducidad,
+                        "dias_restantes": (lote.fecha_caducidad - hoy).days,
+                        "clasificacion": clasif, "retirado": lote.retirado,
+                        "vendible": clasif != "CADUCADO" and not lote.retirado,
+                        "existencias": [{"sucursal_id": e.sucursal_id, "cantidad": e.cantidad}
+                                        for e in existencias
+                                        if e.lote_id == lote.id and e.producto_id == p.id]})
+                productos.append({
+                    "id": p.id, "descripcion": p.descripcion, "precio": p.precio.monto,
+                    "categoria": p.categoria.value, "requiere_receta": p.requiere_receta,
+                    "habilitado": p.habilitado, "lotes": lotes})
+            sucursales = sorted({e.sucursal_id for e in existencias})
+            return {"productos": productos, "sucursales": sucursales}
+
     def consultar_caducidad(self, lote_id: str) -> CaducidadConsultada:
         """US01 / RN-01: clasificación de un lote según los días restantes."""
         with self._uow() as uow:

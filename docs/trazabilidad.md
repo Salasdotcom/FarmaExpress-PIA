@@ -46,3 +46,10 @@ Los CSV (actores/catálogo/operaciones) usan un modelo genérico de pedidos. Map
 
 ## Arquitectura
 UML en `docs/architecture/uml/`; decisiones en `docs/architecture/adr/` (ADR-01…ADR-08).
+
+
+## Interfaz web
+
+| Elemento | Requisito | Componente | Prueba |
+|---|---|---|---|
+| UI intuitiva por rol | RNF-08 (usabilidad) | `src/api/static/` servido en `/app/` | `test_api.py::test_interfaz_web_servida_y_swagger_intacto`, `test_catalogo_y_listado_de_ventas` |

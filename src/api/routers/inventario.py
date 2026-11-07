@@ -4,16 +4,24 @@ from fastapi import APIRouter, Form
 
 from src.api import schemas as s
 from src.api.deps import Autenticado, Cont, EnInventario, SoloRF
+from src.api.textos import legible
 
 router = APIRouter(tags=["Inventario (US01, US03-US05, US15-US17)"])
 
 
 # ----- consultas -----
+@router.get("/catalogo", response_model=s.CatalogoOut,
+            summary="Catálogo de productos con lotes, caducidad y existencias (interfaz web)")
+def catalogo(c: Cont, u: Autenticado):
+    return c.inventario.catalogo()
+
+
 @router.get("/lotes/{lote_id}/caducidad", response_model=s.CaducidadOut,
             summary="Clasificación de caducidad de un lote (US01, RN-01)")
 def caducidad(lote_id: str, c: Cont, u: Autenticado):
     r = s.caducidad_out(c.inventario.consultar_caducidad(lote_id))
-    r.mensaje = (f"El lote {r.lote_id} está {r.clasificacion} (faltan {r.dias_restantes} días) y "
+    r.mensaje = (f"El lote {r.lote_id} está {legible(r.clasificacion)} "
+                 f"(faltan {r.dias_restantes} días) y "
                  + ("SÍ se puede vender." if r.vendible else "NO se puede vender."))
     return r
 
@@ -23,7 +31,7 @@ def caducidad(lote_id: str, c: Cont, u: Autenticado):
 def existencias(producto_id: str, c: Cont, u: Autenticado):
     r = s.existencias_out(producto_id, c.inventario.consultar_existencias(producto_id))
     r.mensaje = (f"{producto_id} tiene {sum(e.cantidad for e in r.existencias)} pieza(s) "
-                 f"en {len(r.existencias)} registro(s) de sucursal/lote.")
+                 f"registradas en {len(r.existencias)} existencia(s) por sucursal y lote.")
     return r
 
 
@@ -32,7 +40,7 @@ def existencias(producto_id: str, c: Cont, u: Autenticado):
              summary="Registrar retiro confirmado: bloquea el lote en todas las sucursales")
 def registrar_retiro(lote_id: str, datos: Annotated[s.RetiroIn, Form()], c: Cont, u: SoloRF):
     r = s.retiro_out(c.inventario.registrar_retiro(lote_id, datos.motivo, u.id, u.rol))
-    r.mensaje = (f"Retiro {r.id} registrado: el lote {r.lote_id} queda bloqueado para la venta "
+    r.mensaje = (f"Retiro registrado: el lote {r.lote_id} queda bloqueado para la venta "
                  "en todas las sucursales.")
     return r
 
@@ -40,7 +48,7 @@ def registrar_retiro(lote_id: str, datos: Annotated[s.RetiroIn, Form()], c: Cont
 @router.get("/retiros/{retiro_id}", response_model=s.RetiroOut, summary="Consultar retiro")
 def obtener_retiro(retiro_id: str, c: Cont, u: Autenticado):
     r = s.retiro_out(c.inventario.obtener_retiro(retiro_id))
-    r.mensaje = f"El retiro {r.id} está {r.estado}."
+    r.mensaje = f"El retiro está {legible(r.estado)}."
     return r
 
 
@@ -59,7 +67,7 @@ def registrar_ejecucion(retiro_id: str, datos: Annotated[s.EjecucionIn, Form()],
              summary="Concluir el retiro (RN-02: sin unidades en tránsito pendientes)")
 def concluir_retiro(retiro_id: str, c: Cont, u: EnInventario):
     r = s.retiro_out(c.inventario.concluir_retiro(retiro_id, u.id))
-    r.mensaje = f"Retiro {r.id} concluido: no quedan unidades en tránsito pendientes."
+    r.mensaje = "Retiro concluido: no quedan unidades en tránsito pendientes."
     return r
 
 
@@ -70,9 +78,9 @@ def registrar_diferencia(datos: Annotated[s.DiferenciaIn, Form()], c: Cont, u: E
     d = s.diferencia_out(c.inventario.registrar_diferencia(
         datos.sucursal_id, datos.producto_id, datos.lote_id or None, datos.cantidad_fisica, u.id,
         datos.prioritaria))
-    d.mensaje = (f"Diferencia {d.id} registrada: sistema {d.cantidad_registrada}, físico "
-                 f"{d.cantidad_fisica} (delta {d.delta}). El inventario NO se modificó; "
-                 "falta investigar y solicitar un ajuste.")
+    d.mensaje = (f"Diferencia registrada: el sistema indica {d.cantidad_registrada} y el conteo "
+                 f"físico {d.cantidad_fisica} (diferencia de {d.delta}). El inventario no se "
+                 "modificó; falta investigar y, si procede, solicitar un ajuste.")
     return d
 
 
@@ -80,7 +88,7 @@ def registrar_diferencia(datos: Annotated[s.DiferenciaIn, Form()], c: Cont, u: E
             summary="Consultar diferencia")
 def obtener_diferencia(diferencia_id: str, c: Cont, u: Autenticado):
     d = s.diferencia_out(c.inventario.obtener_diferencia(diferencia_id))
-    d.mensaje = f"La diferencia {d.id} está {d.estado}."
+    d.mensaje = f"La diferencia está {legible(d.estado)}."
     return d
 
 
@@ -90,7 +98,7 @@ def investigar(diferencia_id: str, datos: Annotated[s.InvestigacionIn, Form()], 
               u: EnInventario):
     d = s.diferencia_out(c.inventario.investigar_diferencia(
         diferencia_id, u.id, datos.causa, datos.evidencia))
-    d.mensaje = (f"Investigación registrada; la diferencia {d.id} quedó {d.estado}."
+    d.mensaje = (f"Investigación registrada; la diferencia quedó {legible(d.estado)}."
                  + (" Ya puede solicitarse un ajuste." if d.ajustable else
                     " Aún no es ajustable (falta causa y evidencia)."))
     return d
@@ -101,15 +109,15 @@ def investigar(diferencia_id: str, datos: Annotated[s.InvestigacionIn, Form()], 
              summary="Solicitar ajuste a partir de una diferencia investigada")
 def solicitar_ajuste(datos: Annotated[s.AjusteIn, Form()], c: Cont, u: EnInventario):
     a = s.ajuste_out(c.inventario.solicitar_ajuste(datos.diferencia_id, u.id, datos.motivo))
-    a.mensaje = (f"Ajuste {a.id} solicitado ({a.cantidad_anterior} → {a.cantidad_nueva}). "
-                 "Requiere autorización de un responsable de farmacia distinto del solicitante.")
+    a.mensaje = (f"Ajuste solicitado ({a.cantidad_anterior} → {a.cantidad_nueva}). Debe "
+                 "autorizarlo un responsable de farmacia distinto de quien lo solicitó.")
     return a
 
 
 @router.get("/ajustes/{ajuste_id}", response_model=s.AjusteOut, summary="Consultar ajuste")
 def obtener_ajuste(ajuste_id: str, c: Cont, u: Autenticado):
     a = s.ajuste_out(c.inventario.obtener_ajuste(ajuste_id))
-    a.mensaje = f"El ajuste {a.id} está {a.estado}."
+    a.mensaje = f"El ajuste está {legible(a.estado)}."
     return a
 
 
@@ -117,15 +125,14 @@ def obtener_ajuste(ajuste_id: str, c: Cont, u: Autenticado):
              summary="Autorizar ajuste (responsable de farmacia distinto del ejecutor)")
 def autorizar_ajuste(ajuste_id: str, c: Cont, u: Autenticado):
     a = s.ajuste_out(c.inventario.autorizar_ajuste(ajuste_id, u.id, u.rol))
-    a.mensaje = (f"Ajuste {a.id} autorizado por {u.id}. "
-                 "Falta aplicarlo para modificar la existencia.")
+    a.mensaje = "Ajuste autorizado. Falta aplicarlo para que cambie la existencia."
     return a
 
 
 @router.post("/ajustes/{ajuste_id}/rechazar", response_model=s.AjusteOut, summary="Rechazar ajuste")
 def rechazar_ajuste(ajuste_id: str, c: Cont, u: Autenticado):
     a = s.ajuste_out(c.inventario.rechazar_ajuste(ajuste_id, u.id, u.rol))
-    a.mensaje = f"Ajuste {a.id} rechazado; la existencia no cambió."
+    a.mensaje = "Ajuste rechazado; la existencia no cambió."
     return a
 
 
@@ -133,6 +140,6 @@ def rechazar_ajuste(ajuste_id: str, c: Cont, u: Autenticado):
              summary="Aplicar un ajuste AUTORIZADO: es lo único que modifica la existencia")
 def aplicar_ajuste(ajuste_id: str, c: Cont, u: EnInventario):
     a = s.ajuste_out(c.inventario.aplicar_ajuste(ajuste_id, u.id))
-    a.mensaje = (f"Ajuste {a.id} aplicado: la existencia pasó de {a.cantidad_anterior} a "
-                 f"{a.cantidad_nueva}.")
+    a.mensaje = (f"Ajuste aplicado: la existencia pasó de {a.cantidad_anterior} a "
+                 f"{a.cantidad_nueva} pieza(s).")
     return a

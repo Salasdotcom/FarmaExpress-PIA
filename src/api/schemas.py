@@ -278,6 +278,36 @@ class AuditoriaOut(BaseModel):
     fecha: datetime
 
 
+class ExistenciaLoteOut(BaseModel):
+    sucursal_id: str
+    cantidad: int
+
+
+class LoteCatalogoOut(BaseModel):
+    id: str
+    fecha_caducidad: date
+    dias_restantes: int
+    clasificacion: str
+    retirado: bool
+    vendible: bool
+    existencias: list[ExistenciaLoteOut]
+
+
+class ProductoCatalogoOut(BaseModel):
+    id: str
+    descripcion: str
+    precio: Decimal
+    categoria: str
+    requiere_receta: bool
+    habilitado: bool
+    lotes: list[LoteCatalogoOut]
+
+
+class CatalogoOut(BaseModel):
+    productos: list[ProductoCatalogoOut]
+    sucursales: list[str]
+
+
 # ------------------------- conversión dominio -> salida -------------------------
 def venta_out(v: Venta) -> VentaOut:
     r = v.receta

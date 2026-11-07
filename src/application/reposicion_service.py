@@ -10,7 +10,7 @@ class ReposicionApplicationService(ServicioBase):
     def crear_solicitud(self, sucursal_id: str, usuario: str,
                         solicitud_id: Optional[str] = None) -> SolicitudDeCompra:
         with self._uow() as uow:
-            s = SolicitudDeCompra(solicitud_id or nuevo_id(), sucursal_id)
+            s = SolicitudDeCompra(solicitud_id or nuevo_id("SOL"), sucursal_id)
             uow.solicitudes.guardar(s)
             self._auditar(uow, usuario, "CREAR_SOLICITUD", "SolicitudDeCompra", s.id, "",
                           s.estado.value)
@@ -23,7 +23,7 @@ class ReposicionApplicationService(ServicioBase):
         with self._uow() as uow:
             s = self._obtener(uow.solicitudes, solicitud_id, "Solicitud")
             self._obtener(uow.productos, producto_id, "Producto")
-            n = NecesidadReposicion(necesidad_id or nuevo_id(), producto_id, s.sucursal_id,
+            n = NecesidadReposicion(necesidad_id or nuevo_id("NEC"), producto_id, s.sucursal_id,
                                     cantidad, motivo, usuario, self._clock.ahora())
             s.registrar_necesidad(n)
             uow.solicitudes.guardar(s)

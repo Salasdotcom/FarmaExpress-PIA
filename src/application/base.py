@@ -5,8 +5,9 @@ from src.application.ports import Clock, IEventBus, IUnitOfWork
 from src.domain.errors import NoEncontrado
 
 
-def nuevo_id() -> str:
-    return uuid4().hex
+def nuevo_id(prefijo: str = "ID") -> str:
+    """Folio corto y legible (p. ej. VTA-3F9A2C1B) en lugar de un UUID de 32 caracteres."""
+    return f"{prefijo}-{uuid4().hex[:8].upper()}"
 
 
 class ServicioBase:

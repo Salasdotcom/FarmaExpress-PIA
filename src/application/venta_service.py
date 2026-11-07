@@ -42,7 +42,7 @@ class VentaApplicationService(ServicioBase):
     def crear_venta(self, sucursal_id: str, cajero_id: str, items: Sequence[ItemVenta],
                     venta_id: Optional[str] = None) -> Venta:
         with self._uow() as uow:
-            venta = Venta(venta_id or nuevo_id(), sucursal_id, cajero_id)
+            venta = Venta(venta_id or nuevo_id("VTA"), sucursal_id, cajero_id)
             for item in items:
                 venta.agregar_linea(self._linea(uow, item))
             uow.ventas.guardar(venta)
@@ -63,6 +63,15 @@ class VentaApplicationService(ServicioBase):
     def obtener_venta(self, venta_id: str) -> Venta:
         with self._uow() as uow:
             return self._obtener(uow.ventas, venta_id, "Venta")
+
+    def listar_ventas(self, estado: Optional[str] = None,
+                      sucursal_id: Optional[str] = None) -> list[Venta]:
+        """Ventas más recientes primero, con filtros opcionales."""
+        with self._uow() as uow:
+            ventas = [v for v in uow.ventas.listar()
+                      if (not estado or v.estado.value == estado.upper())
+                      and (not sucursal_id or v.sucursal_id == sucursal_id)]
+            return list(reversed(ventas))
 
     def cancelar_venta(self, venta_id: str, usuario: str, motivo: str = "") -> Venta:
         with self._uow() as uow:
@@ -132,7 +141,7 @@ class VentaApplicationService(ServicioBase):
         with self._uow() as uow:
             venta = self._obtener(uow.ventas, venta_id, "Venta")
             sust = SustitucionDeVenta.autorizar(
-                nuevo_id(), venta.id, producto_solicitado, alternativa_id, motivo,
+                nuevo_id("SUS"), venta.id, producto_solicitado, alternativa_id, motivo,
                 responsable_id, rol, self._clock.ahora())
             original = next((li for li in venta.lineas if li.producto_id == producto_solicitado),
                             None)
@@ -156,7 +165,7 @@ class VentaApplicationService(ServicioBase):
         with self._uow() as uow:
             venta = self._obtener(uow.ventas, venta_id, "Venta")
             sust = SustitucionDeVenta.rechazar(
-                nuevo_id(), venta.id, producto_solicitado, motivo, responsable_id, rol,
+                nuevo_id("SUS"), venta.id, producto_solicitado, motivo, responsable_id, rol,
                 self._clock.ahora())
             uow.sustituciones.guardar(sust)
             self._auditar(uow, responsable_id, "RECHAZAR_SUSTITUCION", "Venta", venta.id,

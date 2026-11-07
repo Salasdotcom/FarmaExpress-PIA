@@ -1,8 +1,11 @@
 import os
 from contextlib import asynccontextmanager
+from pathlib import Path
 from typing import Optional
 
 from fastapi import FastAPI
+from fastapi.responses import RedirectResponse
+from fastapi.staticfiles import StaticFiles
 
 from src.api.container import Container, build_container
 from src.api.errors import registrar_errores
@@ -16,6 +19,8 @@ from src.api.routers import (
 )
 from src.infrastructure.db import init_db
 from src.infrastructure.seed import cargar_demo
+
+ESTATICOS = Path(__file__).parent / "static"
 
 DESCRIPCION = """
 Lógica de negocio de **FarmaExpress** (PIA, Componentes de Lógica de Negocio).
@@ -54,6 +59,13 @@ def create_app(container: Optional[Container] = None, seed: Optional[bool] = Non
     @app.get("/health", tags=["infra"])
     def health() -> dict:
         return {"status": "ok"}
+
+    @app.get("/", include_in_schema=False)
+    def raiz() -> RedirectResponse:
+        return RedirectResponse("/app/")
+
+    # Interfaz web (SPA estática); Swagger sigue disponible en /docs.
+    app.mount("/app", StaticFiles(directory=ESTATICOS, html=True), name="ui")
 
     return app
 
