@@ -106,10 +106,15 @@ function enlazarLotes(form) {
     const soloV = sel.dataset.soloVendibles === "1";
     const prev = sel.value;
     const lotes = lotesDe(p ? p.value : "").filter(l => !soloV || l.vendible);
-    sel.innerHTML = (soloV ? "" : `<option value="">Sin especificar</option>`) + lotes.map(l => `<option value="${esc(l.id)}">${esc(l.id)} · ${CLASIF[l.clasificacion]?.[1] || l.clasificacion}${l.retirado ? " · RETIRADO" : ""}</option>`).join("");
+    const suc = (form.querySelector('[name="sucursal_id"]') || {}).value || S.suc;
+    const disp = l => (l.existencias.find(e => e.sucursal_id === suc) || {cantidad: 0}).cantidad;
+    sel.innerHTML = (soloV ? "" : `<option value="">Sin especificar</option>`) + lotes.map(l => `<option value="${esc(l.id)}">${esc(l.id)} · ${disp(l)} disponibles en ${esc(suc)} · vence ${esc(l.fecha_caducidad)}${l.retirado ? " · RETIRADO" : ""}</option>`).join("");
     if (lotes.some(l => l.id === prev)) sel.value = prev;
   });
   prods.forEach(p => p.addEventListener("change", pintar));
+  form.querySelector('[name="sucursal_id"]')?.addEventListener("change", pintar);
+  const vs = document.getElementById("vSuc");
+  if (vs && form.id === "vAdd") vs.addEventListener("change", pintar);
   pintar();
 }
 function formulario(titulo, campos, etiqueta, enviar, intro = "") {
@@ -304,9 +309,9 @@ RENDER.catalogo = async main => {
     const q = $("#cBusca").value.toLowerCase();
     $("#cLista").innerHTML = S.cat.productos.filter(p => !q || (p.id + p.descripcion).toLowerCase().includes(q)).map(p => `<article class="card prod">
       <header><div><h2 style="margin:0">${esc(p.descripcion)}</h2><span class="muted mono">${esc(p.id)}</span></div>
-      <div style="text-align:right"><b>${money(p.precio)}</b><br><span class="badge ${p.categoria === "VENTA_LIBRE" ? "b-mute" : "b-info"}">${CATEG[p.categoria] || p.categoria}</span>${p.habilitado ? "" : ' <span class="badge b-bad">No habilitado</span>'}</div></header>
+      <div style="text-align:right"><b>${money(p.precio)}</b><br><span class="muted">${p.lotes.reduce((a, l) => a + l.existencias.reduce((x, e) => x + e.cantidad, 0), 0)} pzs en existencia</span><br><span class="badge ${p.categoria === "VENTA_LIBRE" ? "b-mute" : "b-info"}">${CATEG[p.categoria] || p.categoria}</span>${p.habilitado ? "" : ' <span class="badge b-bad">No habilitado</span>'}</div></header>
       <div class="lotes">${p.lotes.map(l => `<div class="lote"><div class="top"><span><b class="mono">${esc(l.id)}</b> · vence ${esc(l.fecha_caducidad)} (${l.dias_restantes} días)</span>${l.retirado ? '<span class="badge b-bad">Retirado</span>' : badgeCad(l.clasificacion)}</div>
-        <div class="chips">${l.existencias.map(e => `<span class="chip">${esc(e.sucursal_id)}: <b>${e.cantidad}</b></span>`).join("") || '<span class="muted">Sin existencias</span>'}</div>
+        <div class="stock"><span class="stock-total"><b>${l.existencias.reduce((a, e) => a + e.cantidad, 0)}</b> piezas en total</span><div class="chips">${l.existencias.map(e => `<span class="chip">${esc(e.sucursal_id)}: <b>${e.cantidad}</b> pzs</span>`).join("") || '<span class="muted">Sin existencias</span>'}</div></div>
         <div class="row"><span class="muted">${l.vendible ? "Se puede vender" : "No se puede vender"}</span>${S.user.rol === "RESPONSABLE_FARMACIA" && !l.retirado ? `<button class="btn ghost sm" data-retiro="${esc(l.id)}">Registrar retiro</button>` : ""}</div></div>`).join("") || '<div class="muted">Sin lotes registrados.</div>'}</div></article>`).join("") || '<div class="empty">Sin resultados.</div>';
   };
   $("#cBusca").addEventListener("input", pintar); pintar();

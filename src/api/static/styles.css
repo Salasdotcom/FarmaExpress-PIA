@@ -84,3 +84,5 @@ tr.click{cursor:pointer}tr.click:hover td{background:var(--brand-l)}.tw{overflow
  .layout{grid-template-columns:1fr}.sidebar{display:none;position:fixed;inset:64px 0 0 0;z-index:30;overflow:auto;border-right:0}.sidebar.open{display:block}.menu-btn{display:block}
  .split,.g2,.g3,.g4{grid-template-columns:1fr}main{padding:20px 16px}.brand small{display:none}.topbar{padding:8px 16px;gap:10px}.usuario select{min-width:0}}
 @media print{.topbar,.sidebar,#toasts{display:none}.layout{display:block}}
+
+.stock{display:grid;gap:6px}.stock-total{font-size:15px;color:var(--ink)}.stock-total b{font-size:22px}
